@@ -634,6 +634,62 @@
             margin: 0 auto;
         }
 
+        /* ===== BLOG SECTION ===== */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 25px var(--shadow-light);
+            transition: var(--transition-medium);
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px var(--shadow-medium);
+        }
+
+        .blog-image {
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-medium);
+        }
+
+        .blog-card:hover .blog-image img {
+            transform: scale(1.08);
+        }
+
+        .blog-content {
+            padding: 25px;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .blog-category {
+            background: var(--primary-beige);
+            color: var(--primary-black);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
         /* ===== CONTACT SECTION ===== */
         .contact-container {
             display: grid;
@@ -1017,6 +1073,7 @@
         .admin-btn {
             padding: 8px 16px;
             font-size: 0.9rem;
+            cursor: pointer;
         }
 
         .admin-btn.edit {
@@ -1025,6 +1082,45 @@
 
         .admin-btn.delete {
             background: #e74c3c;
+        }
+
+        /* ===== FORM STYLES FOR ADMIN ===== */
+        .admin-form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .form-actions .btn {
+            flex: 1;
+        }
+
+        .form-actions .btn-secondary {
+            background: transparent;
+            color: var(--accent-bordeaux);
+            border: 2px solid var(--accent-bordeaux);
+        }
+
+        .form-actions .btn-secondary:hover {
+            background: var(--accent-bordeaux);
+            color: white;
+        }
+
+        .image-preview {
+            margin-top: 10px;
+            max-width: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: auto;
         }
 
         /* ===== ANIMATIONS ===== */
@@ -1041,6 +1137,29 @@
 
         .fade-in {
             animation: fadeInUp 0.8s ease both;
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== 3D HOVER EFFECTS ===== */
+        .hover-3d {
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            transform-style: preserve-3d;
+        }
+
+        .hover-3d:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 20px 40px var(--shadow-medium);
         }
 
         /* ===== RESPONSIVE STYLES ===== */
@@ -1124,6 +1243,14 @@
             .section-title h2 {
                 font-size: 2.2rem;
             }
+
+            .admin-tabs {
+                flex-direction: column;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
         }
 
         @media (max-width: 576px) {
@@ -1141,7 +1268,8 @@
             
             .gallery-grid,
             .services-grid,
-            .products-grid {
+            .products-grid,
+            .blog-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -1180,6 +1308,22 @@
             background: linear-gradient(45deg, rgba(139, 30, 63, 0.6), rgba(212, 175, 55, 0.4));
             z-index: -1;
         }
+
+        /* Fallback si la vidéo ne charge pas */
+        .hero-video-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--accent-bordeaux), var(--accent-gold));
+            z-index: -2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
     </style>
 </head>
 <body>
@@ -1187,7 +1331,8 @@
     <header id="header">
         <div class="container header-container">
             <div class="logo">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjZDRhZjM3IiBkPSJNNTAuMDAxIDI1LjAwMWMyLjIwOSAwIDQuMDE3IDEuNzkxIDQuMDE3IDQuMDA3djQxLjk4NWMwIDIuMjE2LTEuODA4IDQuMDA3LTQuMDE3IDQuMDA3cy00LjAxNy0xLjc5MS00LjAxNy00LjAwN1YyOS4wMDhjMC0yLjIxNiAxLjgwOC00LjAwNyA0LjAxNy00LjAwN3oiLz48cGF0aCBmaWxsPSIjOGIxZTNmIiBkPSJNNzUuMDAxIDUwLjAwMWMwIDEzLjgwNy0xMS4xOTMgMjUtMjUgMjVzLTI1LTExLjE5My0yNS0yNSAxMS4xOTMtMjUgMjUtMjUgMjUgMTEuMTkzIDI1IDI1eiIvPjxwYXRoIGZpbGw9IiNmNWYxZTgiIGQ9Ik01MC4wMDEgMzAuMDAxYzExLjA0NSAwIDIwIDguOTU1IDIwIDIwcy04Ljk1NSAyMC0yMCAyMC0yMC04Ljk1NS0yMC0yMCA4Ljk1NS0yMCAyMC0yMHptMCAzNWM4LjI4NCAwIDE1LTYuNzE2IDE1LTE1cy02LjcxNi0xNS0xNS0xNS0xNSA2LjcxNi0xNSAxNSA2LjcxNiAxNSAxNSAxNXoiLz48L3N2Zz4=" alt="Wendy Beauty Store Logo">
+                <!-- Remplacez "images/logo.png" par le chemin de votre logo -->
+                <img src="images/logo.png" alt="Wendy Beauty Store Logo">
                 <div class="logo-text">
                     WENDY BEAUTY STORE
                     <span class="logo-subtitle">La beauté qui unit tradition et modernité</span>
@@ -1204,6 +1349,7 @@
                     <li><a href="#services" class="nav-link" data-page="services">Services</a></li>
                     <li><a href="#shop" class="nav-link" data-page="shop">Boutique</a></li>
                     <li><a href="#gallery" class="nav-link" data-page="gallery">Galerie</a></li>
+                    <li><a href="#blog" class="nav-link" data-page="blog">Blog</a></li>
                     <li><a href="#reservation" class="nav-link" data-page="reservation">Réservation</a></li>
                     <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
                 </ul>
@@ -1218,8 +1364,15 @@
             <div class="hero">
                 <video class="hero-video" autoplay loop muted playsinline>
                     <source src="assets/hero-background.mp4" type="video/mp4">
+                    <source src="assets/hero-background.webm" type="video/webm">
                     Votre navigateur ne supporte pas la balise vidéo.
                 </video>
+                <div class="hero-video-fallback" style="display: none;">
+                    <div style="text-align: center;">
+                        <h1>WENDY BEAUTY STORE</h1>
+                        <p>La beauté qui unit tradition et modernité</p>
+                    </div>
+                </div>
                 <div class="hero-overlay"></div>
                 <div class="hero-content">
                     <h1>WENDY BEAUTY STORE</h1>
@@ -1396,6 +1549,20 @@
                 
                 <div class="gallery-grid" id="galleryGrid">
                     <!-- Les éléments de galerie seront chargés dynamiquement -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Blog -->
+        <section id="blog" class="page">
+            <div class="container" style="padding: 150px 0 100px;">
+                <div class="section-title">
+                    <h2>Notre Blog</h2>
+                    <p>Conseils, tendances et actualités beauté</p>
+                </div>
+                
+                <div class="blog-grid" id="blogGrid">
+                    <!-- Les articles de blog seront chargés dynamiquement -->
                 </div>
             </div>
         </section>
@@ -1589,6 +1756,7 @@
                         <li><a href="#services" data-page="services">Services</a></li>
                         <li><a href="#shop" data-page="shop">Boutique</a></li>
                         <li><a href="#gallery" data-page="gallery">Galerie</a></li>
+                        <li><a href="#blog" data-page="blog">Blog</a></li>
                         <li><a href="#reservation" data-page="reservation">Réservation</a></li>
                         <li><a href="#contact" data-page="contact">Contact</a></li>
                     </ul>
@@ -1723,6 +1891,7 @@
         let currentUser = null;
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let currentPage = 'home';
+        let currentAdminTab = 'products';
         
         // Styles de coiffure
         const maleHairstyles = ["Pompadour", "Quiff", "Slicked Back", "Undercut", "Faux Hawk", "Crew Cut", "Buzz Cut", "High and Tight", "Caesar Cut", "French Crop", "Taper Cut", "Low Fade", "Mid Fade", "High Fade", "Skin Fade", "Scissor Cut", "Coupé court", "Coupé long", "Coupe Classique", "Side Part", "Man Bun", "Top Knot", "Comb Over", "Textured Crop", "Fringe", "Spiky Hair", "Mohawk", "Burst Fade", "Drop Fade", "Temple Fade", "Afro", "Fade Afro", "Tapered Afro", "Dreadlocks", "Cornrows", "Twists", "Sponge Curls", "Box Braids", "Mullet", "Modern Mullet", "Skater Hair", "Grunge Hair", "Bowl Cut", "Shaggy Cut", "Layered Cut", "Straight Fringe", "Angular Fringe", "Swept Fringe", "Ivy League", "Brush Cut", "Butch Cut", "Flat Top", "Disconnected Undercut", "Business Cut", "Hard Part", "Razor Part", "Blowout", "Messy Quiff", "Clean Pompadour", "Loose Quiff", "Wet Look", "Side Swept", "Slicked Side Part", "Dégradé en V", "Dégradé en U", "Line Up", "Surgical Line", "Zero Cut", "#1 Cut", "#2 Cut", "#3 Cut", "#4 Cut", "Bald Fade", "Tapered Neckline", "V-Shape Neckline", "Square Neckline", "Mid-Length Flow", "Wavy Hair Style", "Curly Hair Style", "Permed Hair", "Tousled Hair", "Forward Push", "Back Brush", "High Volume", "Low Volume", "Undercut Déconnecté", "Undercut Plié", "Quiff Court", "Pompadour Long", "Pompadour Texturé", "Texture Piquante", "Coupe Tondeuse", "Coupe Ciseaux", "Choppy Cut", "Wispies", "Fringe Courte", "Fringe Longue", "Coupe Rétro", "Coupe Contemporaine", "Gentleman's Cut"];
@@ -1735,6 +1904,8 @@
             setupEventListeners();
             loadInitialData();
             updateCartDisplay();
+            setupScrollAnimations();
+            checkVideoStatus();
         });
 
         // ===== FONCTIONS D'INITIALISATION =====
@@ -1810,25 +1981,27 @@
             document.getElementById('checkoutBtn').addEventListener('click', openOrderModal);
             document.getElementById('orderForm').addEventListener('submit', handleOrderSubmit);
             
-            // Admin - CORRECTIONS APPLIQUÉES ICI
+            // Admin
             document.getElementById('adminAccess').addEventListener('click', openAdminLoginModal);
             document.getElementById('adminLoginForm').addEventListener('submit', handleAdminLogin);
             document.getElementById('adminLogoutBtn').addEventListener('click', handleAdminLogout);
             
-            // Gestion des onglets admin - CORRECTION
-            document.querySelectorAll('.admin-tab[data-tab]').forEach(tab => {
-                tab.addEventListener('click', function() {
+            // CORRECTION: Gestion des onglets admin avec délégation d'événements
+            document.querySelector('.admin-tabs').addEventListener('click', function(e) {
+                const tab = e.target.closest('.admin-tab[data-tab]');
+                if (tab) {
                     if (currentUser) {
                         // Retirer active de tous les onglets
                         document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
                         // Ajouter active à l'onglet cliqué
-                        this.classList.add('active');
+                        tab.classList.add('active');
+                        currentAdminTab = tab.dataset.tab;
                         // Charger le contenu
-                        loadAdminContent(this.dataset.tab);
+                        loadAdminContent(tab.dataset.tab);
                     } else {
                         alert('Veuillez vous connecter en tant qu\'administrateur.');
                     }
-                });
+                }
             });
             
             // Fermeture des modales
@@ -1843,24 +2016,48 @@
                     }
                 });
             });
+        }
 
-            // Écouteurs pour les boutons d'action admin - NOUVEAUX ÉCOUTEURS
-            document.addEventListener('click', function(e) {
-                if (e.target.id === 'addProductBtn') {
-                    showProductForm();
-                }
-                if (e.target.id === 'addGalleryItemBtn') {
-                    showGalleryForm();
-                }
-                if (e.target.id === 'addBlogPostBtn') {
-                    showBlogForm();
-                }
+        function setupScrollAnimations() {
+            // Observer pour les animations au défilement
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
             });
+
+            // Observer tous les éléments avec la classe scroll-animate
+            document.querySelectorAll('.scroll-animate').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        function checkVideoStatus() {
+            const video = document.querySelector('.hero-video');
+            const fallback = document.querySelector('.hero-video-fallback');
+            
+            if (video) {
+                video.addEventListener('error', function() {
+                    console.error('La vidéo n\'a pas pu être chargée');
+                    fallback.style.display = 'flex';
+                });
+                
+                // Vérifier si la vidéo est prête
+                video.addEventListener('canplay', function() {
+                    console.log('La vidéo est prête à être jouée');
+                });
+            }
         }
 
         function loadInitialData() {
             loadProducts();
             loadGallery();
+            loadBlogPosts();
             loadSettings();
         }
 
@@ -1901,8 +2098,10 @@
                     loadProducts();
                 } else if (pageId === 'gallery') {
                     loadGallery();
+                } else if (pageId === 'blog') {
+                    loadBlogPosts();
                 } else if (pageId === 'admin' && currentUser) {
-                    loadAdminContent('products');
+                    loadAdminContent(currentAdminTab);
                 }
             }
         }
@@ -2017,7 +2216,7 @@
 
         function createProductCard(product, id) {
             const card = document.createElement('div');
-            card.className = 'product-card fade-in';
+            card.className = 'product-card fade-in scroll-animate hover-3d';
             card.innerHTML = `
                 <div class="product-image">
                     <img src="${product.image}" alt="${product.name}">
@@ -2043,7 +2242,11 @@
             if (homeGallery) homeGallery.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement de la galerie...</p>';
             if (galleryGrid) galleryGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement de la galerie...</p>';
             
-            db.collection('gallery').orderBy('timestamp', 'desc').limit(6).get()
+            // Charger 10 éléments pour l'accueil, tous pour la page galerie
+            const homeLimit = 10;
+            const galleryPromise = db.collection('gallery').orderBy('timestamp', 'desc').get();
+            
+            galleryPromise
                 .then(snapshot => {
                     if (snapshot.empty) {
                         const emptyMsg = '<p style="text-align: center; padding: 40px; color: #666;">Aucune réalisation à afficher pour le moment.</p>';
@@ -2055,12 +2258,14 @@
                     if (homeGallery) homeGallery.innerHTML = '';
                     if (galleryGrid) galleryGrid.innerHTML = '';
                     
+                    let count = 0;
                     snapshot.forEach(doc => {
                         const item = doc.data();
                         const galleryItem = createGalleryItem(item);
                         
-                        if (homeGallery && homeGallery.childElementCount < 3) {
+                        if (homeGallery && count < homeLimit) {
                             homeGallery.appendChild(galleryItem.cloneNode(true));
+                            count++;
                         }
                         
                         if (galleryGrid) {
@@ -2078,15 +2283,64 @@
 
         function createGalleryItem(item) {
             const galleryItem = document.createElement('div');
-            galleryItem.className = 'gallery-item fade-in';
+            galleryItem.className = 'gallery-item fade-in scroll-animate hover-3d';
             galleryItem.innerHTML = `
                 <img src="${item.image}" alt="${item.title}">
                 <div class="gallery-item-caption">
                     <h3>${item.title}</h3>
+                    ${item.description ? `<p>${item.description}</p>` : ''}
                 </div>
             `;
             
             return galleryItem;
+        }
+
+        function loadBlogPosts() {
+            const blogGrid = document.getElementById('blogGrid');
+            
+            if (!blogGrid) return;
+            
+            blogGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement des articles...</p>';
+            
+            db.collection('blog').where('status', '==', 'Publié').orderBy('timestamp', 'desc').get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        blogGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Aucun article de blog disponible pour le moment.</p>';
+                        return;
+                    }
+                    
+                    blogGrid.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const post = doc.data();
+                        const blogCard = createBlogCard(post, doc.id);
+                        blogGrid.appendChild(blogCard);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des articles de blog:', error);
+                    blogGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Erreur lors du chargement des articles.</p>';
+                });
+        }
+
+        function createBlogCard(post, id) {
+            const card = document.createElement('div');
+            card.className = 'blog-card fade-in scroll-animate hover-3d';
+            card.innerHTML = `
+                <div class="blog-image">
+                    <img src="${post.image}" alt="${post.title}">
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-category">${post.category}</span>
+                        <span>${post.timestamp ? post.timestamp.toDate().toLocaleDateString('fr-FR') : ''}</span>
+                    </div>
+                    <h3>${post.title}</h3>
+                    <p>${post.content.substring(0, 150)}...</p>
+                    <a href="#" class="btn btn-secondary" style="margin-top: 15px;">Lire la suite</a>
+                </div>
+            `;
+            
+            return card;
         }
 
         function loadSettings() {
@@ -2232,7 +2486,7 @@
                 });
         }
 
-        // ===== FONCTIONS D'ADMINISTRATION - CORRECTIONS COMPLÈTES =====
+        // ===== FONCTIONS D'ADMINISTRATION =====
         function openAdminLoginModal() {
             document.getElementById('adminLoginModal').style.display = 'block';
             document.getElementById('adminLoginForm').reset();
@@ -2259,7 +2513,7 @@
                         currentUser = user;
                         closeAllModals();
                         navigateToPage('admin');
-                        loadAdminContent('products');
+                        loadAdminContent(currentAdminTab);
                         alert('Connexion réussie! Bienvenue dans l\'espace administrateur.');
                     } else {
                         auth.signOut();
@@ -2363,6 +2617,13 @@
                 </div>
             `;
             
+            // CORRECTION: Ajout des événements après le chargement du contenu
+            setTimeout(() => {
+                document.getElementById('addProductBtn').addEventListener('click', function() {
+                    showProductForm();
+                });
+            }, 100);
+            
             // Charger les produits
             db.collection('products').orderBy('timestamp', 'desc').get()
                 .then(snapshot => {
@@ -2390,22 +2651,15 @@
                         tableBody.appendChild(row);
                     });
                     
-                    // Ajouter les événements - CORRECTION
-                    document.getElementById('addProductBtn').addEventListener('click', showProductForm);
-                    
-                    // Événements pour les boutons d'action
-                    setTimeout(() => {
-                        document.querySelectorAll('.admin-btn.edit').forEach(btn => {
-                            btn.addEventListener('click', function() {
-                                editProduct(this.dataset.id);
-                            });
-                        });
-                        document.querySelectorAll('.admin-btn.delete').forEach(btn => {
-                            btn.addEventListener('click', function() {
-                                deleteProduct(this.dataset.id);
-                            });
-                        });
-                    }, 100);
+                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
+                    document.getElementById('adminProductsTable').addEventListener('click', function(e) {
+                        const target = e.target;
+                        if (target.classList.contains('edit')) {
+                            editProduct(target.dataset.id);
+                        } else if (target.classList.contains('delete')) {
+                            deleteProduct(target.dataset.id);
+                        }
+                    });
                 })
                 .catch(error => {
                     console.error('Erreur lors du chargement des produits:', error);
@@ -2414,16 +2668,12 @@
         }
 
         function showProductForm(product = null) {
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.style.display = 'block';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>${product ? 'Modifier le produit' : 'Ajouter un produit'}</h2>
-                        <button class="close-modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
+            const adminContent = document.getElementById('adminContent');
+            adminContent.innerHTML = `
+                <div class="admin-content">
+                    <div class="admin-form">
+                        <h3>${product ? 'Modifier le produit' : 'Ajouter un produit'}</h3>
+                        
                         <form id="productForm">
                             <div class="form-group">
                                 <label for="productName">Nom du produit *</label>
@@ -2459,7 +2709,7 @@
                             <div class="form-group">
                                 <label for="productImage">Image *</label>
                                 <input type="file" id="productImage" class="form-control" ${product ? '' : 'required'} accept="image/*">
-                                ${product ? `<div style="margin-top: 10px;"><img src="${product.image}" alt="${product.name}" style="max-width: 200px; border-radius: 8px;"></div>` : ''}
+                                ${product ? `<div class="image-preview"><img src="${product.image}" alt="${product.name}"></div>` : ''}
                             </div>
                             
                             <div class="form-group">
@@ -2469,28 +2719,26 @@
                                 </label>
                             </div>
                             
-                            <button type="submit" class="btn" style="width: 100%;">${product ? 'Modifier le produit' : 'Ajouter le produit'}</button>
+                            <div class="form-actions">
+                                <button type="submit" class="btn">${product ? 'Modifier le produit' : 'Ajouter le produit'}</button>
+                                <button type="button" class="btn btn-secondary" id="cancelProductForm">Annuler</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             `;
             
-            document.body.appendChild(modal);
-            
-            modal.querySelector('.close-modal').addEventListener('click', () => {
-                document.body.removeChild(modal);
-            });
-            
-            modal.addEventListener('click', e => {
-                if (e.target === modal) {
-                    document.body.removeChild(modal);
-                }
-            });
-            
-            modal.querySelector('#productForm').addEventListener('submit', e => {
-                e.preventDefault();
-                handleProductFormSubmit(e, product ? product.id : null);
-            });
+            // CORRECTION: Ajout des événements après le chargement du contenu
+            setTimeout(() => {
+                document.getElementById('productForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    handleProductFormSubmit(e, product ? product.id : null);
+                });
+                
+                document.getElementById('cancelProductForm').addEventListener('click', function() {
+                    loadAdminProducts();
+                });
+            }, 100);
         }
 
         function handleProductFormSubmit(e, productId = null) {
@@ -2559,9 +2807,7 @@
                 db.collection('products').doc(productId).update(productWithTimestamp)
                     .then(() => {
                         alert('Produit modifié avec succès!');
-                        document.querySelector('.modal').remove();
                         loadAdminProducts();
-                        loadProducts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la modification du produit:', error);
@@ -2571,9 +2817,7 @@
                 db.collection('products').add(productWithTimestamp)
                     .then(() => {
                         alert('Produit ajouté avec succès!');
-                        document.querySelector('.modal').remove();
                         loadAdminProducts();
-                        loadProducts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'ajout du produit:', error);
@@ -2623,6 +2867,13 @@
                 </div>
             `;
             
+            // CORRECTION: Ajout des événements après le chargement du contenu
+            setTimeout(() => {
+                document.getElementById('addGalleryItemBtn').addEventListener('click', function() {
+                    showGalleryForm();
+                });
+            }, 100);
+            
             db.collection('gallery').orderBy('timestamp', 'desc').get()
                 .then(snapshot => {
                     const galleryGrid = document.getElementById('adminGalleryGrid');
@@ -2648,15 +2899,16 @@
                             </div>
                         `;
                         galleryGrid.appendChild(galleryItem);
-                        
-                        setTimeout(() => {
-                            galleryItem.querySelector('.admin-btn.edit').addEventListener('click', function() {
-                                editGalleryItem(this.dataset.id);
-                            });
-                            galleryItem.querySelector('.admin-btn.delete').addEventListener('click', function() {
-                                deleteGalleryItem(this.dataset.id);
-                            });
-                        }, 100);
+                    });
+                    
+                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
+                    document.getElementById('adminGalleryGrid').addEventListener('click', function(e) {
+                        const target = e.target;
+                        if (target.classList.contains('edit')) {
+                            editGalleryItem(target.dataset.id);
+                        } else if (target.classList.contains('delete')) {
+                            deleteGalleryItem(target.dataset.id);
+                        }
                     });
                 })
                 .catch(error => {
@@ -2666,16 +2918,12 @@
         }
 
         function showGalleryForm(item = null) {
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.style.display = 'block';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>${item ? 'Modifier la réalisation' : 'Ajouter une réalisation'}</h2>
-                        <button class="close-modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
+            const adminContent = document.getElementById('adminContent');
+            adminContent.innerHTML = `
+                <div class="admin-content">
+                    <div class="admin-form">
+                        <h3>${item ? 'Modifier la réalisation' : 'Ajouter une réalisation'}</h3>
+                        
                         <form id="galleryForm">
                             <div class="form-group">
                                 <label for="galleryTitle">Titre de la réalisation *</label>
@@ -2701,31 +2949,29 @@
                             <div class="form-group">
                                 <label for="galleryImage">Photo *</label>
                                 <input type="file" id="galleryImage" class="form-control" ${item ? '' : 'required'} accept="image/*">
-                                ${item ? `<div style="margin-top: 10px;"><img src="${item.image}" alt="${item.title}" style="max-width: 200px; border-radius: 8px;"></div>` : ''}
+                                ${item ? `<div class="image-preview"><img src="${item.image}" alt="${item.title}"></div>` : ''}
                             </div>
                             
-                            <button type="submit" class="btn" style="width: 100%;">${item ? 'Modifier la réalisation' : 'Ajouter la réalisation'}</button>
+                            <div class="form-actions">
+                                <button type="submit" class="btn">${item ? 'Modifier la réalisation' : 'Ajouter la réalisation'}</button>
+                                <button type="button" class="btn btn-secondary" id="cancelGalleryForm">Annuler</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             `;
             
-            document.body.appendChild(modal);
-            
-            modal.querySelector('.close-modal').addEventListener('click', () => {
-                document.body.removeChild(modal);
-            });
-            
-            modal.addEventListener('click', e => {
-                if (e.target === modal) {
-                    document.body.removeChild(modal);
-                }
-            });
-            
-            modal.querySelector('#galleryForm').addEventListener('submit', e => {
-                e.preventDefault();
-                handleGalleryFormSubmit(e, item ? item.id : null);
-            });
+            // CORRECTION: Ajout des événements après le chargement du contenu
+            setTimeout(() => {
+                document.getElementById('galleryForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    handleGalleryFormSubmit(e, item ? item.id : null);
+                });
+                
+                document.getElementById('cancelGalleryForm').addEventListener('click', function() {
+                    loadAdminGallery();
+                });
+            }, 100);
         }
 
         function handleGalleryFormSubmit(e, itemId = null) {
@@ -2762,7 +3008,6 @@
                 db.collection('gallery').doc(itemId).update(itemWithTimestamp)
                     .then(() => {
                         alert('Réalisation modifiée avec succès!');
-                        document.querySelector('.modal').remove();
                         loadAdminGallery();
                         loadGallery();
                     })
@@ -2774,7 +3019,6 @@
                 db.collection('gallery').add(itemWithTimestamp)
                     .then(() => {
                         alert('Réalisation ajoutée avec succès!');
-                        document.querySelector('.modal').remove();
                         loadAdminGallery();
                         loadGallery();
                     })
@@ -2826,6 +3070,13 @@
                 </div>
             `;
             
+            // CORRECTION: Ajout des événements après le chargement du contenu
+            setTimeout(() => {
+                document.getElementById('addBlogPostBtn').addEventListener('click', function() {
+                    showBlogForm();
+                });
+            }, 100);
+            
             db.collection('blog').orderBy('timestamp', 'desc').get()
                 .then(snapshot => {
                     const blogList = document.getElementById('adminBlogList');
@@ -2835,7 +3086,7 @@
                         return;
                     }
                     
-                    blogList.innerHTML = '<table class="admin-table"><thead><tr><th>Image</th><th>Titre</th><th>Catégorie</th><th>Date</th><th>Actions</th></tr></thead><tbody id="adminBlogTable"></tbody></table>';
+                    blogList.innerHTML = '<table class="admin-table"><thead><tr><th>Image</th><th>Titre</th><th>Catégorie</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="adminBlogTable"></tbody></table>';
                     
                     const tableBody = document.getElementById('adminBlogTable');
                     snapshot.forEach(doc => {
@@ -2846,6 +3097,7 @@
                             <td>${post.title}</td>
                             <td>${post.category}</td>
                             <td>${post.timestamp ? post.timestamp.toDate().toLocaleDateString('fr-FR') : 'N/A'}</td>
+                            <td>${post.status || 'Brouillon'}</td>
                             <td class="admin-actions">
                                 <button class="admin-btn edit" data-id="${doc.id}">Modifier</button>
                                 <button class="admin-btn delete" data-id="${doc.id}">Supprimer</button>
@@ -2854,18 +3106,15 @@
                         tableBody.appendChild(row);
                     });
                     
-                    setTimeout(() => {
-                        document.querySelectorAll('.admin-btn.edit').forEach(btn => {
-                            btn.addEventListener('click', function() {
-                                editBlogPost(this.dataset.id);
-                            });
-                        });
-                        document.querySelectorAll('.admin-btn.delete').forEach(btn => {
-                            btn.addEventListener('click', function() {
-                                deleteBlogPost(this.dataset.id);
-                            });
-                        });
-                    }, 100);
+                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
+                    document.getElementById('adminBlogTable').addEventListener('click', function(e) {
+                        const target = e.target;
+                        if (target.classList.contains('edit')) {
+                            editBlogPost(target.dataset.id);
+                        } else if (target.classList.contains('delete')) {
+                            deleteBlogPost(target.dataset.id);
+                        }
+                    });
                 })
                 .catch(error => {
                     console.error('Erreur lors du chargement des articles de blog:', error);
@@ -2874,16 +3123,12 @@
         }
 
         function showBlogForm(post = null) {
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.style.display = 'block';
-            modal.innerHTML = `
-                <div class="modal-content" style="max-width: 800px;">
-                    <div class="modal-header">
-                        <h2>${post ? 'Modifier l\'article' : 'Ajouter un article'}</h2>
-                        <button class="close-modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
+            const adminContent = document.getElementById('adminContent');
+            adminContent.innerHTML = `
+                <div class="admin-content">
+                    <div class="admin-form">
+                        <h3>${post ? 'Modifier l\'article' : 'Ajouter un article'}</h3>
+                        
                         <form id="blogForm">
                             <div class="form-group">
                                 <label for="blogTitle">Titre de l'article *</label>
@@ -2914,7 +3159,7 @@
                             <div class="form-group">
                                 <label for="blogImage">Image de couverture *</label>
                                 <input type="file" id="blogImage" class="form-control" ${post ? '' : 'required'} accept="image/*">
-                                ${post ? `<div style="margin-top: 10px;"><img src="${post.image}" alt="${post.title}" style="max-width: 200px; border-radius: 8px;"></div>` : ''}
+                                ${post ? `<div class="image-preview"><img src="${post.image}" alt="${post.title}"></div>` : ''}
                             </div>
                             
                             <div class="form-group">
@@ -2924,33 +3169,31 @@
                             
                             <div class="form-group">
                                 <label>
-                                    <input type="checkbox" id="blogStatus" ${post && post.status !== 'Brouillon' ? 'checked' : ''}>
+                                    <input type="checkbox" id="blogStatus" ${post && post.status === 'Publié' ? 'checked' : ''}>
                                     Article publié (visible sur le site)
                                 </label>
                             </div>
                             
-                            <button type="submit" class="btn" style="width: 100%;">${post ? 'Modifier l\'article' : 'Ajouter l\'article'}</button>
+                            <div class="form-actions">
+                                <button type="submit" class="btn">${post ? 'Modifier l\'article' : 'Ajouter l\'article'}</button>
+                                <button type="button" class="btn btn-secondary" id="cancelBlogForm">Annuler</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             `;
             
-            document.body.appendChild(modal);
-            
-            modal.querySelector('.close-modal').addEventListener('click', () => {
-                document.body.removeChild(modal);
-            });
-            
-            modal.addEventListener('click', e => {
-                if (e.target === modal) {
-                    document.body.removeChild(modal);
-                }
-            });
-            
-            modal.querySelector('#blogForm').addEventListener('submit', e => {
-                e.preventDefault();
-                handleBlogFormSubmit(e, post ? post.id : null);
-            });
+            // CORRECTION: Ajout des événements après le chargement du contenu
+            setTimeout(() => {
+                document.getElementById('blogForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    handleBlogFormSubmit(e, post ? post.id : null);
+                });
+                
+                document.getElementById('cancelBlogForm').addEventListener('click', function() {
+                    loadAdminBlog();
+                });
+            }, 100);
         }
 
         function handleBlogFormSubmit(e, postId = null) {
@@ -2990,8 +3233,8 @@
                 db.collection('blog').doc(postId).update(postWithTimestamp)
                     .then(() => {
                         alert('Article modifié avec succès!');
-                        document.querySelector('.modal').remove();
                         loadAdminBlog();
+                        loadBlogPosts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la modification de l\'article:', error);
@@ -3001,8 +3244,8 @@
                 db.collection('blog').add(postWithTimestamp)
                     .then(() => {
                         alert('Article ajouté avec succès!');
-                        document.querySelector('.modal').remove();
                         loadAdminBlog();
+                        loadBlogPosts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'ajout de l\'article:', error);
@@ -3030,6 +3273,7 @@
                     .then(() => {
                         alert('Article supprimé avec succès!');
                         loadAdminBlog();
+                        loadBlogPosts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la suppression de l\'article:', error);
@@ -3170,20 +3414,23 @@
                     console.error('Erreur lors du chargement des paramètres:', error);
                 });
             
-            document.getElementById('settingsForm').addEventListener('submit', e => {
-                e.preventDefault();
-                const openingHours = document.getElementById('openingHours').value;
-                
-                db.collection('settings').doc('openingHours').set({ value: openingHours })
-                    .then(() => {
-                        alert('Paramètres enregistrés avec succès!');
-                        document.getElementById('openingHoursDisplay').textContent = openingHours;
-                    })
-                    .catch(error => {
-                        console.error('Erreur lors de l\'enregistrement des paramètres:', error);
-                        alert('Erreur lors de l\'enregistrement des paramètres.');
-                    });
-            });
+            // CORRECTION: Ajout des événements après le chargement du contenu
+            setTimeout(() => {
+                document.getElementById('settingsForm').addEventListener('submit', e => {
+                    e.preventDefault();
+                    const openingHours = document.getElementById('openingHours').value;
+                    
+                    db.collection('settings').doc('openingHours').set({ value: openingHours })
+                        .then(() => {
+                            alert('Paramètres enregistrés avec succès!');
+                            document.getElementById('openingHoursDisplay').textContent = openingHours;
+                        })
+                        .catch(error => {
+                            console.error('Erreur lors de l\'enregistrement des paramètres:', error);
+                            alert('Erreur lors de l\'enregistrement des paramètres.');
+                        });
+                });
+            }, 100);
         }
 
         // ===== FONCTIONS UTILITAIRES =====
