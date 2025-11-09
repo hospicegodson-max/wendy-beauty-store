@@ -1153,6 +1153,33 @@
                 flex-direction: column;
             }
         }
+
+        /* ===== CORRECTIONS SPÉCIFIQUES POUR LA VIDÉO ===== */
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        /* Assurer que la vidéo reste en arrière-plan */
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(139, 30, 63, 0.6), rgba(212, 175, 55, 0.4));
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
@@ -1190,7 +1217,7 @@
         <section id="home" class="page active">
             <div class="hero">
                 <video class="hero-video" autoplay loop muted playsinline>
-                    <source src="videos/arrière-plan du héros.mp4" type="video/mp4">
+                    <source src="videos/hero-background.mp4" type="video/mp4">
                     Votre navigateur ne supporte pas la balise vidéo.
                 </video>
                 <div class="hero-overlay"></div>
@@ -1665,16 +1692,16 @@
 
     <!-- Scripts JavaScript -->
     <script>
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyD30BqaFKvWNQUjhkeBq4HsnrFWKrh53B4",
-  authDomain: "e-commerce-19dec.firebaseapp.com",
-  projectId: "e-commerce-19dec",
-  storageBucket: "e-commerce-19dec.firebasestorage.app",
-  messagingSenderId: "453950121295",
-  appId: "1:453950121295:web:8a68d4f4e1a4103d54d13a",
-  measurementId: "G-MGKBDNLDMV"
-};
+        // Configuration Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD30BqaFKvWNQUjhkeBq4HsnrFWKrh53B4",
+            authDomain: "e-commerce-19dec.firebaseapp.com",
+            projectId: "e-commerce-19dec",
+            storageBucket: "e-commerce-19dec.firebasestorage.app",
+            messagingSenderId: "453950121295",
+            appId: "1:453950121295:web:8a68d4f4e1a4103d54d13a",
+            measurementId: "G-MGKBDNLDMV"
+        };
 
         // Configuration Cloudinary
         const CLOUDINARY_CLOUD_NAME = "dbsrecfs3";
@@ -1682,7 +1709,6 @@ const firebaseConfig = {
         const ADMIN_EMAIL = "wendybeautystore12@gmail.com";
 
         // ===== INITIALISATION DE FIREBASE =====
-        // Vérifier si Firebase est déjà initialisé
         let firebaseApp;
         if (!firebase.apps.length) {
             firebaseApp = firebase.initializeApp(firebaseConfig);
@@ -1698,41 +1724,10 @@ const firebaseConfig = {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let currentPage = 'home';
         
-        // Styles de coiffure pour le formulaire de réservation
-        const maleHairstyles = [
-            "Pompadour", "Quiff", "Slicked Back", "Undercut", "Faux Hawk", "Crew Cut", "Buzz Cut", "High and Tight", "Caesar Cut", 
-            "French Crop", "Taper Cut", "Low Fade", "Mid Fade", "High Fade", "Skin Fade (Dégradé à blanc)", "Scissor Cut (Coupe aux ciseaux)",
-            "Coupé court (Générique)", "Coupé long (Générique)", "Coupe Classique", "Side Part (Raie latérale)", "Man Bun (Chignon homme)",
-            "Top Knot", "Comb Over", "Textured Crop", "Fringe (Frange)", "Spiky Hair", "Mohawk", "Burst Fade", "Drop Fade", "Temple Fade",
-            "Afro", "Fade Afro", "Tapered Afro", "Dreadlocks", "Cornrows (Tresses)", "Twists (Torsades)", "Sponge Curls", "Box Braids (Hommes)",
-            "Mullet (Mulet)", "Modern Mullet", "Skater Hair", "Grunge Hair", "Bowl Cut (Coupe au bol)", "Shaggy Cut", "Layered Cut (Coupe dégradée)",
-            "Straight Fringe", "Angular Fringe", "Swept Fringe", "Ivy League", "Brush Cut", "Butch Cut", "Flat Top", "Disconnected Undercut",
-            "Business Cut", "Hard Part", "Razor Part", "Blowout", "Messy Quiff", "Clean Pompadour", "Loose Quiff", "Wet Look", "Side Swept",
-            "Slicked Side Part", "Dégradé en V", "Dégradé en U", "Line Up (Bordures nettes)", "Surgical Line", "Zero Cut", "#1 Cut", "#2 Cut",
-            "#3 Cut", "#4 Cut", "Bald Fade (Dégradé chauve)", "Tapered Neckline", "V-Shape Neckline", "Square Neckline", "Mid-Length Flow",
-            "Wavy Hair Style", "Curly Hair Style", "Permed Hair (Permanente)", "Tousled Hair", "Forward Push", "Back Brush", "High Volume",
-            "Low Volume", "Undercut Déconnecté", "Undercut Plié", "Quiff Court", "Pompadour Long", "Pompadour Texturé", "Texture Piquante",
-            "Coupe Tondeuse", "Coupe Ciseaux", "Choppy Cut", "Wispies", "Fringe Courte", "Fringe Longue", "Coupe Rétro", "Coupe Contemporaine",
-            "Gentleman's Cut"
-        ];
+        // Styles de coiffure
+        const maleHairstyles = ["Pompadour", "Quiff", "Slicked Back", "Undercut", "Faux Hawk", "Crew Cut", "Buzz Cut", "High and Tight", "Caesar Cut", "French Crop", "Taper Cut", "Low Fade", "Mid Fade", "High Fade", "Skin Fade", "Scissor Cut", "Coupé court", "Coupé long", "Coupe Classique", "Side Part", "Man Bun", "Top Knot", "Comb Over", "Textured Crop", "Fringe", "Spiky Hair", "Mohawk", "Burst Fade", "Drop Fade", "Temple Fade", "Afro", "Fade Afro", "Tapered Afro", "Dreadlocks", "Cornrows", "Twists", "Sponge Curls", "Box Braids", "Mullet", "Modern Mullet", "Skater Hair", "Grunge Hair", "Bowl Cut", "Shaggy Cut", "Layered Cut", "Straight Fringe", "Angular Fringe", "Swept Fringe", "Ivy League", "Brush Cut", "Butch Cut", "Flat Top", "Disconnected Undercut", "Business Cut", "Hard Part", "Razor Part", "Blowout", "Messy Quiff", "Clean Pompadour", "Loose Quiff", "Wet Look", "Side Swept", "Slicked Side Part", "Dégradé en V", "Dégradé en U", "Line Up", "Surgical Line", "Zero Cut", "#1 Cut", "#2 Cut", "#3 Cut", "#4 Cut", "Bald Fade", "Tapered Neckline", "V-Shape Neckline", "Square Neckline", "Mid-Length Flow", "Wavy Hair Style", "Curly Hair Style", "Permed Hair", "Tousled Hair", "Forward Push", "Back Brush", "High Volume", "Low Volume", "Undercut Déconnecté", "Undercut Plié", "Quiff Court", "Pompadour Long", "Pompadour Texturé", "Texture Piquante", "Coupe Tondeuse", "Coupe Ciseaux", "Choppy Cut", "Wispies", "Fringe Courte", "Fringe Longue", "Coupe Rétro", "Coupe Contemporaine", "Gentleman's Cut"];
         
-        const femaleHairstyles = [
-            "Box Braids", "Cornrows", "Tresse française", "Tresse hollandaise", "Fishtail Braid (Épi de blé)", "Waterfall Braid (Cascade)",
-            "Halo Braid (Couronne)", "Rope Braid (Corde)", "Senegalese Twists", "Marley Twists", "Kinky Twists", "Faux Locs", "Goddess Locs",
-            "Crochet Braids", "Knotless Braids", "Micro Braids", "Maxi Tresse", "Jumbo Braids", "Medium Box Braids", "Small Box Braids", "Bob Braids",
-            "Fulani Braids", "Ghana Braids", "Feed-in Braids", "Lemonade Braids", "Goddess Braids", "Cornrows Droites", "Cornrows Courbes",
-            "Cornrows en Zig-Zag", "Cornrows en Chignon", "Cornrows Moitié Tête", "Cornrows Artistiques", "Braids en Half-Up", "Braids en Queue de Cheval",
-            "Braids en Bun (Chignon)", "Tresse africaine (Générique)", "Tresses Plaquées", "Tresses Libres", "Pick and Drop Braids", "Distressed Faux Locs",
-            "Bohemian Braids (Boho)", "Wavy Braids", "Curly Braids", "Tresse latérale", "Tresse mohawk", "Tresse en Z", "Tresse spirale",
-            "Tresse à quatre brins", "Tresse à cinq brins", "Tresse échelle (Ladder Braid)", "Tresse serpent", "Tresse bulle (Bubble Braid)",
-            "Tresse inversée", "Tresse Zig-Zag", "Tresse en Nattes (Générique)", "Tresses Tribales", "Havana Twists", "Passion Twists", "Spring Twists",
-            "Wraphs Locs", "Individual Braids", "Tresse bandeau", "Tresse en X", "Tresse demi-tête", "Tresse double", "Tresse triple", "Tresse haute",
-            "Tresse basse", "Tresse avec anneaux", "Tresse avec perles", "Tresse Ombré", "Tresse Bicolore", "Tresse Multicolore", "Tresse Épaisse",
-            "Tresse Fine", "Tresse Courte", "Tresse Longue", "Tresse Mi-Longue", "Tresse en V", "Tresse Cœur", "Tresse S-Shape", "Tresse d'Alimentation",
-            "Tresse Glissée", "Tresse Criss-Cross", "Tresse Peul Moderne", "Tresse Éponge (Sponge Braid)", "Tresse en Arête de Poisson", "Tresse Élastique",
-            "Tresse Torsadée Plaquée", "Tresse Balayée", "Tresse Dessinée", "Tresse Protectrice", "Tresse Rapunzel", "Tresse Double Queue",
-            "Tresse Côté Unique", "Tresse sans Tension", "Tresse pour Extensions", "Tresse Piquée (Root Braids)", "Tresse Nappée", "Tresse Lâche"
-        ];
+        const femaleHairstyles = ["Box Braids", "Cornrows", "Tresse française", "Tresse hollandaise", "Fishtail Braid", "Waterfall Braid", "Halo Braid", "Rope Braid", "Senegalese Twists", "Marley Twists", "Kinky Twists", "Faux Locs", "Goddess Locs", "Crochet Braids", "Knotless Braids", "Micro Braids", "Maxi Tresse", "Jumbo Braids", "Medium Box Braids", "Small Box Braids", "Bob Braids", "Fulani Braids", "Ghana Braids", "Feed-in Braids", "Lemonade Braids", "Goddess Braids", "Cornrows Droites", "Cornrows Courbes", "Cornrows en Zig-Zag", "Cornrows en Chignon", "Cornrows Moitié Tête", "Cornrows Artistiques", "Braids en Half-Up", "Braids en Queue de Cheval", "Braids en Bun", "Tresse africaine", "Tresses Plaquées", "Tresses Libres", "Pick and Drop Braids", "Distressed Faux Locs", "Bohemian Braids", "Wavy Braids", "Curly Braids", "Tresse latérale", "Tresse mohawk", "Tresse en Z", "Tresse spirale", "Tresse à quatre brins", "Tresse à cinq brins", "Tresse échelle", "Tresse serpent", "Tresse bulle", "Tresse inversée", "Tresse Zig-Zag", "Tresse en Nattes", "Tresses Tribales", "Havana Twists", "Passion Twists", "Spring Twists", "Wraphs Locs", "Individual Braids", "Tresse bandeau", "Tresse en X", "Tresse demi-tête", "Tresse double", "Tresse triple", "Tresse haute", "Tresse basse", "Tresse avec anneaux", "Tresse avec perles", "Tresse Ombré", "Tresse Bicolore", "Tresse Multicolore", "Tresse Épaisse", "Tresse Fine", "Tresse Courte", "Tresse Longue", "Tresse Mi-Longue", "Tresse en V", "Tresse Cœur", "Tresse S-Shape", "Tresse d'Alimentation", "Tresse Glissée", "Tresse Criss-Cross", "Tresse Peul Moderne", "Tresse Éponge", "Tresse en Arête de Poisson", "Tresse Élastique", "Tresse Torsadée Plaquée", "Tresse Balayée", "Tresse Dessinée", "Tresse Protectrice", "Tresse Rapunzel", "Tresse Double Queue", "Tresse Côté Unique", "Tresse sans Tension", "Tresse pour Extensions", "Tresse Piquée", "Tresse Nappée", "Tresse Lâche"];
 
         // ===== INITIALISATION DE L'APPLICATION =====
         document.addEventListener('DOMContentLoaded', function() {
@@ -1750,15 +1745,12 @@ const firebaseConfig = {
             auth.onAuthStateChanged(user => {
                 console.log("Changement d'état d'authentification:", user);
                 if (user) {
-                    // Vérifier si l'utilisateur est l'admin
                     if (user.email === ADMIN_EMAIL) {
                         currentUser = user;
                         console.log('Admin connecté:', user.email);
-                        // Mettre à jour l'interface si nécessaire
                     } else {
                         currentUser = null;
                         console.log('Utilisateur non admin connecté:', user.email);
-                        // Déconnecter l'utilisateur non admin
                         auth.signOut();
                     }
                 } else {
@@ -1770,7 +1762,6 @@ const firebaseConfig = {
             // Remplir les options de style de coiffure
             const styleSelect = document.getElementById('reservationStyle');
             
-            // Ajouter les styles homme
             const maleGroup = document.createElement('optgroup');
             maleGroup.label = "Styles Homme";
             maleHairstyles.forEach(style => {
@@ -1781,7 +1772,6 @@ const firebaseConfig = {
             });
             styleSelect.appendChild(maleGroup);
             
-            // Ajouter les styles femme
             const femaleGroup = document.createElement('optgroup');
             femaleGroup.label = "Styles Femme";
             femaleHairstyles.forEach(style => {
@@ -1792,7 +1782,6 @@ const firebaseConfig = {
             });
             styleSelect.appendChild(femaleGroup);
             
-            // Ajouter l'option "Autre" à la fin
             const otherOption = document.createElement('option');
             otherOption.value = "Autre";
             otherOption.textContent = "Autre / Demande Spécifique";
@@ -1821,23 +1810,25 @@ const firebaseConfig = {
             document.getElementById('checkoutBtn').addEventListener('click', openOrderModal);
             document.getElementById('orderForm').addEventListener('submit', handleOrderSubmit);
             
-            // Admin
+            // Admin - CORRECTIONS APPLIQUÉES ICI
             document.getElementById('adminAccess').addEventListener('click', openAdminLoginModal);
             document.getElementById('adminLoginForm').addEventListener('submit', handleAdminLogin);
             document.getElementById('adminLogoutBtn').addEventListener('click', handleAdminLogout);
             
-            document.querySelectorAll('.admin-tab').forEach(tab => {
-                if (tab.id !== 'adminLogoutBtn') {
-                    tab.addEventListener('click', () => {
-                        if (currentUser) {
-                            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-                            tab.classList.add('active');
-                            loadAdminContent(tab.dataset.tab);
-                        } else {
-                            alert('Veuillez vous connecter en tant qu\'administrateur.');
-                        }
-                    });
-                }
+            // Gestion des onglets admin - CORRECTION
+            document.querySelectorAll('.admin-tab[data-tab]').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    if (currentUser) {
+                        // Retirer active de tous les onglets
+                        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                        // Ajouter active à l'onglet cliqué
+                        this.classList.add('active');
+                        // Charger le contenu
+                        loadAdminContent(this.dataset.tab);
+                    } else {
+                        alert('Veuillez vous connecter en tant qu\'administrateur.');
+                    }
+                });
             });
             
             // Fermeture des modales
@@ -1852,16 +1843,24 @@ const firebaseConfig = {
                     }
                 });
             });
+
+            // Écouteurs pour les boutons d'action admin - NOUVEAUX ÉCOUTEURS
+            document.addEventListener('click', function(e) {
+                if (e.target.id === 'addProductBtn') {
+                    showProductForm();
+                }
+                if (e.target.id === 'addGalleryItemBtn') {
+                    showGalleryForm();
+                }
+                if (e.target.id === 'addBlogPostBtn') {
+                    showBlogForm();
+                }
+            });
         }
 
         function loadInitialData() {
-            // Charger les produits
             loadProducts();
-            
-            // Charger la galerie
             loadGallery();
-            
-            // Charger les paramètres (horaires d'ouverture)
             loadSettings();
         }
 
@@ -1870,7 +1869,6 @@ const firebaseConfig = {
             e.preventDefault();
             const targetPage = this.getAttribute('data-page') || this.getAttribute('href').substring(1);
             
-            // Mettre à jour la navigation active
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
             });
@@ -1878,36 +1876,27 @@ const firebaseConfig = {
             if (this.classList.contains('nav-link')) {
                 this.classList.add('active');
             } else {
-                // Trouver le lien de navigation correspondant à la page
                 const navLink = document.querySelector(`.nav-link[data-page="${targetPage}"]`);
                 if (navLink) {
                     navLink.classList.add('active');
                 }
             }
             
-            // Fermer le menu mobile si ouvert
             document.getElementById('mainNav').classList.remove('active');
-            
-            // Changer de page
             navigateToPage(targetPage);
         }
 
         function navigateToPage(pageId) {
-            // Masquer toutes les pages
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // Afficher la page demandée
             const targetPage = document.getElementById(pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
                 currentPage = pageId;
-                
-                // Faire défiler vers le haut de la page
                 window.scrollTo(0, 0);
                 
-                // Charger les données spécifiques à la page si nécessaire
                 if (pageId === 'shop') {
                     loadProducts();
                 } else if (pageId === 'gallery') {
@@ -1965,7 +1954,6 @@ const firebaseConfig = {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
             
-            // Enregistrer la réservation dans Firebase
             db.collection('reservations').add(reservationData)
                 .then(() => {
                     alert('Votre réservation a été enregistrée avec succès! Nous vous contacterons pour confirmation.');
@@ -1985,7 +1973,6 @@ const firebaseConfig = {
             const subject = document.getElementById('contactSubject').value;
             const message = document.getElementById('contactMessage').value;
             
-            // Enregistrer le message dans Firebase
             db.collection('contacts').add({
                 name,
                 email,
@@ -2044,7 +2031,6 @@ const firebaseConfig = {
                 </div>
             `;
             
-            // Ajouter l'événement pour ajouter au panier
             card.querySelector('.add-to-cart').addEventListener('click', addToCart);
             
             return card;
@@ -2054,7 +2040,6 @@ const firebaseConfig = {
             const homeGallery = document.getElementById('homeGallery');
             const galleryGrid = document.getElementById('galleryGrid');
             
-            // Afficher le chargement
             if (homeGallery) homeGallery.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement de la galerie...</p>';
             if (galleryGrid) galleryGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement de la galerie...</p>';
             
@@ -2067,7 +2052,6 @@ const firebaseConfig = {
                         return;
                     }
                     
-                    // Vider les grilles
                     if (homeGallery) homeGallery.innerHTML = '';
                     if (galleryGrid) galleryGrid.innerHTML = '';
                     
@@ -2075,12 +2059,10 @@ const firebaseConfig = {
                         const item = doc.data();
                         const galleryItem = createGalleryItem(item);
                         
-                        // Ajouter à la galerie d'accueil (seulement les 3 premiers)
                         if (homeGallery && homeGallery.childElementCount < 3) {
                             homeGallery.appendChild(galleryItem.cloneNode(true));
                         }
                         
-                        // Ajouter à la galerie complète
                         if (galleryGrid) {
                             galleryGrid.appendChild(galleryItem);
                         }
@@ -2116,7 +2098,6 @@ const firebaseConfig = {
                 })
                 .catch(error => {
                     console.error('Erreur lors du chargement des paramètres:', error);
-                    // Utiliser les valeurs par défaut
                     document.getElementById('openingHours').textContent = "Lundi - Samedi: 9h00 - 19h00";
                 });
         }
@@ -2128,7 +2109,6 @@ const firebaseConfig = {
             const productPrice = parseInt(this.dataset.price);
             const productImage = this.dataset.image;
             
-            // Vérifier si le produit est déjà dans le panier
             const existingItem = cart.find(item => item.id === productId);
             
             if (existingItem) {
@@ -2143,13 +2123,9 @@ const firebaseConfig = {
                 });
             }
             
-            // Mettre à jour le localStorage
             localStorage.setItem('cart', JSON.stringify(cart));
-            
-            // Mettre à jour l'affichage du panier
             updateCartDisplay();
             
-            // Animation de confirmation
             const originalText = this.textContent;
             this.textContent = 'Ajouté !';
             this.style.backgroundColor = '#27ae60';
@@ -2197,7 +2173,6 @@ const firebaseConfig = {
             
             cartTotal.textContent = `${formatPrice(total)} FCFA`;
             
-            // Ajouter les événements de suppression
             document.querySelectorAll('.cart-item-remove').forEach(btn => {
                 btn.addEventListener('click', removeFromCart);
             });
@@ -2240,17 +2215,14 @@ const firebaseConfig = {
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
             
-            // Enregistrer la commande dans Firebase
             db.collection('orders').add(orderData)
                 .then(() => {
                     alert('Merci pour votre commande ! L\'administration vous contactera au ' + phone + ' dans les plus brefs délais pour organiser la livraison (Paiement à la livraison uniquement).');
                     
-                    // Vider le panier
                     cart = [];
                     localStorage.setItem('cart', JSON.stringify(cart));
                     updateCartDisplay();
                     
-                    // Fermer les modales
                     closeAllModals();
                     document.getElementById('orderForm').reset();
                 })
@@ -2260,10 +2232,9 @@ const firebaseConfig = {
                 });
         }
 
-        // ===== FONCTIONS D'ADMINISTRATION =====
+        // ===== FONCTIONS D'ADMINISTRATION - CORRECTIONS COMPLÈTES =====
         function openAdminLoginModal() {
             document.getElementById('adminLoginModal').style.display = 'block';
-            // Réinitialiser le formulaire
             document.getElementById('adminLoginForm').reset();
             document.getElementById('adminLoginError').style.display = 'none';
         }
@@ -2277,7 +2248,6 @@ const firebaseConfig = {
             
             console.log('Tentative de connexion avec:', email);
             
-            // Masquer les erreurs précédentes
             errorDiv.style.display = 'none';
             
             auth.signInWithEmailAndPassword(email, password)
@@ -2285,7 +2255,6 @@ const firebaseConfig = {
                     const user = userCredential.user;
                     console.log('Connexion réussie:', user.email);
                     
-                    // Vérifier si l'utilisateur est l'admin
                     if (user.email === ADMIN_EMAIL) {
                         currentUser = user;
                         closeAllModals();
@@ -2370,6 +2339,7 @@ const firebaseConfig = {
             }
         }
 
+        // ===== FONCTIONS ADMIN PRODUITS =====
         function loadAdminProducts() {
             const adminContent = document.getElementById('adminContent');
             adminContent.innerHTML = `
@@ -2420,14 +2390,22 @@ const firebaseConfig = {
                         tableBody.appendChild(row);
                     });
                     
-                    // Ajouter les événements
+                    // Ajouter les événements - CORRECTION
                     document.getElementById('addProductBtn').addEventListener('click', showProductForm);
-                    document.querySelectorAll('.admin-btn.edit').forEach(btn => {
-                        btn.addEventListener('click', () => editProduct(btn.dataset.id));
-                    });
-                    document.querySelectorAll('.admin-btn.delete').forEach(btn => {
-                        btn.addEventListener('click', () => deleteProduct(btn.dataset.id));
-                    });
+                    
+                    // Événements pour les boutons d'action
+                    setTimeout(() => {
+                        document.querySelectorAll('.admin-btn.edit').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                editProduct(this.dataset.id);
+                            });
+                        });
+                        document.querySelectorAll('.admin-btn.delete').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                deleteProduct(this.dataset.id);
+                            });
+                        });
+                    }, 100);
                 })
                 .catch(error => {
                     console.error('Erreur lors du chargement des produits:', error);
@@ -2453,8 +2431,8 @@ const firebaseConfig = {
                             </div>
                             
                             <div class="form-group">
-                                <label for="productPrice">Prix (FCFA) *</label>
-                                <input type="number" id="productPrice" class="form-control" value="${product ? product.price : ''}" required>
+                                <label for="productDescription">Description *</label>
+                                <textarea id="productDescription" class="form-control" required>${product ? product.description : ''}</textarea>
                             </div>
                             
                             <div class="form-group">
@@ -2469,14 +2447,26 @@ const firebaseConfig = {
                             </div>
                             
                             <div class="form-group">
-                                <label for="productDescription">Description courte *</label>
-                                <textarea id="productDescription" class="form-control" required>${product ? product.description : ''}</textarea>
+                                <label for="productPrice">Prix (FCFA) *</label>
+                                <input type="number" id="productPrice" class="form-control" value="${product ? product.price : ''}" required>
                             </div>
                             
                             <div class="form-group">
-                                <label for="productImage">Photo *</label>
+                                <label for="productStock">Stock *</label>
+                                <input type="number" id="productStock" class="form-control" value="${product ? (product.stock || 0) : ''}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productImage">Image *</label>
                                 <input type="file" id="productImage" class="form-control" ${product ? '' : 'required'} accept="image/*">
                                 ${product ? `<div style="margin-top: 10px;"><img src="${product.image}" alt="${product.name}" style="max-width: 200px; border-radius: 8px;"></div>` : ''}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="productStatus" ${product && product.status !== false ? 'checked' : ''}>
+                                    Produit actif (visible sur le site)
+                                </label>
                             </div>
                             
                             <button type="submit" class="btn" style="width: 100%;">${product ? 'Modifier le produit' : 'Ajouter le produit'}</button>
@@ -2487,7 +2477,6 @@ const firebaseConfig = {
             
             document.body.appendChild(modal);
             
-            // Fermeture de la modal
             modal.querySelector('.close-modal').addEventListener('click', () => {
                 document.body.removeChild(modal);
             });
@@ -2498,7 +2487,6 @@ const firebaseConfig = {
                 }
             });
             
-            // Soumission du formulaire
             modal.querySelector('#productForm').addEventListener('submit', e => {
                 e.preventDefault();
                 handleProductFormSubmit(e, product ? product.id : null);
@@ -2509,24 +2497,28 @@ const firebaseConfig = {
             e.preventDefault();
             
             const name = document.getElementById('productName').value;
-            const price = parseInt(document.getElementById('productPrice').value);
-            const category = document.getElementById('productCategory').value;
             const description = document.getElementById('productDescription').value;
+            const category = document.getElementById('productCategory').value;
+            const price = parseInt(document.getElementById('productPrice').value);
+            const stock = parseInt(document.getElementById('productStock').value);
+            const status = document.getElementById('productStatus').checked;
             const imageFile = document.getElementById('productImage').files[0];
             
             if (imageFile) {
-                // Uploader l'image vers Cloudinary
                 uploadImageToCloudinary(imageFile)
                     .then(imageUrl => {
-                        saveProduct({ name, price, category, description, image: imageUrl }, productId);
+                        saveProduct({ 
+                            name, description, category, price, stock, status, image: imageUrl 
+                        }, productId);
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'upload de l\'image:', error);
                         alert('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
                     });
             } else if (productId) {
-                // Utiliser l'image existante
-                saveProduct({ name, price, category, description }, productId);
+                saveProduct({ 
+                    name, description, category, price, stock, status
+                }, productId);
             } else {
                 alert('Veuillez sélectionner une image pour le produit.');
             }
@@ -2564,26 +2556,24 @@ const firebaseConfig = {
             };
             
             if (productId) {
-                // Mise à jour du produit existant
                 db.collection('products').doc(productId).update(productWithTimestamp)
                     .then(() => {
                         alert('Produit modifié avec succès!');
                         document.querySelector('.modal').remove();
                         loadAdminProducts();
-                        loadProducts(); // Recharger les produits sur le site
+                        loadProducts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la modification du produit:', error);
                         alert('Erreur lors de la modification du produit.');
                     });
             } else {
-                // Ajout d'un nouveau produit
                 db.collection('products').add(productWithTimestamp)
                     .then(() => {
                         alert('Produit ajouté avec succès!');
                         document.querySelector('.modal').remove();
                         loadAdminProducts();
-                        loadProducts(); // Recharger les produits sur le site
+                        loadProducts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'ajout du produit:', error);
@@ -2611,7 +2601,7 @@ const firebaseConfig = {
                     .then(() => {
                         alert('Produit supprimé avec succès!');
                         loadAdminProducts();
-                        loadProducts(); // Recharger les produits sur le site
+                        loadProducts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la suppression du produit:', error);
@@ -2620,18 +2610,7 @@ const firebaseConfig = {
             }
         }
 
-        // ===== FONCTIONS UTILITAIRES =====
-        function closeAllModals() {
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.style.display = 'none';
-            });
-        }
-
-        function formatPrice(price) {
-            return new Intl.NumberFormat('fr-FR').format(price);
-        }
-
-        // ===== FONCTIONS D'ADMINISTRATION SUPPLÉMENTAIRES =====
+        // ===== FONCTIONS ADMIN GALERIE =====
         function loadAdminGallery() {
             const adminContent = document.getElementById('adminContent');
             adminContent.innerHTML = `
@@ -2644,7 +2623,6 @@ const firebaseConfig = {
                 </div>
             `;
             
-            // Charger la galerie
             db.collection('gallery').orderBy('timestamp', 'desc').get()
                 .then(snapshot => {
                     const galleryGrid = document.getElementById('adminGalleryGrid');
@@ -2671,13 +2649,15 @@ const firebaseConfig = {
                         `;
                         galleryGrid.appendChild(galleryItem);
                         
-                        // Ajouter les événements
-                        galleryItem.querySelector('.admin-btn.edit').addEventListener('click', () => editGalleryItem(doc.id));
-                        galleryItem.querySelector('.admin-btn.delete').addEventListener('click', () => deleteGalleryItem(doc.id));
+                        setTimeout(() => {
+                            galleryItem.querySelector('.admin-btn.edit').addEventListener('click', function() {
+                                editGalleryItem(this.dataset.id);
+                            });
+                            galleryItem.querySelector('.admin-btn.delete').addEventListener('click', function() {
+                                deleteGalleryItem(this.dataset.id);
+                            });
+                        }, 100);
                     });
-                    
-                    // Ajouter l'événement pour le bouton d'ajout
-                    document.getElementById('addGalleryItemBtn').addEventListener('click', showGalleryForm);
                 })
                 .catch(error => {
                     console.error('Erreur lors du chargement de la galerie:', error);
@@ -2703,6 +2683,22 @@ const firebaseConfig = {
                             </div>
                             
                             <div class="form-group">
+                                <label for="galleryDescription">Description</label>
+                                <textarea id="galleryDescription" class="form-control">${item ? (item.description || '') : ''}</textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="galleryService">Type de service</label>
+                                <select id="galleryService" class="form-control">
+                                    <option value="">Sélectionnez un service</option>
+                                    <option value="Coiffure" ${item && item.service === 'Coiffure' ? 'selected' : ''}>Coiffure</option>
+                                    <option value="Maquillage" ${item && item.service === 'Maquillage' ? 'selected' : ''}>Maquillage</option>
+                                    <option value="Soins" ${item && item.service === 'Soins' ? 'selected' : ''}>Soins</option>
+                                    <option value="Tresses" ${item && item.service === 'Tresses' ? 'selected' : ''}>Tresses</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
                                 <label for="galleryImage">Photo *</label>
                                 <input type="file" id="galleryImage" class="form-control" ${item ? '' : 'required'} accept="image/*">
                                 ${item ? `<div style="margin-top: 10px;"><img src="${item.image}" alt="${item.title}" style="max-width: 200px; border-radius: 8px;"></div>` : ''}
@@ -2716,7 +2712,6 @@ const firebaseConfig = {
             
             document.body.appendChild(modal);
             
-            // Fermeture de la modal
             modal.querySelector('.close-modal').addEventListener('click', () => {
                 document.body.removeChild(modal);
             });
@@ -2727,7 +2722,6 @@ const firebaseConfig = {
                 }
             });
             
-            // Soumission du formulaire
             modal.querySelector('#galleryForm').addEventListener('submit', e => {
                 e.preventDefault();
                 handleGalleryFormSubmit(e, item ? item.id : null);
@@ -2738,21 +2732,21 @@ const firebaseConfig = {
             e.preventDefault();
             
             const title = document.getElementById('galleryTitle').value;
+            const description = document.getElementById('galleryDescription').value;
+            const service = document.getElementById('galleryService').value;
             const imageFile = document.getElementById('galleryImage').files[0];
             
             if (imageFile) {
-                // Uploader l'image vers Cloudinary
                 uploadImageToCloudinary(imageFile)
                     .then(imageUrl => {
-                        saveGalleryItem({ title, image: imageUrl }, itemId);
+                        saveGalleryItem({ title, description, service, image: imageUrl }, itemId);
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'upload de l\'image:', error);
                         alert('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
                     });
             } else if (itemId) {
-                // Utiliser l'image existante
-                saveGalleryItem({ title }, itemId);
+                saveGalleryItem({ title, description, service }, itemId);
             } else {
                 alert('Veuillez sélectionner une image pour la réalisation.');
             }
@@ -2765,26 +2759,24 @@ const firebaseConfig = {
             };
             
             if (itemId) {
-                // Mise à jour de l'élément existant
                 db.collection('gallery').doc(itemId).update(itemWithTimestamp)
                     .then(() => {
                         alert('Réalisation modifiée avec succès!');
                         document.querySelector('.modal').remove();
                         loadAdminGallery();
-                        loadGallery(); // Recharger la galerie sur le site
+                        loadGallery();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la modification de la réalisation:', error);
                         alert('Erreur lors de la modification de la réalisation.');
                     });
             } else {
-                // Ajout d'un nouvel élément
                 db.collection('gallery').add(itemWithTimestamp)
                     .then(() => {
                         alert('Réalisation ajoutée avec succès!');
                         document.querySelector('.modal').remove();
                         loadAdminGallery();
-                        loadGallery(); // Recharger la galerie sur le site
+                        loadGallery();
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'ajout de la réalisation:', error);
@@ -2812,7 +2804,7 @@ const firebaseConfig = {
                     .then(() => {
                         alert('Réalisation supprimée avec succès!');
                         loadAdminGallery();
-                        loadGallery(); // Recharger la galerie sur le site
+                        loadGallery();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la suppression de la réalisation:', error);
@@ -2821,6 +2813,7 @@ const firebaseConfig = {
             }
         }
 
+        // ===== FONCTIONS ADMIN BLOG =====
         function loadAdminBlog() {
             const adminContent = document.getElementById('adminContent');
             adminContent.innerHTML = `
@@ -2833,7 +2826,6 @@ const firebaseConfig = {
                 </div>
             `;
             
-            // Charger les articles de blog
             db.collection('blog').orderBy('timestamp', 'desc').get()
                 .then(snapshot => {
                     const blogList = document.getElementById('adminBlogList');
@@ -2862,14 +2854,18 @@ const firebaseConfig = {
                         tableBody.appendChild(row);
                     });
                     
-                    // Ajouter les événements
-                    document.getElementById('addBlogPostBtn').addEventListener('click', showBlogForm);
-                    document.querySelectorAll('.admin-btn.edit').forEach(btn => {
-                        btn.addEventListener('click', () => editBlogPost(btn.dataset.id));
-                    });
-                    document.querySelectorAll('.admin-btn.delete').forEach(btn => {
-                        btn.addEventListener('click', () => deleteBlogPost(btn.dataset.id));
-                    });
+                    setTimeout(() => {
+                        document.querySelectorAll('.admin-btn.edit').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                editBlogPost(this.dataset.id);
+                            });
+                        });
+                        document.querySelectorAll('.admin-btn.delete').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                deleteBlogPost(this.dataset.id);
+                            });
+                        });
+                    }, 100);
                 })
                 .catch(error => {
                     console.error('Erreur lors du chargement des articles de blog:', error);
@@ -2895,18 +2891,28 @@ const firebaseConfig = {
                             </div>
                             
                             <div class="form-group">
+                                <label for="blogAuthor">Auteur</label>
+                                <input type="text" id="blogAuthor" class="form-control" value="${post ? (post.author || '') : ''}">
+                            </div>
+                            
+                            <div class="form-group">
                                 <label for="blogCategory">Catégorie *</label>
                                 <select id="blogCategory" class="form-control" required>
                                     <option value="">Sélectionnez une catégorie</option>
-                                    <option value="Cheveux naturels" ${post && post.category === 'Cheveux naturels' ? 'selected' : ''}>Cheveux naturels</option>
+                                    <option value="Conseils beauté" ${post && post.category === 'Conseils beauté' ? 'selected' : ''}>Conseils beauté</option>
                                     <option value="Tendances" ${post && post.category === 'Tendances' ? 'selected' : ''}>Tendances</option>
-                                    <option value="Astuces beauté" ${post && post.category === 'Astuces beauté' ? 'selected' : ''}>Astuces beauté</option>
-                                    <option value="Soins capillaires" ${post && post.category === 'Soins capillaires' ? 'selected' : ''}>Soins capillaires</option>
+                                    <option value="Soins" ${post && post.category === 'Soins' ? 'selected' : ''}>Soins</option>
+                                    <option value="Tutoriels" ${post && post.category === 'Tutoriels' ? 'selected' : ''}>Tutoriels</option>
                                 </select>
                             </div>
                             
                             <div class="form-group">
-                                <label for="blogImage">Photo d'illustration *</label>
+                                <label for="blogTags">Mots-clés (séparés par des virgules)</label>
+                                <input type="text" id="blogTags" class="form-control" value="${post ? (post.tags || '') : ''}">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blogImage">Image de couverture *</label>
                                 <input type="file" id="blogImage" class="form-control" ${post ? '' : 'required'} accept="image/*">
                                 ${post ? `<div style="margin-top: 10px;"><img src="${post.image}" alt="${post.title}" style="max-width: 200px; border-radius: 8px;"></div>` : ''}
                             </div>
@@ -2914,6 +2920,13 @@ const firebaseConfig = {
                             <div class="form-group">
                                 <label for="blogContent">Contenu de l'article *</label>
                                 <textarea id="blogContent" class="form-control" rows="12" required>${post ? post.content : ''}</textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="blogStatus" ${post && post.status !== 'Brouillon' ? 'checked' : ''}>
+                                    Article publié (visible sur le site)
+                                </label>
                             </div>
                             
                             <button type="submit" class="btn" style="width: 100%;">${post ? 'Modifier l\'article' : 'Ajouter l\'article'}</button>
@@ -2924,7 +2937,6 @@ const firebaseConfig = {
             
             document.body.appendChild(modal);
             
-            // Fermeture de la modal
             modal.querySelector('.close-modal').addEventListener('click', () => {
                 document.body.removeChild(modal);
             });
@@ -2935,7 +2947,6 @@ const firebaseConfig = {
                 }
             });
             
-            // Soumission du formulaire
             modal.querySelector('#blogForm').addEventListener('submit', e => {
                 e.preventDefault();
                 handleBlogFormSubmit(e, post ? post.id : null);
@@ -2946,23 +2957,24 @@ const firebaseConfig = {
             e.preventDefault();
             
             const title = document.getElementById('blogTitle').value;
+            const author = document.getElementById('blogAuthor').value;
             const category = document.getElementById('blogCategory').value;
+            const tags = document.getElementById('blogTags').value;
             const content = document.getElementById('blogContent').value;
+            const status = document.getElementById('blogStatus').checked ? 'Publié' : 'Brouillon';
             const imageFile = document.getElementById('blogImage').files[0];
             
             if (imageFile) {
-                // Uploader l'image vers Cloudinary
                 uploadImageToCloudinary(imageFile)
                     .then(imageUrl => {
-                        saveBlogPost({ title, category, content, image: imageUrl }, postId);
+                        saveBlogPost({ title, author, category, tags, content, status, image: imageUrl }, postId);
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'upload de l\'image:', error);
                         alert('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
                     });
             } else if (postId) {
-                // Utiliser l'image existante
-                saveBlogPost({ title, category, content }, postId);
+                saveBlogPost({ title, author, category, tags, content, status }, postId);
             } else {
                 alert('Veuillez sélectionner une image pour l\'article.');
             }
@@ -2975,7 +2987,6 @@ const firebaseConfig = {
             };
             
             if (postId) {
-                // Mise à jour de l'article existant
                 db.collection('blog').doc(postId).update(postWithTimestamp)
                     .then(() => {
                         alert('Article modifié avec succès!');
@@ -2987,7 +2998,6 @@ const firebaseConfig = {
                         alert('Erreur lors de la modification de l\'article.');
                     });
             } else {
-                // Ajout d'un nouvel article
                 db.collection('blog').add(postWithTimestamp)
                     .then(() => {
                         alert('Article ajouté avec succès!');
@@ -3028,6 +3038,7 @@ const firebaseConfig = {
             }
         }
 
+        // ===== FONCTIONS ADMIN COMMANDES ET RÉSERVATIONS =====
         function loadAdminOrders() {
             const adminContent = document.getElementById('adminContent');
             adminContent.innerHTML = `
@@ -3051,7 +3062,6 @@ const firebaseConfig = {
                 </div>
             `;
             
-            // Charger les commandes
             db.collection('orders').orderBy('timestamp', 'desc').get()
                 .then(snapshot => {
                     const tableBody = document.getElementById('adminOrdersTable');
@@ -3105,7 +3115,6 @@ const firebaseConfig = {
                 </div>
             `;
             
-            // Charger les réservations
             db.collection('reservations').orderBy('timestamp', 'desc').get()
                 .then(snapshot => {
                     const tableBody = document.getElementById('adminReservationsTable');
@@ -3151,19 +3160,16 @@ const firebaseConfig = {
                 </div>
             `;
             
-            // Charger les paramètres actuels
             db.collection('settings').doc('openingHours').get()
                 .then(doc => {
                     if (doc.exists) {
                         document.getElementById('openingHours').value = doc.data().value;
-                    document.getElementById('openingHours').textContent = doc.data().value;
                     }
                 })
                 .catch(error => {
                     console.error('Erreur lors du chargement des paramètres:', error);
                 });
             
-            // Soumission du formulaire
             document.getElementById('settingsForm').addEventListener('submit', e => {
                 e.preventDefault();
                 const openingHours = document.getElementById('openingHours').value;
@@ -3171,13 +3177,24 @@ const firebaseConfig = {
                 db.collection('settings').doc('openingHours').set({ value: openingHours })
                     .then(() => {
                         alert('Paramètres enregistrés avec succès!');
-                        document.getElementById('openingHours').textContent = openingHours;
+                        document.getElementById('openingHoursDisplay').textContent = openingHours;
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'enregistrement des paramètres:', error);
                         alert('Erreur lors de l\'enregistrement des paramètres.');
                     });
             });
+        }
+
+        // ===== FONCTIONS UTILITAIRES =====
+        function closeAllModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
+        }
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('fr-FR').format(price);
         }
     </script>
 </body>
