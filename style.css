@@ -1,0 +1,41 @@
+/* ---------------------------------------------------------------- */
+/* Code pour la Vidéo en Arrière-Plan */
+/* ---------------------------------------------------------------- */
+.hero {
+    position: relative; 
+    width: 100%;
+    height: 100vh; /* Prend toute la hauteur de l'écran */
+    overflow: hidden; 
+}
+
+/* Positionne la vidéo en fond d'écran */
+.hero-video {
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    min-width: 100%; 
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1; /* Place la vidéo derrière tout le contenu */
+    transform: translate(-50%, -50%); 
+    object-fit: cover; /* Assure que la vidéo couvre sans déformation */
+}
+
+/* Positionne le contenu au-dessus de la vidéo */
+.hero-content {
+    position: relative;
+    z-index: 1; 
+    /* Ajoutez ici d'autres styles comme color: white; pour le texte */
+}
+
+/* Calque sombre pour le contraste (recommandé) */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); 
+    z-index: 0;
+}

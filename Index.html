@@ -1,0 +1,3184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wendy Beauty Store - La beauté qui unit tradition et modernité</title>
+    
+    <!-- Polices Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <style>
+        /* ===== VARIABLES CSS ===== */
+        :root {
+            --primary-beige: #f5f1e8;
+            --primary-cream: #faf8f2;
+            --primary-black: #1a1a1a;
+            --accent-gold: #d4af37;
+            --accent-bordeaux: #8b1e3f;
+            --accent-pink: #e8b4bc;
+            --footer-pink: #f8d7da;
+            --shadow-light: rgba(0, 0, 0, 0.1);
+            --shadow-medium: rgba(0, 0, 0, 0.2);
+            --shadow-heavy: rgba(0, 0, 0, 0.3);
+            
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Montserrat', sans-serif;
+            
+            --transition-fast: 0.3s ease;
+            --transition-medium: 0.5s ease;
+            --transition-slow: 0.8s ease;
+            
+            --border-radius: 12px;
+            --glass-blur: blur(15px);
+        }
+
+        /* ===== RESET & BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--primary-black);
+            background-color: var(--primary-cream);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-serif);
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-fast);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        button, .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 28px;
+            background-color: var(--accent-bordeaux);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        button::before, .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: var(--transition-medium);
+            z-index: -1;
+        }
+
+        button:hover::before, .btn:hover::before {
+            left: 100%;
+        }
+
+        button:hover, .btn:hover {
+            background-color: var(--accent-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px var(--shadow-medium);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-gold);
+            color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.8rem;
+            color: var(--primary-black);
+            display: inline-block;
+            position: relative;
+        }
+
+        .section-title h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent-gold), var(--accent-bordeaux));
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== GLASSMORPHISM EFFECTS ===== */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px var(--shadow-light);
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--accent-gold), transparent);
+        }
+
+        .liquid-glass {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 8px 32px var(--shadow-light),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        /* ===== HEADER & NAVIGATION ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            box-shadow: 0 2px 20px var(--shadow-light);
+            transition: var(--transition-fast);
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 5px 25px var(--shadow-medium);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 12px;
+            filter: drop-shadow(0 2px 4px var(--shadow-light));
+        }
+
+        .logo-text {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-black);
+            letter-spacing: 0.5px;
+        }
+
+        .logo-subtitle {
+            font-size: 0.7rem;
+            color: var(--accent-bordeaux);
+            display: block;
+            margin-top: -3px;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 28px;
+        }
+
+        nav ul li a {
+            font-weight: 500;
+            position: relative;
+            padding: 8px 0;
+            font-size: 1.05rem;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gold);
+            transition: var(--transition-fast);
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-black);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: var(--transition-fast);
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        /* ===== PAGES STYLES ===== */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(139, 30, 63, 0.6), rgba(212, 175, 55, 0.4));
+            z-index: -1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 0 20px;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 8px var(--shadow-heavy);
+            letter-spacing: 1px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 4px var(--shadow-heavy);
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        /* ===== GALLERY SECTION ===== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 10px 20px var(--shadow-light);
+            transition: var(--transition-medium);
+            height: 350px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-medium);
+        }
+
+        .gallery-item-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            transform: translateY(15px);
+            opacity: 0;
+            transition: var(--transition-medium);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-12px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 20px 40px var(--shadow-medium);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item:hover .gallery-item-caption {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ===== SERVICES SECTION ===== */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 25px var(--shadow-light);
+            transition: var(--transition-medium);
+            text-align: center;
+            padding: 40px 25px;
+            position: relative;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, var(--accent-gold), var(--accent-bordeaux));
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px var(--shadow-medium);
+        }
+
+        .service-icon {
+            font-size: 3.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 25px;
+            display: inline-block;
+            padding: 15px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+            transition: var(--transition-medium);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .service-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        /* ===== TESTIMONIALS SECTION ===== */
+        .testimonials {
+            background: linear-gradient(135deg, var(--primary-beige), #f0e9d8);
+            position: relative;
+        }
+
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23d4af37" opacity="0.03"><path d="M0 0h100v100H0z"/><path d="M20 20h60v60H20z"/></svg>');
+            background-size: 50px;
+        }
+
+        .testimonials-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: 0 10px 30px var(--shadow-light);
+            margin: 0 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 5rem;
+            color: var(--accent-gold);
+            opacity: 0.2;
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 25px;
+            position: relative;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--accent-bordeaux);
+            font-size: 1.1rem;
+        }
+
+        /* ===== SHOP SECTION ===== */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 25px var(--shadow-light);
+            transition: var(--transition-medium);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px var(--shadow-medium);
+        }
+
+        .product-image {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-medium);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.08);
+        }
+
+        .product-info {
+            padding: 25px;
+        }
+
+        .product-price {
+            font-weight: 600;
+            color: var(--accent-bordeaux);
+            font-size: 1.3rem;
+            margin: 12px 0;
+        }
+
+        .product-category {
+            display: inline-block;
+            background: var(--primary-beige);
+            color: var(--primary-black);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        /* ===== RESERVATION SECTION ===== */
+        .reservation-form {
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px var(--shadow-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+        }
+
+        .contact-icon {
+            font-size: 1.6rem;
+            color: var(--accent-gold);
+            margin-top: 5px;
+            min-width: 30px;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px var(--shadow-light);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            transition: var(--transition-fast);
+            background: #f9f9f9;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            background: white;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--footer-pink);
+            color: var(--primary-black);
+            padding: 80px 0 25px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-logo {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            margin-bottom: 18px;
+        }
+
+        .footer-subtitle {
+            color: var(--accent-bordeaux);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .footer-links h3,
+        .footer-contact h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .footer-links h3::after,
+        .footer-contact h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 45px;
+            height: 2px;
+            background: var(--accent-bordeaux);
+        }
+
+        .footer-links ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--accent-bordeaux);
+            padding-left: 8px;
+        }
+
+        .footer-contact p {
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .footer-contact i {
+            color: var(--accent-bordeaux);
+            width: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            background: rgba(139, 30, 63, 0.1);
+            border-radius: 50%;
+            transition: var(--transition-fast);
+            color: var(--accent-bordeaux);
+        }
+
+        .social-link:hover {
+            background: var(--accent-bordeaux);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(139, 30, 63, 0.2);
+            font-size: 0.95rem;
+            color: var(--accent-bordeaux);
+        }
+
+        .footer-bottom a {
+            color: var(--accent-bordeaux);
+        }
+
+        .footer-bottom a:hover {
+            color: var(--primary-black);
+        }
+
+        .admin-link {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--accent-bordeaux);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* ===== MODALS ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 700px;
+            margin: 50px auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 20px 60px var(--shadow-heavy);
+            position: relative;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary-beige);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: var(--primary-black);
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary-black);
+            transition: var(--transition-fast);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-bordeaux);
+            background: rgba(0, 0, 0, 0.05);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 35px;
+        }
+
+        /* ===== CART STYLES ===== */
+        .cart-items {
+            margin-bottom: 25px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-right: 18px;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .cart-item-price {
+            color: var(--accent-bordeaux);
+            font-weight: 600;
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 1.3rem;
+            transition: var(--transition-fast);
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .cart-item-remove:hover {
+            color: var(--accent-bordeaux);
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 1.3rem;
+            padding: 20px 0;
+            border-top: 2px solid #eee;
+            margin-top: 15px;
+        }
+
+        /* ===== ADMIN STYLES ===== */
+        .admin-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 35px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .admin-tab {
+            padding: 12px 24px;
+            background: #f5f5f5;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-weight: 500;
+        }
+
+        .admin-tab.active {
+            background: var(--accent-bordeaux);
+            color: white;
+        }
+
+        .admin-content {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 25px var(--shadow-light);
+            padding: 35px;
+            margin-bottom: 35px;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .admin-table th {
+            background: var(--primary-beige);
+            font-weight: 600;
+        }
+
+        .admin-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .admin-btn {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        .admin-btn.edit {
+            background: #3498db;
+        }
+
+        .admin-btn.delete {
+            background: #e74c3c;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease both;
+        }
+
+        /* ===== RESPONSIVE STYLES ===== */
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.5rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 85%;
+                height: calc(100vh - 80px);
+                background: white;
+                box-shadow: 5px 0 25px var(--shadow-medium);
+                transition: var(--transition-medium);
+                z-index: 999;
+                padding: 30px;
+            }
+            
+            nav.active {
+                left: 0;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0 0 25px 0;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero p {
+                font-size: 1.3rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .gallery-grid,
+            .services-grid,
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                margin: 20px auto;
+            }
+            
+            .admin-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjZDRhZjM3IiBkPSJNNTAuMDAxIDI1LjAwMWMyLjIwOSAwIDQuMDE3IDEuNzkxIDQuMDE3IDQuMDA3djQxLjk4NWMwIDIuMjE2LTEuODA4IDQuMDA3LTQuMDE3IDQuMDA3cy00LjAxNy0xLjc5MS00LjAxNy00LjAwN1YyOS4wMDhjMC0yLjIxNiAxLjgwOC00LjAwNyA0LjAxNy00LjAwN3oiLz48cGF0aCBmaWxsPSIjOGIxZTNmIiBkPSJNNzUuMDAxIDUwLjAwMWMwIDEzLjgwNy0xMS4xOTMgMjUtMjUgMjVzLTI1LTExLjE5My0yNS0yNSAxMS4xOTMtMjUgMjUtMjUgMjUgMTEuMTkzIDI1IDI1eiIvPjxwYXRoIGZpbGw9IiNmNWYxZTgiIGQ9Ik01MC4wMDEgMzAuMDAxYzExLjA0NSAwIDIwIDguOTU1IDIwIDIwcy04Ljk1NSAyMC0yMCAyMC0yMC04Ljk1NS0yMC0yMCA4Ljk1NS0yMCAyMC0yMHptMCAzNWM4LjI4NCAwIDE1LTYuNzE2IDE1LTE1cy02LjcxNi0xNS0xNS0xNS0xNSA2LjcxNi0xNSAxNSA2LjcxNiAxNSAxNSAxNXoiLz48L3N2Zz4=" alt="Wendy Beauty Store Logo">
+                <div class="logo-text">
+                    WENDY BEAUTY STORE
+                    <span class="logo-subtitle">La beauté qui unit tradition et modernité</span>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#home" class="nav-link active" data-page="home">Accueil</a></li>
+                    <li><a href="#services" class="nav-link" data-page="services">Services</a></li>
+                    <li><a href="#shop" class="nav-link" data-page="shop">Boutique</a></li>
+                    <li><a href="#gallery" class="nav-link" data-page="gallery">Galerie</a></li>
+                    <li><a href="#reservation" class="nav-link" data-page="reservation">Réservation</a></li>
+                    <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Pages -->
+    <main id="main-content">
+        <!-- Page Accueil -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <video class="hero-video" autoplay loop muted playsinline>
+                    <source src="VOTRE_LIEN_VIDEO_MP4_ICI" type="video/mp4">
+                    Votre navigateur ne supporte pas la balise vidéo.
+                </video>
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <h1>WENDY BEAUTY STORE</h1>
+                    <p>La beauté qui unit tradition et modernité</p>
+                    <div class="hero-buttons">
+                        <a href="#reservation" class="btn" data-page="reservation">Réservez votre rendez-vous</a>
+                        <a href="#shop" class="btn btn-secondary" data-page="shop">Découvrez la boutique</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="padding: 100px 0;">
+                <div class="section-title">
+                    <h2>Explorez nos réalisations</h2>
+                    <p>Laissez-vous inspirer par nos créations</p>
+                </div>
+                
+                <div class="gallery-grid" id="homeGallery">
+                    <!-- Les éléments de galerie seront chargés dynamiquement -->
+                </div>
+                
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="#gallery" class="btn" data-page="gallery">Voir la galerie complète</a>
+                </div>
+            </div>
+
+            <div class="container" style="padding-bottom: 100px;">
+                <div class="section-title">
+                    <h2>Nos Services</h2>
+                    <p>Découvrez nos prestations de qualité</p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <h3>Coiffure Femme</h3>
+                        <p>Des coiffures élégantes et tendance pour toutes les occasions.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-male"></i>
+                        </div>
+                        <h3>Coiffure Homme</h3>
+                        <p>Des coupes modernes et soignées pour un look toujours impeccable.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <h3>Soins</h3>
+                        <p>Des soins capillaires adaptés à tous les types de cheveux.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>Spécialité Africaine</h3>
+                        <p>L'art de la tresse africaine dans toute sa diversité et sa richesse.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonials">
+                <div class="container" style="padding: 100px 0;">
+                    <div class="section-title">
+                        <h2>Témoignages</h2>
+                        <p>Ce que disent nos clients</p>
+                    </div>
+                    
+                    <div class="testimonials-slider">
+                        <div class="testimonial-card">
+                            <p class="testimonial-text">Une expérience inégalée. L'art de la tresse à son apogée. Je recommande vivement !</p>
+                            <p class="testimonial-author">- Marie D.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Services -->
+        <section id="services" class="page">
+            <div class="container" style="padding: 150px 0 100px;">
+                <div class="section-title">
+                    <h2>Nos Services</h2>
+                    <p>Découvrez nos prestations de qualité</p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-female"></i>
+                        </div>
+                        <h3>Coiffure Femme</h3>
+                        <p>Des coiffures élégantes et tendance pour toutes les occasions. Nous créons des looks uniques qui mettent en valeur votre personnalité.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-male"></i>
+                        </div>
+                        <h3>Coiffure Homme</h3>
+                        <p>Des coupes modernes et soignées pour un look toujours impeccable. Notre équipe maîtrise les dernières tendances masculines.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <h3>Soins Capillaires</h3>
+                        <p>Des soins adaptés à tous les types de cheveux. Nous utilisons des produits de qualité pour redonner vie à vos cheveux.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3>Spécialité Africaine</h3>
+                        <p>L'art de la tresse africaine dans toute sa diversité et sa richesse. Nous maîtrisons les techniques traditionnelles et modernes.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3>Maquillage</h3>
+                        <p>Des maquillages professionnels pour toutes les occasions. Nous créons des looks qui mettent en valeur votre beauté naturelle.</p>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Soins Esthétiques</h3>
+                        <p>Des soins du visage et du corps pour une beauté éclatante. Nous utilisons des techniques douces et des produits naturels.</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="#reservation" class="btn" data-page="reservation">Prendre rendez-vous</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Boutique -->
+        <section id="shop" class="page">
+            <div class="container" style="padding: 150px 0 100px;">
+                <div class="section-title">
+                    <h2>Notre Boutique</h2>
+                    <p>Découvrez nos produits de qualité</p>
+                </div>
+                
+                <div class="products-grid" id="productsGrid">
+                    <!-- Les produits seront chargés dynamiquement -->
+                </div>
+                
+                <div style="text-align: center; margin-top: 50px;">
+                    <button class="btn" id="viewCartBtn">Voir mon panier</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Galerie -->
+        <section id="gallery" class="page">
+            <div class="container" style="padding: 150px 0 100px;">
+                <div class="section-title">
+                    <h2>Notre Galerie</h2>
+                    <p>Découvrez nos dernières réalisations</p>
+                </div>
+                
+                <div class="gallery-grid" id="galleryGrid">
+                    <!-- Les éléments de galerie seront chargés dynamiquement -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Réservation -->
+        <section id="reservation" class="page">
+            <div class="container" style="padding: 150px 0 100px;">
+                <div class="section-title">
+                    <h2>Réservez votre place</h2>
+                    <p>Prenez rendez-vous pour une expérience beauté unique</p>
+                </div>
+                
+                <div class="reservation-form">
+                    <form id="reservationForm">
+                        <div class="form-group">
+                            <label for="reservationName">Nom & Prénom *</label>
+                            <input type="text" id="reservationName" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reservationPhone">Numéro de Téléphone / WhatsApp *</label>
+                            <input type="tel" id="reservationPhone" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reservationEmail">Email (Optionnel)</label>
+                            <input type="email" id="reservationEmail" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Genre *</label>
+                            <div style="display: flex; gap: 25px; margin-top: 12px;">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="radio" name="gender" value="Homme" required> Homme
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="radio" name="gender" value="Femme" required> Femme
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reservationStyle">Style de Coiffure *</label>
+                            <select id="reservationStyle" class="form-control" required>
+                                <option value="">Sélectionnez un style</option>
+                                <!-- Les options seront ajoutées dynamiquement -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-group" id="otherStyleGroup" style="display: none;">
+                            <label for="otherStyle">Veuillez préciser le style souhaité :</label>
+                            <input type="text" id="otherStyle" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reservationDate">Date et Heure souhaitées *</label>
+                            <input type="datetime-local" id="reservationDate" class="form-control" required>
+                        </div>
+                        
+                        <button type="submit" class="btn" style="width: 100%;">Réserver maintenant</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Contact -->
+        <section id="contact" class="page">
+            <div class="container" style="padding: 150px 0 100px;">
+                <div class="section-title">
+                    <h2>Contactez-nous</h2>
+                    <p>N'hésitez pas à nous contacter pour toute question</p>
+                </div>
+                
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h3>Adresse</h3>
+                                <p>Cotonou, Bénin</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h3>Téléphone</h3>
+                                <p>+229 01 98 86 19 06</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h3>Email</h3>
+                                <p>wendybeautystore12@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h3>Horaires d'ouverture</h3>
+                                <p id="openingHours">Lundi - Samedi: 9h00 - 19h00</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="contactName">Nom & Prénom *</label>
+                                <input type="text" id="contactName" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactEmail">Email *</label>
+                                <input type="email" id="contactEmail" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactSubject">Sujet *</label>
+                                <input type="text" id="contactSubject" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contactMessage">Message *</label>
+                                <textarea id="contactMessage" class="form-control" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn" style="width: 100%;">Envoyer le message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Admin -->
+        <section id="admin" class="page">
+            <div class="container" style="padding: 150px 0 100px;">
+                <div class="section-title">
+                    <h2>Espace Administrateur</h2>
+                    <p>Gérez votre site Wendy Beauty Store</p>
+                </div>
+                
+                <div class="admin-tabs">
+                    <div class="admin-tab active" data-tab="products">Produits</div>
+                    <div class="admin-tab" data-tab="gallery">Galerie</div>
+                    <div class="admin-tab" data-tab="blog">Blog</div>
+                    <div class="admin-tab" data-tab="orders">Commandes</div>
+                    <div class="admin-tab" data-tab="reservations">Réservations</div>
+                    <div class="admin-tab" data-tab="settings">Paramètres</div>
+                    <div class="admin-tab" id="adminLogoutBtn">Déconnexion</div>
+                </div>
+                
+                <!-- Contenu des onglets admin -->
+                <div id="adminContent"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">WENDY BEAUTY STORE</div>
+                    <p class="footer-subtitle">La beauté qui unit tradition et modernité</p>
+                    <p>Votre destination beauté à Cotonou, Bénin. Expertise, qualité et passion au service de votre beauté.</p>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h3>Liens rapides</h3>
+                    <ul>
+                        <li><a href="#home" data-page="home">Accueil</a></li>
+                        <li><a href="#services" data-page="services">Services</a></li>
+                        <li><a href="#shop" data-page="shop">Boutique</a></li>
+                        <li><a href="#gallery" data-page="gallery">Galerie</a></li>
+                        <li><a href="#reservation" data-page="reservation">Réservation</a></li>
+                        <li><a href="#contact" data-page="contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-contact">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Cotonou, Bénin</p>
+                    <p><i class="fas fa-phone"></i> +229 01 98 86 19 06</p>
+                    <p><i class="fas fa-envelope"></i> wendybeautystore12@gmail.com</p>
+                    <p><i class="fas fa-clock"></i> Lun - Sam: 9h00 - 19h00</p>
+                    
+                    <a class="admin-link" id="adminAccess">Accès Admin</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 WENDY BEAUTY STORE. Tous droits réservés.</p>
+                <p><a href="#legal">Mentions légales</a> | <a href="#privacy">Politique de confidentialité</a> | <a href="#terms">CGV/CGU</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Panier -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Votre Panier</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="cart-items" id="cartItems">
+                    <!-- Les éléments du panier seront ajoutés dynamiquement -->
+                </div>
+                
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">0 FCFA</span>
+                </div>
+                
+                <button class="btn" id="checkoutBtn" style="width: 100%; margin-top: 25px;">Passer la commande</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Commande -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Finaliser votre commande</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="orderForm">
+                    <div class="form-group">
+                        <label for="orderName">Nom & Prénom *</label>
+                        <input type="text" id="orderName" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="orderPhone">Numéro de Téléphone / WhatsApp *</label>
+                        <input type="tel" id="orderPhone" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="orderAddress">Adresse de Domicile (Ville/Quartier) *</label>
+                        <input type="text" id="orderAddress" class="form-control" required>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%;">Confirmer la commande</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Admin Login -->
+    <div class="modal" id="adminLoginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Connexion Admin</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label for="adminEmail">Email *</label>
+                        <input type="email" id="adminEmail" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminPassword">Mot de passe *</label>
+                        <input type="password" id="adminPassword" class="form-control" required>
+                    </div>
+                    
+                    <button type="submit" class="btn" style="width: 100%;">Se connecter</button>
+                    <div id="adminLoginError" style="color: red; margin-top: 15px; display: none;"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts JavaScript -->
+    <script>
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyD30BqaFKvWNQUjhkeBq4HsnrFWKrh53B4",
+  authDomain: "e-commerce-19dec.firebaseapp.com",
+  projectId: "e-commerce-19dec",
+  storageBucket: "e-commerce-19dec.firebasestorage.app",
+  messagingSenderId: "453950121295",
+  appId: "1:453950121295:web:8a68d4f4e1a4103d54d13a",
+  measurementId: "G-MGKBDNLDMV"
+};
+
+        // Configuration Cloudinary
+        const CLOUDINARY_CLOUD_NAME = "dbsrecfs3";
+        const CLOUDINARY_UPLOAD_PRESET = "mox_preset";
+        const ADMIN_EMAIL = "wendybeautystore12@gmail.com";
+
+        // ===== INITIALISATION DE FIREBASE =====
+        // Vérifier si Firebase est déjà initialisé
+        let firebaseApp;
+        if (!firebase.apps.length) {
+            firebaseApp = firebase.initializeApp(firebaseConfig);
+        } else {
+            firebaseApp = firebase.app();
+        }
+        
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // ===== VARIABLES GLOBALES =====
+        let currentUser = null;
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let currentPage = 'home';
+        
+        // Styles de coiffure pour le formulaire de réservation
+        const maleHairstyles = [
+            "Pompadour", "Quiff", "Slicked Back", "Undercut", "Faux Hawk", "Crew Cut", "Buzz Cut", "High and Tight", "Caesar Cut", 
+            "French Crop", "Taper Cut", "Low Fade", "Mid Fade", "High Fade", "Skin Fade (Dégradé à blanc)", "Scissor Cut (Coupe aux ciseaux)",
+            "Coupé court (Générique)", "Coupé long (Générique)", "Coupe Classique", "Side Part (Raie latérale)", "Man Bun (Chignon homme)",
+            "Top Knot", "Comb Over", "Textured Crop", "Fringe (Frange)", "Spiky Hair", "Mohawk", "Burst Fade", "Drop Fade", "Temple Fade",
+            "Afro", "Fade Afro", "Tapered Afro", "Dreadlocks", "Cornrows (Tresses)", "Twists (Torsades)", "Sponge Curls", "Box Braids (Hommes)",
+            "Mullet (Mulet)", "Modern Mullet", "Skater Hair", "Grunge Hair", "Bowl Cut (Coupe au bol)", "Shaggy Cut", "Layered Cut (Coupe dégradée)",
+            "Straight Fringe", "Angular Fringe", "Swept Fringe", "Ivy League", "Brush Cut", "Butch Cut", "Flat Top", "Disconnected Undercut",
+            "Business Cut", "Hard Part", "Razor Part", "Blowout", "Messy Quiff", "Clean Pompadour", "Loose Quiff", "Wet Look", "Side Swept",
+            "Slicked Side Part", "Dégradé en V", "Dégradé en U", "Line Up (Bordures nettes)", "Surgical Line", "Zero Cut", "#1 Cut", "#2 Cut",
+            "#3 Cut", "#4 Cut", "Bald Fade (Dégradé chauve)", "Tapered Neckline", "V-Shape Neckline", "Square Neckline", "Mid-Length Flow",
+            "Wavy Hair Style", "Curly Hair Style", "Permed Hair (Permanente)", "Tousled Hair", "Forward Push", "Back Brush", "High Volume",
+            "Low Volume", "Undercut Déconnecté", "Undercut Plié", "Quiff Court", "Pompadour Long", "Pompadour Texturé", "Texture Piquante",
+            "Coupe Tondeuse", "Coupe Ciseaux", "Choppy Cut", "Wispies", "Fringe Courte", "Fringe Longue", "Coupe Rétro", "Coupe Contemporaine",
+            "Gentleman's Cut"
+        ];
+        
+        const femaleHairstyles = [
+            "Box Braids", "Cornrows", "Tresse française", "Tresse hollandaise", "Fishtail Braid (Épi de blé)", "Waterfall Braid (Cascade)",
+            "Halo Braid (Couronne)", "Rope Braid (Corde)", "Senegalese Twists", "Marley Twists", "Kinky Twists", "Faux Locs", "Goddess Locs",
+            "Crochet Braids", "Knotless Braids", "Micro Braids", "Maxi Tresse", "Jumbo Braids", "Medium Box Braids", "Small Box Braids", "Bob Braids",
+            "Fulani Braids", "Ghana Braids", "Feed-in Braids", "Lemonade Braids", "Goddess Braids", "Cornrows Droites", "Cornrows Courbes",
+            "Cornrows en Zig-Zag", "Cornrows en Chignon", "Cornrows Moitié Tête", "Cornrows Artistiques", "Braids en Half-Up", "Braids en Queue de Cheval",
+            "Braids en Bun (Chignon)", "Tresse africaine (Générique)", "Tresses Plaquées", "Tresses Libres", "Pick and Drop Braids", "Distressed Faux Locs",
+            "Bohemian Braids (Boho)", "Wavy Braids", "Curly Braids", "Tresse latérale", "Tresse mohawk", "Tresse en Z", "Tresse spirale",
+            "Tresse à quatre brins", "Tresse à cinq brins", "Tresse échelle (Ladder Braid)", "Tresse serpent", "Tresse bulle (Bubble Braid)",
+            "Tresse inversée", "Tresse Zig-Zag", "Tresse en Nattes (Générique)", "Tresses Tribales", "Havana Twists", "Passion Twists", "Spring Twists",
+            "Wraphs Locs", "Individual Braids", "Tresse bandeau", "Tresse en X", "Tresse demi-tête", "Tresse double", "Tresse triple", "Tresse haute",
+            "Tresse basse", "Tresse avec anneaux", "Tresse avec perles", "Tresse Ombré", "Tresse Bicolore", "Tresse Multicolore", "Tresse Épaisse",
+            "Tresse Fine", "Tresse Courte", "Tresse Longue", "Tresse Mi-Longue", "Tresse en V", "Tresse Cœur", "Tresse S-Shape", "Tresse d'Alimentation",
+            "Tresse Glissée", "Tresse Criss-Cross", "Tresse Peul Moderne", "Tresse Éponge (Sponge Braid)", "Tresse en Arête de Poisson", "Tresse Élastique",
+            "Tresse Torsadée Plaquée", "Tresse Balayée", "Tresse Dessinée", "Tresse Protectrice", "Tresse Rapunzel", "Tresse Double Queue",
+            "Tresse Côté Unique", "Tresse sans Tension", "Tresse pour Extensions", "Tresse Piquée (Root Braids)", "Tresse Nappée", "Tresse Lâche"
+        ];
+
+        // ===== INITIALISATION DE L'APPLICATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+            setupEventListeners();
+            loadInitialData();
+            updateCartDisplay();
+        });
+
+        // ===== FONCTIONS D'INITIALISATION =====
+        function initApp() {
+            console.log("Initialisation de l'application...");
+            
+            // Vérifier l'état d'authentification
+            auth.onAuthStateChanged(user => {
+                console.log("Changement d'état d'authentification:", user);
+                if (user) {
+                    // Vérifier si l'utilisateur est l'admin
+                    if (user.email === ADMIN_EMAIL) {
+                        currentUser = user;
+                        console.log('Admin connecté:', user.email);
+                        // Mettre à jour l'interface si nécessaire
+                    } else {
+                        currentUser = null;
+                        console.log('Utilisateur non admin connecté:', user.email);
+                        // Déconnecter l'utilisateur non admin
+                        auth.signOut();
+                    }
+                } else {
+                    currentUser = null;
+                    console.log('Aucun utilisateur connecté');
+                }
+            });
+            
+            // Remplir les options de style de coiffure
+            const styleSelect = document.getElementById('reservationStyle');
+            
+            // Ajouter les styles homme
+            const maleGroup = document.createElement('optgroup');
+            maleGroup.label = "Styles Homme";
+            maleHairstyles.forEach(style => {
+                const option = document.createElement('option');
+                option.value = style;
+                option.textContent = style;
+                maleGroup.appendChild(option);
+            });
+            styleSelect.appendChild(maleGroup);
+            
+            // Ajouter les styles femme
+            const femaleGroup = document.createElement('optgroup');
+            femaleGroup.label = "Styles Femme";
+            femaleHairstyles.forEach(style => {
+                const option = document.createElement('option');
+                option.value = style;
+                option.textContent = style;
+                femaleGroup.appendChild(option);
+            });
+            styleSelect.appendChild(femaleGroup);
+            
+            // Ajouter l'option "Autre" à la fin
+            const otherOption = document.createElement('option');
+            otherOption.value = "Autre";
+            otherOption.textContent = "Autre / Demande Spécifique";
+            styleSelect.appendChild(otherOption);
+        }
+
+        function setupEventListeners() {
+            // Navigation
+            document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+            document.querySelectorAll('.nav-link, [data-page]').forEach(link => {
+                link.addEventListener('click', handleNavigation);
+            });
+            
+            // Scroll header
+            window.addEventListener('scroll', handleScroll);
+            
+            // Formulaire de réservation
+            document.getElementById('reservationForm').addEventListener('submit', handleReservationSubmit);
+            document.getElementById('reservationStyle').addEventListener('change', handleStyleChange);
+            
+            // Formulaire de contact
+            document.getElementById('contactForm').addEventListener('submit', handleContactSubmit);
+            
+            // Panier
+            document.getElementById('viewCartBtn').addEventListener('click', openCartModal);
+            document.getElementById('checkoutBtn').addEventListener('click', openOrderModal);
+            document.getElementById('orderForm').addEventListener('submit', handleOrderSubmit);
+            
+            // Admin
+            document.getElementById('adminAccess').addEventListener('click', openAdminLoginModal);
+            document.getElementById('adminLoginForm').addEventListener('submit', handleAdminLogin);
+            document.getElementById('adminLogoutBtn').addEventListener('click', handleAdminLogout);
+            
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                if (tab.id !== 'adminLogoutBtn') {
+                    tab.addEventListener('click', () => {
+                        if (currentUser) {
+                            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                            tab.classList.add('active');
+                            loadAdminContent(tab.dataset.tab);
+                        } else {
+                            alert('Veuillez vous connecter en tant qu\'administrateur.');
+                        }
+                    });
+                }
+            });
+            
+            // Fermeture des modales
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', closeAllModals);
+            });
+            
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', e => {
+                    if (e.target === modal) {
+                        closeAllModals();
+                    }
+                });
+            });
+        }
+
+        function loadInitialData() {
+            // Charger les produits
+            loadProducts();
+            
+            // Charger la galerie
+            loadGallery();
+            
+            // Charger les paramètres (horaires d'ouverture)
+            loadSettings();
+        }
+
+        // ===== FONCTIONS DE NAVIGATION SPA =====
+        function handleNavigation(e) {
+            e.preventDefault();
+            const targetPage = this.getAttribute('data-page') || this.getAttribute('href').substring(1);
+            
+            // Mettre à jour la navigation active
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            if (this.classList.contains('nav-link')) {
+                this.classList.add('active');
+            } else {
+                // Trouver le lien de navigation correspondant à la page
+                const navLink = document.querySelector(`.nav-link[data-page="${targetPage}"]`);
+                if (navLink) {
+                    navLink.classList.add('active');
+                }
+            }
+            
+            // Fermer le menu mobile si ouvert
+            document.getElementById('mainNav').classList.remove('active');
+            
+            // Changer de page
+            navigateToPage(targetPage);
+        }
+
+        function navigateToPage(pageId) {
+            // Masquer toutes les pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Afficher la page demandée
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                currentPage = pageId;
+                
+                // Faire défiler vers le haut de la page
+                window.scrollTo(0, 0);
+                
+                // Charger les données spécifiques à la page si nécessaire
+                if (pageId === 'shop') {
+                    loadProducts();
+                } else if (pageId === 'gallery') {
+                    loadGallery();
+                } else if (pageId === 'admin' && currentUser) {
+                    loadAdminContent('products');
+                }
+            }
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mainNav').classList.toggle('active');
+        }
+
+        function handleScroll() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+
+        // ===== FONCTIONS DE FORMULAIRES =====
+        function handleStyleChange() {
+            const styleSelect = document.getElementById('reservationStyle');
+            const otherStyleGroup = document.getElementById('otherStyleGroup');
+            
+            if (styleSelect.value === "Autre") {
+                otherStyleGroup.style.display = 'block';
+            } else {
+                otherStyleGroup.style.display = 'none';
+            }
+        }
+
+        function handleReservationSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('reservationName').value;
+            const phone = document.getElementById('reservationPhone').value;
+            const email = document.getElementById('reservationEmail').value;
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+            const style = document.getElementById('reservationStyle').value;
+            const otherStyle = document.getElementById('otherStyle').value;
+            const date = document.getElementById('reservationDate').value;
+            
+            const reservationData = {
+                name,
+                phone,
+                email,
+                gender,
+                style: style === "Autre" ? otherStyle : style,
+                date: new Date(date),
+                status: "En Attente",
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            // Enregistrer la réservation dans Firebase
+            db.collection('reservations').add(reservationData)
+                .then(() => {
+                    alert('Votre réservation a été enregistrée avec succès! Nous vous contacterons pour confirmation.');
+                    document.getElementById('reservationForm').reset();
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'enregistrement de la réservation:', error);
+                    alert('Une erreur est survenue. Veuillez réessayer.');
+                });
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            // Enregistrer le message dans Firebase
+            db.collection('contacts').add({
+                name,
+                email,
+                subject,
+                message,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => {
+                alert('Votre message a été envoyé avec succès! Nous vous répondrons dans les plus brefs délais.');
+                document.getElementById('contactForm').reset();
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'envoi du message:', error);
+                alert('Une erreur est survenue. Veuillez réessayer.');
+            });
+        }
+
+        // ===== FONCTIONS DE GESTION DES DONNÉES =====
+        function loadProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement des produits...</p>';
+            
+            db.collection('products').orderBy('timestamp', 'desc').get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        productsGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Aucun produit disponible pour le moment.</p>';
+                        return;
+                    }
+                    
+                    productsGrid.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const product = doc.data();
+                        const productCard = createProductCard(product, doc.id);
+                        productsGrid.appendChild(productCard);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des produits:', error);
+                    productsGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Erreur lors du chargement des produits.</p>';
+                });
+        }
+
+        function createProductCard(product, id) {
+            const card = document.createElement('div');
+            card.className = 'product-card fade-in';
+            card.innerHTML = `
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.name}">
+                </div>
+                <div class="product-info">
+                    <span class="product-category">${product.category}</span>
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <div class="product-price">${formatPrice(product.price)} FCFA</div>
+                    <button class="add-to-cart" data-id="${id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}">Ajouter au panier</button>
+                </div>
+            `;
+            
+            // Ajouter l'événement pour ajouter au panier
+            card.querySelector('.add-to-cart').addEventListener('click', addToCart);
+            
+            return card;
+        }
+
+        function loadGallery() {
+            const homeGallery = document.getElementById('homeGallery');
+            const galleryGrid = document.getElementById('galleryGrid');
+            
+            // Afficher le chargement
+            if (homeGallery) homeGallery.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement de la galerie...</p>';
+            if (galleryGrid) galleryGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement de la galerie...</p>';
+            
+            db.collection('gallery').orderBy('timestamp', 'desc').limit(6).get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        const emptyMsg = '<p style="text-align: center; padding: 40px; color: #666;">Aucune réalisation à afficher pour le moment.</p>';
+                        if (homeGallery) homeGallery.innerHTML = emptyMsg;
+                        if (galleryGrid) galleryGrid.innerHTML = emptyMsg;
+                        return;
+                    }
+                    
+                    // Vider les grilles
+                    if (homeGallery) homeGallery.innerHTML = '';
+                    if (galleryGrid) galleryGrid.innerHTML = '';
+                    
+                    snapshot.forEach(doc => {
+                        const item = doc.data();
+                        const galleryItem = createGalleryItem(item);
+                        
+                        // Ajouter à la galerie d'accueil (seulement les 3 premiers)
+                        if (homeGallery && homeGallery.childElementCount < 3) {
+                            homeGallery.appendChild(galleryItem.cloneNode(true));
+                        }
+                        
+                        // Ajouter à la galerie complète
+                        if (galleryGrid) {
+                            galleryGrid.appendChild(galleryItem);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement de la galerie:', error);
+                    const errorMsg = '<p style="text-align: center; padding: 40px; color: #666;">Erreur lors du chargement de la galerie.</p>';
+                    if (homeGallery) homeGallery.innerHTML = errorMsg;
+                    if (galleryGrid) galleryGrid.innerHTML = errorMsg;
+                });
+        }
+
+        function createGalleryItem(item) {
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item fade-in';
+            galleryItem.innerHTML = `
+                <img src="${item.image}" alt="${item.title}">
+                <div class="gallery-item-caption">
+                    <h3>${item.title}</h3>
+                </div>
+            `;
+            
+            return galleryItem;
+        }
+
+        function loadSettings() {
+            db.collection('settings').doc('openingHours').get()
+                .then(doc => {
+                    if (doc.exists) {
+                        document.getElementById('openingHours').textContent = doc.data().value;
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des paramètres:', error);
+                    // Utiliser les valeurs par défaut
+                    document.getElementById('openingHours').textContent = "Lundi - Samedi: 9h00 - 19h00";
+                });
+        }
+
+        // ===== FONCTIONS DE GESTION DU PANIER =====
+        function addToCart(e) {
+            const productId = this.dataset.id;
+            const productName = this.dataset.name;
+            const productPrice = parseInt(this.dataset.price);
+            const productImage = this.dataset.image;
+            
+            // Vérifier si le produit est déjà dans le panier
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    quantity: 1
+                });
+            }
+            
+            // Mettre à jour le localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Mettre à jour l'affichage du panier
+            updateCartDisplay();
+            
+            // Animation de confirmation
+            const originalText = this.textContent;
+            this.textContent = 'Ajouté !';
+            this.style.backgroundColor = '#27ae60';
+            
+            setTimeout(() => {
+                this.textContent = originalText;
+                this.style.backgroundColor = '';
+            }, 1500);
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            if (!cartItems || !cartTotal) return;
+            
+            cartItems.innerHTML = '';
+            let total = 0;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; padding: 30px; color: #666;">Votre panier est vide.</p>';
+                cartTotal.textContent = '0 FCFA';
+                return;
+            }
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">${formatPrice(item.price)} FCFA x ${item.quantity}</div>
+                    </div>
+                    <button class="cart-item-remove" data-id="${item.id}">&times;</button>
+                `;
+                
+                cartItems.appendChild(cartItem);
+            });
+            
+            cartTotal.textContent = `${formatPrice(total)} FCFA`;
+            
+            // Ajouter les événements de suppression
+            document.querySelectorAll('.cart-item-remove').forEach(btn => {
+                btn.addEventListener('click', removeFromCart);
+            });
+        }
+
+        function removeFromCart() {
+            const productId = this.dataset.id;
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartDisplay();
+        }
+
+        function openCartModal() {
+            updateCartDisplay();
+            document.getElementById('cartModal').style.display = 'block';
+        }
+
+        function openOrderModal() {
+            if (cart.length === 0) {
+                alert('Votre panier est vide.');
+                return;
+            }
+            
+            closeAllModals();
+            document.getElementById('orderModal').style.display = 'block';
+        }
+
+        function handleOrderSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('orderName').value;
+            const phone = document.getElementById('orderPhone').value;
+            const address = document.getElementById('orderAddress').value;
+            
+            const orderData = {
+                customer: { name, phone, address },
+                items: cart,
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                status: "En Attente de Validation",
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            // Enregistrer la commande dans Firebase
+            db.collection('orders').add(orderData)
+                .then(() => {
+                    alert('Merci pour votre commande ! L\'administration vous contactera au ' + phone + ' dans les plus brefs délais pour organiser la livraison (Paiement à la livraison uniquement).');
+                    
+                    // Vider le panier
+                    cart = [];
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartDisplay();
+                    
+                    // Fermer les modales
+                    closeAllModals();
+                    document.getElementById('orderForm').reset();
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'enregistrement de la commande:', error);
+                    alert('Une erreur est survenue. Veuillez réessayer.');
+                });
+        }
+
+        // ===== FONCTIONS D'ADMINISTRATION =====
+        function openAdminLoginModal() {
+            document.getElementById('adminLoginModal').style.display = 'block';
+            // Réinitialiser le formulaire
+            document.getElementById('adminLoginForm').reset();
+            document.getElementById('adminLoginError').style.display = 'none';
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            const errorDiv = document.getElementById('adminLoginError');
+            
+            console.log('Tentative de connexion avec:', email);
+            
+            // Masquer les erreurs précédentes
+            errorDiv.style.display = 'none';
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log('Connexion réussie:', user.email);
+                    
+                    // Vérifier si l'utilisateur est l'admin
+                    if (user.email === ADMIN_EMAIL) {
+                        currentUser = user;
+                        closeAllModals();
+                        navigateToPage('admin');
+                        loadAdminContent('products');
+                        alert('Connexion réussie! Bienvenue dans l\'espace administrateur.');
+                    } else {
+                        auth.signOut();
+                        errorDiv.textContent = 'Accès refusé. Vous n\'êtes pas autorisé à accéder à l\'espace administrateur.';
+                        errorDiv.style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur de connexion:', error);
+                    let errorMessage = 'Erreur de connexion. ';
+                    
+                    switch (error.code) {
+                        case 'auth/invalid-email':
+                            errorMessage += 'L\'adresse email est invalide.';
+                            break;
+                        case 'auth/user-disabled':
+                            errorMessage += 'Ce compte a été désactivé.';
+                            break;
+                        case 'auth/user-not-found':
+                            errorMessage += 'Aucun compte trouvé avec cette adresse email.';
+                            break;
+                        case 'auth/wrong-password':
+                            errorMessage += 'Le mot de passe est incorrect.';
+                            break;
+                        case 'auth/network-request-failed':
+                            errorMessage += 'Erreur de réseau. Vérifiez votre connexion internet.';
+                            break;
+                        default:
+                            errorMessage += 'Veuillez vérifier vos identifiants. Erreur: ' + error.code;
+                    }
+                    
+                    errorDiv.textContent = errorMessage;
+                    errorDiv.style.display = 'block';
+                });
+        }
+
+        function handleAdminLogout() {
+            auth.signOut()
+                .then(() => {
+                    currentUser = null;
+                    navigateToPage('home');
+                    alert('Déconnexion réussie.');
+                })
+                .catch(error => {
+                    console.error('Erreur de déconnexion:', error);
+                    alert('Erreur lors de la déconnexion.');
+                });
+        }
+
+        function loadAdminContent(tab) {
+            const adminContent = document.getElementById('adminContent');
+            
+            if (!currentUser) {
+                adminContent.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Veuillez vous connecter en tant qu\'administrateur.</p>';
+                return;
+            }
+            
+            switch(tab) {
+                case 'products':
+                    loadAdminProducts();
+                    break;
+                case 'gallery':
+                    loadAdminGallery();
+                    break;
+                case 'blog':
+                    loadAdminBlog();
+                    break;
+                case 'orders':
+                    loadAdminOrders();
+                    break;
+                case 'reservations':
+                    loadAdminReservations();
+                    break;
+                case 'settings':
+                    loadAdminSettings();
+                    break;
+            }
+        }
+
+        function loadAdminProducts() {
+            const adminContent = document.getElementById('adminContent');
+            adminContent.innerHTML = `
+                <div class="admin-content">
+                    <h3>Gestion des Produits</h3>
+                    <button class="btn" id="addProductBtn" style="margin-bottom: 20px;">Ajouter un produit</button>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Nom</th>
+                                <th>Prix</th>
+                                <th>Catégorie</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsTable">
+                            <!-- Les produits seront chargés ici -->
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            // Charger les produits
+            db.collection('products').orderBy('timestamp', 'desc').get()
+                .then(snapshot => {
+                    const tableBody = document.getElementById('adminProductsTable');
+                    
+                    if (snapshot.empty) {
+                        tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px; color: #666;">Aucun produit enregistré.</td></tr>';
+                        return;
+                    }
+                    
+                    tableBody.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const product = doc.data();
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><img src="${product.image}" alt="${product.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;"></td>
+                            <td>${product.name}</td>
+                            <td>${formatPrice(product.price)} FCFA</td>
+                            <td>${product.category}</td>
+                            <td class="admin-actions">
+                                <button class="admin-btn edit" data-id="${doc.id}">Modifier</button>
+                                <button class="admin-btn delete" data-id="${doc.id}">Supprimer</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                    
+                    // Ajouter les événements
+                    document.getElementById('addProductBtn').addEventListener('click', showProductForm);
+                    document.querySelectorAll('.admin-btn.edit').forEach(btn => {
+                        btn.addEventListener('click', () => editProduct(btn.dataset.id));
+                    });
+                    document.querySelectorAll('.admin-btn.delete').forEach(btn => {
+                        btn.addEventListener('click', () => deleteProduct(btn.dataset.id));
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des produits:', error);
+                    adminContent.innerHTML += '<p style="color: #e74c3c; margin-top: 20px;">Erreur lors du chargement des produits.</p>';
+                });
+        }
+
+        function showProductForm(product = null) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${product ? 'Modifier le produit' : 'Ajouter un produit'}</h2>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="productForm">
+                            <div class="form-group">
+                                <label for="productName">Nom du produit *</label>
+                                <input type="text" id="productName" class="form-control" value="${product ? product.name : ''}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productPrice">Prix (FCFA) *</label>
+                                <input type="number" id="productPrice" class="form-control" value="${product ? product.price : ''}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productCategory">Catégorie *</label>
+                                <select id="productCategory" class="form-control" required>
+                                    <option value="">Sélectionnez une catégorie</option>
+                                    <option value="Soins Capillaires" ${product && product.category === 'Soins Capillaires' ? 'selected' : ''}>Soins Capillaires</option>
+                                    <option value="Cosmétiques" ${product && product.category === 'Cosmétiques' ? 'selected' : ''}>Cosmétiques</option>
+                                    <option value="Perruques & Extensions" ${product && product.category === 'Perruques & Extensions' ? 'selected' : ''}>Perruques & Extensions</option>
+                                    <option value="Accessoires Beauté" ${product && product.category === 'Accessoires Beauté' ? 'selected' : ''}>Accessoires Beauté</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productDescription">Description courte *</label>
+                                <textarea id="productDescription" class="form-control" required>${product ? product.description : ''}</textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="productImage">Photo *</label>
+                                <input type="file" id="productImage" class="form-control" ${product ? '' : 'required'} accept="image/*">
+                                ${product ? `<div style="margin-top: 10px;"><img src="${product.image}" alt="${product.name}" style="max-width: 200px; border-radius: 8px;"></div>` : ''}
+                            </div>
+                            
+                            <button type="submit" class="btn" style="width: 100%;">${product ? 'Modifier le produit' : 'Ajouter le produit'}</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Fermeture de la modal
+            modal.querySelector('.close-modal').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            modal.addEventListener('click', e => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+            
+            // Soumission du formulaire
+            modal.querySelector('#productForm').addEventListener('submit', e => {
+                e.preventDefault();
+                handleProductFormSubmit(e, product ? product.id : null);
+            });
+        }
+
+        function handleProductFormSubmit(e, productId = null) {
+            e.preventDefault();
+            
+            const name = document.getElementById('productName').value;
+            const price = parseInt(document.getElementById('productPrice').value);
+            const category = document.getElementById('productCategory').value;
+            const description = document.getElementById('productDescription').value;
+            const imageFile = document.getElementById('productImage').files[0];
+            
+            if (imageFile) {
+                // Uploader l'image vers Cloudinary
+                uploadImageToCloudinary(imageFile)
+                    .then(imageUrl => {
+                        saveProduct({ name, price, category, description, image: imageUrl }, productId);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de l\'upload de l\'image:', error);
+                        alert('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
+                    });
+            } else if (productId) {
+                // Utiliser l'image existante
+                saveProduct({ name, price, category, description }, productId);
+            } else {
+                alert('Veuillez sélectionner une image pour le produit.');
+            }
+        }
+
+        function uploadImageToCloudinary(file) {
+            return new Promise((resolve, reject) => {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+                formData.append('cloud_name', CLOUDINARY_CLOUD_NAME);
+                
+                fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/upload`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.secure_url) {
+                        resolve(data.secure_url);
+                    } else {
+                        reject(new Error('Erreur lors de l\'upload de l\'image'));
+                    }
+                })
+                .catch(error => {
+                    reject(error);
+                });
+            });
+        }
+
+        function saveProduct(productData, productId = null) {
+            const productWithTimestamp = {
+                ...productData,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            if (productId) {
+                // Mise à jour du produit existant
+                db.collection('products').doc(productId).update(productWithTimestamp)
+                    .then(() => {
+                        alert('Produit modifié avec succès!');
+                        document.querySelector('.modal').remove();
+                        loadAdminProducts();
+                        loadProducts(); // Recharger les produits sur le site
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la modification du produit:', error);
+                        alert('Erreur lors de la modification du produit.');
+                    });
+            } else {
+                // Ajout d'un nouveau produit
+                db.collection('products').add(productWithTimestamp)
+                    .then(() => {
+                        alert('Produit ajouté avec succès!');
+                        document.querySelector('.modal').remove();
+                        loadAdminProducts();
+                        loadProducts(); // Recharger les produits sur le site
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de l\'ajout du produit:', error);
+                        alert('Erreur lors de l\'ajout du produit.');
+                    });
+            }
+        }
+
+        function editProduct(productId) {
+            db.collection('products').doc(productId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        showProductForm({ id: productId, ...doc.data() });
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération du produit:', error);
+                    alert('Erreur lors de la récupération du produit.');
+                });
+        }
+
+        function deleteProduct(productId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
+                db.collection('products').doc(productId).delete()
+                    .then(() => {
+                        alert('Produit supprimé avec succès!');
+                        loadAdminProducts();
+                        loadProducts(); // Recharger les produits sur le site
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la suppression du produit:', error);
+                        alert('Erreur lors de la suppression du produit.');
+                    });
+            }
+        }
+
+        // ===== FONCTIONS UTILITAIRES =====
+        function closeAllModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
+        }
+
+        function formatPrice(price) {
+            return new Intl.NumberFormat('fr-FR').format(price);
+        }
+
+        // ===== FONCTIONS D'ADMINISTRATION SUPPLÉMENTAIRES =====
+        function loadAdminGallery() {
+            const adminContent = document.getElementById('adminContent');
+            adminContent.innerHTML = `
+                <div class="admin-content">
+                    <h3>Gestion de la Galerie</h3>
+                    <button class="btn" id="addGalleryItemBtn" style="margin-bottom: 20px;">Ajouter une réalisation</button>
+                    <div class="gallery-grid" id="adminGalleryGrid">
+                        <!-- Les éléments de galerie seront chargés ici -->
+                    </div>
+                </div>
+            `;
+            
+            // Charger la galerie
+            db.collection('gallery').orderBy('timestamp', 'desc').get()
+                .then(snapshot => {
+                    const galleryGrid = document.getElementById('adminGalleryGrid');
+                    
+                    if (snapshot.empty) {
+                        galleryGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Aucune réalisation enregistrée.</p>';
+                        return;
+                    }
+                    
+                    galleryGrid.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const item = doc.data();
+                        const galleryItem = document.createElement('div');
+                        galleryItem.className = 'gallery-item';
+                        galleryItem.innerHTML = `
+                            <img src="${item.image}" alt="${item.title}">
+                            <div class="gallery-item-caption">
+                                <h3>${item.title}</h3>
+                                <div class="admin-actions" style="margin-top: 10px;">
+                                    <button class="admin-btn edit" data-id="${doc.id}">Modifier</button>
+                                    <button class="admin-btn delete" data-id="${doc.id}">Supprimer</button>
+                                </div>
+                            </div>
+                        `;
+                        galleryGrid.appendChild(galleryItem);
+                        
+                        // Ajouter les événements
+                        galleryItem.querySelector('.admin-btn.edit').addEventListener('click', () => editGalleryItem(doc.id));
+                        galleryItem.querySelector('.admin-btn.delete').addEventListener('click', () => deleteGalleryItem(doc.id));
+                    });
+                    
+                    // Ajouter l'événement pour le bouton d'ajout
+                    document.getElementById('addGalleryItemBtn').addEventListener('click', showGalleryForm);
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement de la galerie:', error);
+                    adminContent.innerHTML += '<p style="color: #e74c3c; margin-top: 20px;">Erreur lors du chargement de la galerie.</p>';
+                });
+        }
+
+        function showGalleryForm(item = null) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${item ? 'Modifier la réalisation' : 'Ajouter une réalisation'}</h2>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="galleryForm">
+                            <div class="form-group">
+                                <label for="galleryTitle">Titre de la réalisation *</label>
+                                <input type="text" id="galleryTitle" class="form-control" value="${item ? item.title : ''}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="galleryImage">Photo *</label>
+                                <input type="file" id="galleryImage" class="form-control" ${item ? '' : 'required'} accept="image/*">
+                                ${item ? `<div style="margin-top: 10px;"><img src="${item.image}" alt="${item.title}" style="max-width: 200px; border-radius: 8px;"></div>` : ''}
+                            </div>
+                            
+                            <button type="submit" class="btn" style="width: 100%;">${item ? 'Modifier la réalisation' : 'Ajouter la réalisation'}</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Fermeture de la modal
+            modal.querySelector('.close-modal').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            modal.addEventListener('click', e => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+            
+            // Soumission du formulaire
+            modal.querySelector('#galleryForm').addEventListener('submit', e => {
+                e.preventDefault();
+                handleGalleryFormSubmit(e, item ? item.id : null);
+            });
+        }
+
+        function handleGalleryFormSubmit(e, itemId = null) {
+            e.preventDefault();
+            
+            const title = document.getElementById('galleryTitle').value;
+            const imageFile = document.getElementById('galleryImage').files[0];
+            
+            if (imageFile) {
+                // Uploader l'image vers Cloudinary
+                uploadImageToCloudinary(imageFile)
+                    .then(imageUrl => {
+                        saveGalleryItem({ title, image: imageUrl }, itemId);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de l\'upload de l\'image:', error);
+                        alert('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
+                    });
+            } else if (itemId) {
+                // Utiliser l'image existante
+                saveGalleryItem({ title }, itemId);
+            } else {
+                alert('Veuillez sélectionner une image pour la réalisation.');
+            }
+        }
+
+        function saveGalleryItem(itemData, itemId = null) {
+            const itemWithTimestamp = {
+                ...itemData,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            if (itemId) {
+                // Mise à jour de l'élément existant
+                db.collection('gallery').doc(itemId).update(itemWithTimestamp)
+                    .then(() => {
+                        alert('Réalisation modifiée avec succès!');
+                        document.querySelector('.modal').remove();
+                        loadAdminGallery();
+                        loadGallery(); // Recharger la galerie sur le site
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la modification de la réalisation:', error);
+                        alert('Erreur lors de la modification de la réalisation.');
+                    });
+            } else {
+                // Ajout d'un nouvel élément
+                db.collection('gallery').add(itemWithTimestamp)
+                    .then(() => {
+                        alert('Réalisation ajoutée avec succès!');
+                        document.querySelector('.modal').remove();
+                        loadAdminGallery();
+                        loadGallery(); // Recharger la galerie sur le site
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de l\'ajout de la réalisation:', error);
+                        alert('Erreur lors de l\'ajout de la réalisation.');
+                    });
+            }
+        }
+
+        function editGalleryItem(itemId) {
+            db.collection('gallery').doc(itemId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        showGalleryForm({ id: itemId, ...doc.data() });
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération de la réalisation:', error);
+                    alert('Erreur lors de la récupération de la réalisation.');
+                });
+        }
+
+        function deleteGalleryItem(itemId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette réalisation ?')) {
+                db.collection('gallery').doc(itemId).delete()
+                    .then(() => {
+                        alert('Réalisation supprimée avec succès!');
+                        loadAdminGallery();
+                        loadGallery(); // Recharger la galerie sur le site
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la suppression de la réalisation:', error);
+                        alert('Erreur lors de la suppression de la réalisation.');
+                    });
+            }
+        }
+
+        function loadAdminBlog() {
+            const adminContent = document.getElementById('adminContent');
+            adminContent.innerHTML = `
+                <div class="admin-content">
+                    <h3>Gestion du Blog</h3>
+                    <button class="btn" id="addBlogPostBtn" style="margin-bottom: 20px;">Ajouter un article</button>
+                    <div id="adminBlogList">
+                        <!-- Les articles de blog seront chargés ici -->
+                    </div>
+                </div>
+            `;
+            
+            // Charger les articles de blog
+            db.collection('blog').orderBy('timestamp', 'desc').get()
+                .then(snapshot => {
+                    const blogList = document.getElementById('adminBlogList');
+                    
+                    if (snapshot.empty) {
+                        blogList.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Aucun article de blog enregistré.</p>';
+                        return;
+                    }
+                    
+                    blogList.innerHTML = '<table class="admin-table"><thead><tr><th>Image</th><th>Titre</th><th>Catégorie</th><th>Date</th><th>Actions</th></tr></thead><tbody id="adminBlogTable"></tbody></table>';
+                    
+                    const tableBody = document.getElementById('adminBlogTable');
+                    snapshot.forEach(doc => {
+                        const post = doc.data();
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><img src="${post.image}" alt="${post.title}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;"></td>
+                            <td>${post.title}</td>
+                            <td>${post.category}</td>
+                            <td>${post.timestamp ? post.timestamp.toDate().toLocaleDateString('fr-FR') : 'N/A'}</td>
+                            <td class="admin-actions">
+                                <button class="admin-btn edit" data-id="${doc.id}">Modifier</button>
+                                <button class="admin-btn delete" data-id="${doc.id}">Supprimer</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                    
+                    // Ajouter les événements
+                    document.getElementById('addBlogPostBtn').addEventListener('click', showBlogForm);
+                    document.querySelectorAll('.admin-btn.edit').forEach(btn => {
+                        btn.addEventListener('click', () => editBlogPost(btn.dataset.id));
+                    });
+                    document.querySelectorAll('.admin-btn.delete').forEach(btn => {
+                        btn.addEventListener('click', () => deleteBlogPost(btn.dataset.id));
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des articles de blog:', error);
+                    adminContent.innerHTML += '<p style="color: #e74c3c; margin-top: 20px;">Erreur lors du chargement des articles de blog.</p>';
+                });
+        }
+
+        function showBlogForm(post = null) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 800px;">
+                    <div class="modal-header">
+                        <h2>${post ? 'Modifier l\'article' : 'Ajouter un article'}</h2>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="blogForm">
+                            <div class="form-group">
+                                <label for="blogTitle">Titre de l'article *</label>
+                                <input type="text" id="blogTitle" class="form-control" value="${post ? post.title : ''}" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blogCategory">Catégorie *</label>
+                                <select id="blogCategory" class="form-control" required>
+                                    <option value="">Sélectionnez une catégorie</option>
+                                    <option value="Cheveux naturels" ${post && post.category === 'Cheveux naturels' ? 'selected' : ''}>Cheveux naturels</option>
+                                    <option value="Tendances" ${post && post.category === 'Tendances' ? 'selected' : ''}>Tendances</option>
+                                    <option value="Astuces beauté" ${post && post.category === 'Astuces beauté' ? 'selected' : ''}>Astuces beauté</option>
+                                    <option value="Soins capillaires" ${post && post.category === 'Soins capillaires' ? 'selected' : ''}>Soins capillaires</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blogImage">Photo d'illustration *</label>
+                                <input type="file" id="blogImage" class="form-control" ${post ? '' : 'required'} accept="image/*">
+                                ${post ? `<div style="margin-top: 10px;"><img src="${post.image}" alt="${post.title}" style="max-width: 200px; border-radius: 8px;"></div>` : ''}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="blogContent">Contenu de l'article *</label>
+                                <textarea id="blogContent" class="form-control" rows="12" required>${post ? post.content : ''}</textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn" style="width: 100%;">${post ? 'Modifier l\'article' : 'Ajouter l\'article'}</button>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Fermeture de la modal
+            modal.querySelector('.close-modal').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            modal.addEventListener('click', e => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+            
+            // Soumission du formulaire
+            modal.querySelector('#blogForm').addEventListener('submit', e => {
+                e.preventDefault();
+                handleBlogFormSubmit(e, post ? post.id : null);
+            });
+        }
+
+        function handleBlogFormSubmit(e, postId = null) {
+            e.preventDefault();
+            
+            const title = document.getElementById('blogTitle').value;
+            const category = document.getElementById('blogCategory').value;
+            const content = document.getElementById('blogContent').value;
+            const imageFile = document.getElementById('blogImage').files[0];
+            
+            if (imageFile) {
+                // Uploader l'image vers Cloudinary
+                uploadImageToCloudinary(imageFile)
+                    .then(imageUrl => {
+                        saveBlogPost({ title, category, content, image: imageUrl }, postId);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de l\'upload de l\'image:', error);
+                        alert('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
+                    });
+            } else if (postId) {
+                // Utiliser l'image existante
+                saveBlogPost({ title, category, content }, postId);
+            } else {
+                alert('Veuillez sélectionner une image pour l\'article.');
+            }
+        }
+
+        function saveBlogPost(postData, postId = null) {
+            const postWithTimestamp = {
+                ...postData,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            if (postId) {
+                // Mise à jour de l'article existant
+                db.collection('blog').doc(postId).update(postWithTimestamp)
+                    .then(() => {
+                        alert('Article modifié avec succès!');
+                        document.querySelector('.modal').remove();
+                        loadAdminBlog();
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la modification de l\'article:', error);
+                        alert('Erreur lors de la modification de l\'article.');
+                    });
+            } else {
+                // Ajout d'un nouvel article
+                db.collection('blog').add(postWithTimestamp)
+                    .then(() => {
+                        alert('Article ajouté avec succès!');
+                        document.querySelector('.modal').remove();
+                        loadAdminBlog();
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de l\'ajout de l\'article:', error);
+                        alert('Erreur lors de l\'ajout de l\'article.');
+                    });
+            }
+        }
+
+        function editBlogPost(postId) {
+            db.collection('blog').doc(postId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        showBlogForm({ id: postId, ...doc.data() });
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération de l\'article:', error);
+                    alert('Erreur lors de la récupération de l\'article.');
+                });
+        }
+
+        function deleteBlogPost(postId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet article ?')) {
+                db.collection('blog').doc(postId).delete()
+                    .then(() => {
+                        alert('Article supprimé avec succès!');
+                        loadAdminBlog();
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la suppression de l\'article:', error);
+                        alert('Erreur lors de la suppression de l\'article.');
+                    });
+            }
+        }
+
+        function loadAdminOrders() {
+            const adminContent = document.getElementById('adminContent');
+            adminContent.innerHTML = `
+                <div class="admin-content">
+                    <h3>Commandes</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Téléphone</th>
+                                <th>Adresse</th>
+                                <th>Articles</th>
+                                <th>Total</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminOrdersTable">
+                            <!-- Les commandes seront chargées ici -->
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            // Charger les commandes
+            db.collection('orders').orderBy('timestamp', 'desc').get()
+                .then(snapshot => {
+                    const tableBody = document.getElementById('adminOrdersTable');
+                    
+                    if (snapshot.empty) {
+                        tableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #666;">Aucune commande enregistrée.</td></tr>';
+                        return;
+                    }
+                    
+                    tableBody.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const order = doc.data();
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${order.customer.name}</td>
+                            <td><a href="tel:${order.customer.phone}">${order.customer.phone}</a></td>
+                            <td>${order.customer.address}</td>
+                            <td>${order.items.map(item => `${item.name} (x${item.quantity})`).join(', ')}</td>
+                            <td>${formatPrice(order.total)} FCFA</td>
+                            <td>${order.status}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des commandes:', error);
+                    adminContent.innerHTML += '<p style="color: #e74c3c; margin-top: 20px;">Erreur lors du chargement des commandes.</p>';
+                });
+        }
+
+        function loadAdminReservations() {
+            const adminContent = document.getElementById('adminContent');
+            adminContent.innerHTML = `
+                <div class="admin-content">
+                    <h3>Réservations</h3>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Client</th>
+                                <th>Téléphone</th>
+                                <th>Genre</th>
+                                <th>Style</th>
+                                <th>Date/Heure</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminReservationsTable">
+                            <!-- Les réservations seront chargées ici -->
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            // Charger les réservations
+            db.collection('reservations').orderBy('timestamp', 'desc').get()
+                .then(snapshot => {
+                    const tableBody = document.getElementById('adminReservationsTable');
+                    
+                    if (snapshot.empty) {
+                        tableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #666;">Aucune réservation enregistrée.</td></tr>';
+                        return;
+                    }
+                    
+                    tableBody.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const reservation = doc.data();
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${reservation.name}</td>
+                            <td><a href="tel:${reservation.phone}">${reservation.phone}</a></td>
+                            <td>${reservation.gender}</td>
+                            <td>${reservation.style}</td>
+                            <td>${reservation.date.toDate().toLocaleString('fr-FR')}</td>
+                            <td>${reservation.status}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des réservations:', error);
+                    adminContent.innerHTML += '<p style="color: #e74c3c; margin-top: 20px;">Erreur lors du chargement des réservations.</p>';
+                });
+        }
+
+        function loadAdminSettings() {
+            const adminContent = document.getElementById('adminContent');
+            adminContent.innerHTML = `
+                <div class="admin-content">
+                    <h3>Paramètres</h3>
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label for="openingHours">Horaires d'Ouverture</label>
+                            <input type="text" id="openingHours" class="form-control" placeholder="Ex: Lundi-Samedi, 9h00-19h00">
+                        </div>
+                        <button type="submit" class="btn">Enregistrer les paramètres</button>
+                    </form>
+                </div>
+            `;
+            
+            // Charger les paramètres actuels
+            db.collection('settings').doc('openingHours').get()
+                .then(doc => {
+                    if (doc.exists) {
+                        document.getElementById('openingHours').value = doc.data().value;
+                    document.getElementById('openingHours').textContent = doc.data().value;
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des paramètres:', error);
+                });
+            
+            // Soumission du formulaire
+            document.getElementById('settingsForm').addEventListener('submit', e => {
+                e.preventDefault();
+                const openingHours = document.getElementById('openingHours').value;
+                
+                db.collection('settings').doc('openingHours').set({ value: openingHours })
+                    .then(() => {
+                        alert('Paramètres enregistrés avec succès!');
+                        document.getElementById('openingHours').textContent = openingHours;
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de l\'enregistrement des paramètres:', error);
+                        alert('Erreur lors de l\'enregistrement des paramètres.');
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
