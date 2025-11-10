@@ -248,7 +248,7 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--brand-pink); /* Changement en rose pur */
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             box-shadow: 0 2px 20px var(--shadow-light);
@@ -256,7 +256,7 @@
         }
 
         header.scrolled {
-            background: rgba(255, 255, 255, 0.98);
+            background: var(--brand-pink); /* Reste en rose pur même après scroll */
             box-shadow: 0 5px 25px var(--shadow-medium);
         }
 
@@ -314,7 +314,7 @@
             padding: 8px 0;
             font-size: 1.05rem;
             transition: all 0.3s ease-in-out;
-            color: var(--primary-black);
+            color: var(--primary-white); /* Changement de couleur pour contraster avec le fond rose */
             font-family: var(--font-sans);
         }
 
@@ -335,7 +335,7 @@
         }
 
         nav ul li a:hover {
-            color: var(--brand-blue);
+            color: var(--brand-blue-light);
         }
 
         .mobile-menu-btn {
@@ -343,7 +343,7 @@
             background: none;
             border: none;
             font-size: 1.5rem;
-            color: var(--primary-black);
+            color: var(--primary-white); /* Changement de couleur pour contraster avec le fond rose */
             cursor: pointer;
             padding: 5px;
             border-radius: 4px;
@@ -352,7 +352,7 @@
 
         .mobile-menu-btn:hover {
             background: rgba(0, 0, 0, 0.05);
-            color: var(--brand-blue);
+            color: var(--brand-blue-light);
         }
 
         /* ===== PAGES STYLES ===== */
@@ -384,59 +384,98 @@
             overflow: hidden;
         }
 
-        .hero-video {
+        .inspiration-carousel {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            z-index: -2;
+            display: flex;
+            transition: transform 0.5s ease;
         }
 
-        .hero-overlay {
+        .carousel-item {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .carousel-item-content {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgba(65, 105, 225, 0.7), rgba(255, 105, 180, 0.4));
-            z-index: -1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3); /* Overlay pour améliorer la lisibilité */
         }
 
-        .hero-content {
-            max-width: 900px;
+        .carousel-item-text {
+            font-size: 4rem;
+            color: black; /* Texte en noir comme demandé */
+            text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.7); /* Ombre pour améliorer la lisibilité */
+            max-width: 80%;
+            text-align: center;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
             padding: 0 20px;
-            z-index: 1;
+            z-index: 10;
         }
 
-        .hero h1 {
-            font-size: 5.5rem;
-            margin-bottom: 25px;
-            text-shadow: 2px 2px 8px var(--shadow-heavy);
-            letter-spacing: 2px;
-            animation: fadeInUp 1s ease;
-            background: var(--brand-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .carousel-prev, .carousel-next {
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-size: 1.5rem;
+            color: var(--primary-black);
         }
 
-        .hero p {
-            font-size: 1.8rem;
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 4px var(--shadow-heavy);
-            animation: fadeInUp 1s ease 0.2s both;
-            font-family: var(--font-sans);
-            color: white;
+        .carousel-prev:hover, .carousel-next:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.1);
         }
 
-        .hero-buttons {
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
             display: flex;
             justify-content: center;
-            gap: 25px;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease 0.4s both;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .carousel-indicator.active {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.2);
         }
 
         /* ===== GALLERY SECTION ===== */
@@ -756,6 +795,19 @@
             border-radius: 20px;
             font-size: 0.8rem;
             font-family: var(--font-sans);
+        }
+
+        .blog-read-more {
+            margin-top: 15px;
+            display: inline-block;
+            color: var(--brand-blue);
+            cursor: pointer;
+            font-weight: 600;
+            font-family: var(--font-sans);
+        }
+
+        .blog-content-full {
+            display: none;
         }
 
         /* ===== CONTACT SECTION ===== */
@@ -1390,6 +1442,29 @@
             opacity: 1;
         }
 
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--brand-gradient);
+            color: white;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 3000;
+            font-family: var(--font-sans);
+            font-weight: 500;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
         /* ===== RESPONSIVE STYLES ===== */
         @media (max-width: 1200px) {
             .hero h1 {
@@ -1529,6 +1604,20 @@
                 height: 150px;
                 margin: 50px 0;
             }
+
+            .carousel-item-text {
+                font-size: 2.5rem;
+            }
+
+            .carousel-nav {
+                padding: 0 10px;
+            }
+
+            .carousel-prev, .carousel-next {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
         }
 
         @media (max-width: 576px) {
@@ -1587,55 +1676,19 @@
                 height: 120px;
                 margin: 30px 0;
             }
-        }
 
-        /* ===== CORRECTIONS SPÉCIFIQUES POUR LA VIDÉO ===== */
-        .hero-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
-        }
-
-        /* Assurer que la vidéo reste en arrière-plan */
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(65, 105, 225, 0.7), rgba(255, 105, 180, 0.4));
-            z-index: -1;
-        }
-
-        /* Fallback si la vidéo ne charge pas */
-        .hero-video-fallback {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--brand-gradient);
-            z-index: -2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
+            .carousel-item-text {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Background brand name -->
     <div class="background-brand" id="backgroundBrand">WENDY BEAUTY STORE</div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
 
     <!-- Header -->
     <header id="header">
@@ -1672,25 +1725,15 @@
         <!-- Page Accueil -->
         <section id="home" class="page active">
             <div class="hero">
-                <video class="hero-video" autoplay loop muted playsinline>
-                    <source src="assets/hero-background.mp4" type="video/mp4">
-                    <source src="assets/hero-background.webm" type="video/webm">
-                    Votre navigateur ne supporte pas la balise vidéo.
-                </video>
-                <div class="hero-video-fallback" style="display: none;">
-                    <div style="text-align: center;">
-                        <h1>Wendy Beauty Store</h1>
-                        <p>La beauté qui unit tradition et modernité</p>
-                    </div>
+                <div class="inspiration-carousel" id="inspirationCarousel">
+                    <!-- Les inspirations seront chargées dynamiquement -->
                 </div>
-                <div class="hero-overlay"></div>
-                <div class="hero-content">
-                    <h1>Wendy Beauty Store</h1>
-                    <p>La beauté qui unit tradition et modernité</p>
-                    <div class="hero-buttons">
-                        <a href="#reservation" class="btn" data-page="reservation">Réservez votre rendez-vous</a>
-                        <a href="#shop" class="btn btn-secondary" data-page="shop">Découvrez la boutique</a>
-                    </div>
+                <div class="carousel-nav">
+                    <button class="carousel-prev">&lt;</button>
+                    <button class="carousel-next">&gt;</button>
+                </div>
+                <div class="carousel-indicators" id="carouselIndicators">
+                    <!-- Les indicateurs seront ajoutés dynamiquement -->
                 </div>
             </div>
 
@@ -2047,6 +2090,7 @@
                     <div class="admin-tab active" data-tab="products">Produits</div>
                     <div class="admin-tab" data-tab="gallery">Galerie</div>
                     <div class="admin-tab" data-tab="blog">Blog</div>
+                    <div class="admin-tab" data-tab="inspiration">Inspiration</div>
                     <div class="admin-tab" data-tab="orders">Commandes</div>
                     <div class="admin-tab" data-tab="reservations">Réservations</div>
                     <div class="admin-tab" data-tab="settings">Paramètres</div>
@@ -2189,6 +2233,52 @@
         </div>
     </div>
 
+    <!-- Modal Inspiration -->
+    <div class="modal" id="inspirationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Ajouter une Inspiration</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="inspirationForm">
+                    <div class="form-group">
+                        <label for="inspirationSubject">Sujet d'Inspiration *</label>
+                        <input type="text" id="inspirationSubject" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inspirationFont">Choix d'Écriture *</label>
+                        <select id="inspirationFont" class="form-control" required>
+                            <option value="">Sélectionnez une police</option>
+                            <option value="Great Vibes">Great Vibes</option>
+                            <option value="Dancing Script">Dancing Script</option>
+                            <option value="Playfair Display">Playfair Display</option>
+                            <option value="Montserrat">Montserrat</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Courier New">Courier New</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Trebuchet MS">Trebuchet MS</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inspirationImage">Image *</label>
+                        <input type="file" id="inspirationImage" class="form-control" required accept="image/*">
+                        <div class="image-preview" id="inspirationImagePreview"></div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn">Ajouter l'inspiration</button>
+                        <button type="button" class="btn btn-secondary" id="cancelInspirationForm">Annuler</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts JavaScript -->
     <script>
         // Configuration Firebase
@@ -2223,6 +2313,8 @@
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let currentPage = 'home';
         let currentAdminTab = 'products';
+        let inspirations = [];
+        let currentCarouselIndex = 0;
         
         // Styles de coiffure
         const maleHairstyles = ["Pompadour", "Quiff", "Slicked Back", "Undercut", "Faux Hawk", "Crew Cut", "Buzz Cut", "High and Tight", "Caesar Cut", "French Crop", "Taper Cut", "Low Fade", "Mid Fade", "High Fade", "Skin Fade", "Scissor Cut", "Coupé court", "Coupé long", "Coupe Classique", "Side Part", "Man Bun", "Top Knot", "Comb Over", "Textured Crop", "Fringe", "Spiky Hair", "Mohawk", "Burst Fade", "Drop Fade", "Temple Fade", "Afro", "Fade Afro", "Tapered Afro", "Dreadlocks", "Cornrows", "Twists", "Sponge Curls", "Box Braids", "Mullet", "Modern Mullet", "Skater Hair", "Grunge Hair", "Bowl Cut", "Shaggy Cut", "Layered Cut", "Straight Fringe", "Angular Fringe", "Swept Fringe", "Ivy League", "Brush Cut", "Butch Cut", "Flat Top", "Disconnected Undercut", "Business Cut", "Hard Part", "Razor Part", "Blowout", "Messy Quiff", "Clean Pompadour", "Loose Quiff", "Wet Look", "Side Swept", "Slicked Side Part", "Dégradé en V", "Dégradé en U", "Line Up", "Surgical Line", "Zero Cut", "#1 Cut", "#2 Cut", "#3 Cut", "#4 Cut", "Bald Fade", "Tapered Neckline", "V-Shape Neckline", "Square Neckline", "Mid-Length Flow", "Wavy Hair Style", "Curly Hair Style", "Permed Hair", "Tousled Hair", "Forward Push", "Back Brush", "High Volume", "Low Volume", "Undercut Déconnecté", "Undercut Plié", "Quiff Court", "Pompadour Long", "Pompadour Texturé", "Texture Piquante", "Coupe Tondeuse", "Coupe Ciseaux", "Choppy Cut", "Wispies", "Fringe Courte", "Fringe Longue", "Coupe Rétro", "Coupe Contemporaine", "Gentleman's Cut"];
@@ -2236,9 +2328,9 @@
             loadInitialData();
             updateCartDisplay();
             setupScrollAnimations();
-            checkVideoStatus();
             initTiltEffect();
             initScrollAnimations();
+            loadInspirations();
         });
 
         // ===== FONCTIONS D'INITIALISATION =====
@@ -2319,7 +2411,7 @@
             document.getElementById('adminLoginForm').addEventListener('submit', handleAdminLogin);
             document.getElementById('adminLogoutBtn').addEventListener('click', handleAdminLogout);
             
-            // CORRECTION: Gestion des onglets admin avec délégation d'événements
+            // Gestion des onglets admin avec délégation d'événements
             document.querySelector('.admin-tabs').addEventListener('click', function(e) {
                 const tab = e.target.closest('.admin-tab[data-tab]');
                 if (tab) {
@@ -2348,6 +2440,14 @@
                         closeAllModals();
                     }
                 });
+            });
+
+            // Carrousel
+            document.querySelector('.carousel-prev').addEventListener('click', () => {
+                navigateCarousel(-1);
+            });
+            document.querySelector('.carousel-next').addEventListener('click', () => {
+                navigateCarousel(1);
             });
         }
 
@@ -2452,23 +2552,6 @@
                     sloganWords.forEach(word => word.classList.remove('active'));
                 }
             });
-        }
-
-        function checkVideoStatus() {
-            const video = document.querySelector('.hero-video');
-            const fallback = document.querySelector('.hero-video-fallback');
-            
-            if (video) {
-                video.addEventListener('error', function() {
-                    console.error('La vidéo n\'a pas pu être chargée');
-                    fallback.style.display = 'flex';
-                });
-                
-                // Vérifier si la vidéo est prête
-                video.addEventListener('canplay', function() {
-                    console.log('La vidéo est prête à être jouée');
-                });
-            }
         }
 
         function initTiltEffect() {
@@ -2650,12 +2733,12 @@
             
             db.collection('reservations').add(reservationData)
                 .then(() => {
-                    alert('Votre réservation a été enregistrée avec succès! Nous vous contacterons pour confirmation.');
+                    showToast('Votre réservation a été enregistrée avec succès! Nous vous contacterons pour confirmation.');
                     document.getElementById('reservationForm').reset();
                 })
                 .catch(error => {
                     console.error('Erreur lors de l\'enregistrement de la réservation:', error);
-                    alert('Une erreur est survenue. Veuillez réessayer.');
+                    showToast('Une erreur est survenue. Veuillez réessayer.', 'error');
                 });
         }
 
@@ -2675,12 +2758,12 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             })
             .then(() => {
-                alert('Votre message a été envoyé avec succès! Nous vous répondrons dans les plus brefs délais.');
+                showToast('Votre message a été envoyé avec succès! Nous vous répondrons dans les plus brefs délais.');
                 document.getElementById('contactForm').reset();
             })
             .catch(error => {
                 console.error('Erreur lors de l\'envoi du message:', error);
-                alert('Une erreur est survenue. Veuillez réessayer.');
+                showToast('Une erreur est survenue. Veuillez réessayer.', 'error');
             });
         }
 
@@ -2800,7 +2883,7 @@
             
             blogGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement des articles...</p>';
             
-            // CORRECTION: Charger tous les articles de blog sans filtre de statut
+            // Charger tous les articles de blog sans filtre de statut
             // pour éviter l'erreur "Erreur lors du chargement des articles"
             db.collection('blog').orderBy('timestamp', 'desc').get()
                 .then(snapshot => {
@@ -2812,7 +2895,7 @@
                     blogGrid.innerHTML = '';
                     snapshot.forEach(doc => {
                         const post = doc.data();
-                        // CORRECTION: Vérifier si le post a un statut "Publié" ou non
+                        // Vérifier si le post a un statut "Publié" ou non
                         // Si non, ne pas l'afficher aux utilisateurs normaux
                         if (post.status === "Publié" || currentUser) {
                             const blogCard = createBlogCard(post, doc.id);
@@ -2834,6 +2917,11 @@
         function createBlogCard(post, id) {
             const card = document.createElement('div');
             card.className = 'blog-card fade-in scroll-animate hover-3d';
+            
+            // Tronquer le contenu à 150 caractères
+            const shortContent = post.content.substring(0, 150) + (post.content.length > 150 ? '...' : '');
+            const fullContent = post.content;
+            
             card.innerHTML = `
                 <div class="blog-image">
                     <img src="${post.image}" alt="${post.title}">
@@ -2844,10 +2932,35 @@
                         <span>${post.timestamp ? post.timestamp.toDate().toLocaleDateString('fr-FR') : ''}</span>
                     </div>
                     <h3>${post.title}</h3>
-                    <p>${post.content.substring(0, 150)}...</p>
-                    <a href="#" class="btn btn-secondary" style="margin-top: 15px;">Lire la suite</a>
+                    <div class="blog-content-short">
+                        <p>${shortContent}</p>
+                    </div>
+                    <div class="blog-content-full" style="display: none;">
+                        <p>${fullContent}</p>
+                    </div>
+                    ${post.content.length > 150 ? '<a href="#" class="blog-read-more">Voir plus</a>' : ''}
                 </div>
             `;
+            
+            // Ajouter l'événement pour "Voir plus"
+            const readMoreLink = card.querySelector('.blog-read-more');
+            if (readMoreLink) {
+                readMoreLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const shortContent = card.querySelector('.blog-content-short');
+                    const fullContent = card.querySelector('.blog-content-full');
+                    
+                    if (fullContent.style.display === 'none') {
+                        shortContent.style.display = 'none';
+                        fullContent.style.display = 'block';
+                        this.textContent = 'Voir moins';
+                    } else {
+                        shortContent.style.display = 'block';
+                        fullContent.style.display = 'none';
+                        this.textContent = 'Voir plus';
+                    }
+                });
+            }
             
             return card;
         }
@@ -2980,7 +3093,7 @@
             
             db.collection('orders').add(orderData)
                 .then(() => {
-                    alert('Merci pour votre commande ! L\'administration vous contactera au ' + phone + ' dans les plus brefs délais pour organiser la livraison (Paiement à la livraison uniquement).');
+                    showToast('Merci pour votre commande ! L\'administration vous contactera au ' + phone + ' dans les plus brefs délais pour organiser la livraison (Paiement à la livraison uniquement).');
                     
                     cart = [];
                     localStorage.setItem('cart', JSON.stringify(cart));
@@ -2991,7 +3104,7 @@
                 })
                 .catch(error => {
                     console.error('Erreur lors de l\'enregistrement de la commande:', error);
-                    alert('Une erreur est survenue. Veuillez réessayer.');
+                    showToast('Une erreur est survenue. Veuillez réessayer.', 'error');
                 });
         }
 
@@ -3023,7 +3136,7 @@
                         closeAllModals();
                         navigateToPage('admin');
                         loadAdminContent(currentAdminTab);
-                        alert('Connexion réussie! Bienvenue dans l\'espace administrateur.');
+                        showToast('Connexion réussie! Bienvenue dans l\'espace administrateur.');
                     } else {
                         auth.signOut();
                         errorDiv.textContent = 'Accès refusé. Vous n\'êtes pas autorisé à accéder à l\'espace administrateur.';
@@ -3064,11 +3177,11 @@
                 .then(() => {
                     currentUser = null;
                     navigateToPage('home');
-                    alert('Déconnexion réussie.');
+                    showToast('Déconnexion réussie.');
                 })
                 .catch(error => {
                     console.error('Erreur de déconnexion:', error);
-                    alert('Erreur lors de la déconnexion.');
+                    showToast('Erreur lors de la déconnexion.', 'error');
                 });
         }
 
@@ -3089,6 +3202,9 @@
                     break;
                 case 'blog':
                     loadAdminBlog();
+                    break;
+                case 'inspiration':
+                    loadAdminInspiration();
                     break;
                 case 'orders':
                     loadAdminOrders();
@@ -3126,7 +3242,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('addProductBtn').addEventListener('click', function() {
                     showProductForm();
@@ -3160,7 +3276,7 @@
                         tableBody.appendChild(row);
                     });
                     
-                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
+                    // Utilisation de délégation d'événements pour les boutons dynamiques
                     document.getElementById('adminProductsTable').addEventListener('click', function(e) {
                         const target = e.target;
                         if (target.classList.contains('edit')) {
@@ -3237,7 +3353,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('productForm').addEventListener('submit', function(e) {
                     e.preventDefault();
@@ -3270,14 +3386,14 @@
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'upload de l\'image:', error);
-                        alert('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
+                        showToast('Erreur lors de l\'upload de l\'image. Veuillez réessayer.', 'error');
                     });
             } else if (productId) {
                 saveProduct({ 
                     name, description, category, price, stock, status
                 }, productId);
             } else {
-                alert('Veuillez sélectionner une image pour le produit.');
+                showToast('Veuillez sélectionner une image pour le produit.', 'error');
             }
         }
 
@@ -3315,22 +3431,22 @@
             if (productId) {
                 db.collection('products').doc(productId).update(productWithTimestamp)
                     .then(() => {
-                        alert('Produit modifié avec succès!');
+                        showToast('Produit modifié avec succès!');
                         loadAdminProducts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la modification du produit:', error);
-                        alert('Erreur lors de la modification du produit.');
+                        showToast('Erreur lors de la modification du produit.', 'error');
                     });
             } else {
                 db.collection('products').add(productWithTimestamp)
                     .then(() => {
-                        alert('Produit ajouté avec succès!');
+                        showToast('Produit ajouté avec succès!');
                         loadAdminProducts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'ajout du produit:', error);
-                        alert('Erreur lors de l\'ajout du produit.');
+                        showToast('Erreur lors de l\'ajout du produit.', 'error');
                     });
             }
         }
@@ -3344,7 +3460,7 @@
                 })
                 .catch(error => {
                     console.error('Erreur lors de la récupération du produit:', error);
-                    alert('Erreur lors de la récupération du produit.');
+                    showToast('Erreur lors de la récupération du produit.', 'error');
                 });
         }
 
@@ -3352,13 +3468,13 @@
             if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
                 db.collection('products').doc(productId).delete()
                     .then(() => {
-                        alert('Produit supprimé avec succès!');
+                        showToast('Produit supprimé avec succès!');
                         loadAdminProducts();
                         loadProducts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la suppression du produit:', error);
-                        alert('Erreur lors de la suppression du produit.');
+                        showToast('Erreur lors de la suppression du produit.', 'error');
                     });
             }
         }
@@ -3376,7 +3492,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('addGalleryItemBtn').addEventListener('click', function() {
                     showGalleryForm();
@@ -3410,7 +3526,7 @@
                         galleryGrid.appendChild(galleryItem);
                     });
                     
-                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
+                    // Utilisation de délégation d'événements pour les boutons dynamiques
                     document.getElementById('adminGalleryGrid').addEventListener('click', function(e) {
                         const target = e.target;
                         if (target.classList.contains('edit')) {
@@ -3470,7 +3586,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('galleryForm').addEventListener('submit', function(e) {
                     e.preventDefault();
@@ -3498,12 +3614,12 @@
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'upload de l\'image:', error);
-                        alert('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
+                        showToast('Erreur lors de l\'upload de l\'image. Veuillez réessayer.', 'error');
                     });
             } else if (itemId) {
                 saveGalleryItem({ title, description, service }, itemId);
             } else {
-                alert('Veuillez sélectionner une image pour la réalisation.');
+                showToast('Veuillez sélectionner une image pour la réalisation.', 'error');
             }
         }
 
@@ -3516,24 +3632,24 @@
             if (itemId) {
                 db.collection('gallery').doc(itemId).update(itemWithTimestamp)
                     .then(() => {
-                        alert('Réalisation modifiée avec succès!');
+                        showToast('Réalisation modifiée avec succès!');
                         loadAdminGallery();
                         loadGallery();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la modification de la réalisation:', error);
-                        alert('Erreur lors de la modification de la réalisation.');
+                        showToast('Erreur lors de la modification de la réalisation.', 'error');
                     });
             } else {
                 db.collection('gallery').add(itemWithTimestamp)
                     .then(() => {
-                        alert('Réalisation ajoutée avec succès!');
+                        showToast('Réalisation ajoutée avec succès!');
                         loadAdminGallery();
                         loadGallery();
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'ajout de la réalisation:', error);
-                        alert('Erreur lors de l\'ajout de la réalisation.');
+                        showToast('Erreur lors de l\'ajout de la réalisation.', 'error');
                     });
             }
         }
@@ -3547,7 +3663,7 @@
                 })
                 .catch(error => {
                     console.error('Erreur lors de la récupération de la réalisation:', error);
-                    alert('Erreur lors de la récupération de la réalisation.');
+                    showToast('Erreur lors de la récupération de la réalisation.', 'error');
                 });
         }
 
@@ -3555,13 +3671,13 @@
             if (confirm('Êtes-vous sûr de vouloir supprimer cette réalisation ?')) {
                 db.collection('gallery').doc(itemId).delete()
                     .then(() => {
-                        alert('Réalisation supprimée avec succès!');
+                        showToast('Réalisation supprimée avec succès!');
                         loadAdminGallery();
                         loadGallery();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la suppression de la réalisation:', error);
-                        alert('Erreur lors de la suppression de la réalisation.');
+                        showToast('Erreur lors de la suppression de la réalisation.', 'error');
                     });
             }
         }
@@ -3579,7 +3695,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('addBlogPostBtn').addEventListener('click', function() {
                     showBlogForm();
@@ -3615,7 +3731,7 @@
                         tableBody.appendChild(row);
                     });
                     
-                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
+                    // Utilisation de délégation d'événements pour les boutons dynamiques
                     document.getElementById('adminBlogTable').addEventListener('click', function(e) {
                         const target = e.target;
                         if (target.classList.contains('edit')) {
@@ -3692,7 +3808,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('blogForm').addEventListener('submit', function(e) {
                     e.preventDefault();
@@ -3723,12 +3839,12 @@
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'upload de l\'image:', error);
-                        alert('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
+                        showToast('Erreur lors de l\'upload de l\'image. Veuillez réessayer.', 'error');
                     });
             } else if (postId) {
                 saveBlogPost({ title, author, category, tags, content, status }, postId);
             } else {
-                alert('Veuillez sélectionner une image pour l\'article.');
+                showToast('Veuillez sélectionner une image pour l\'article.', 'error');
             }
         }
 
@@ -3741,24 +3857,24 @@
             if (postId) {
                 db.collection('blog').doc(postId).update(postWithTimestamp)
                     .then(() => {
-                        alert('Article modifié avec succès!');
+                        showToast('Article modifié avec succès!');
                         loadAdminBlog();
                         loadBlogPosts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la modification de l\'article:', error);
-                        alert('Erreur lors de la modification de l\'article.');
+                        showToast('Erreur lors de la modification de l\'article.', 'error');
                     });
             } else {
                 db.collection('blog').add(postWithTimestamp)
                     .then(() => {
-                        alert('Article ajouté avec succès!');
+                        showToast('Article ajouté avec succès!');
                         loadAdminBlog();
                         loadBlogPosts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'ajout de l\'article:', error);
-                        alert('Erreur lors de l\'ajout de l\'article.');
+                        showToast('Erreur lors de l\'ajout de l\'article.', 'error');
                     });
             }
         }
@@ -3772,7 +3888,7 @@
                 })
                 .catch(error => {
                     console.error('Erreur lors de la récupération de l\'article:', error);
-                    alert('Erreur lors de la récupération de l\'article.');
+                    showToast('Erreur lors de la récupération de l\'article.', 'error');
                 });
         }
 
@@ -3780,13 +3896,141 @@
             if (confirm('Êtes-vous sûr de vouloir supprimer cet article ?')) {
                 db.collection('blog').doc(postId).delete()
                     .then(() => {
-                        alert('Article supprimé avec succès!');
+                        showToast('Article supprimé avec succès!');
                         loadAdminBlog();
                         loadBlogPosts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la suppression de l\'article:', error);
-                        alert('Erreur lors de la suppression de l\'article.');
+                        showToast('Erreur lors de la suppression de l\'article.', 'error');
+                    });
+            }
+        }
+
+        // ===== FONCTIONS ADMIN INSPIRATION =====
+        function loadAdminInspiration() {
+            const adminContent = document.getElementById('adminContent');
+            adminContent.innerHTML = `
+                <div class="admin-content">
+                    <h3>Gestion des Inspirations</h3>
+                    <button class="btn" id="addInspirationBtn" style="margin-bottom: 20px;">Ajouter une inspiration</button>
+                    <div class="gallery-grid" id="adminInspirationGrid">
+                        <!-- Les inspirations seront chargées ici -->
+                    </div>
+                </div>
+            `;
+            
+            // Ajout des événements après le chargement du contenu
+            setTimeout(() => {
+                document.getElementById('addInspirationBtn').addEventListener('click', function() {
+                    showInspirationForm();
+                });
+            }, 100);
+            
+            loadInspirationsForAdmin();
+        }
+
+        function loadInspirationsForAdmin() {
+            db.collection('inspirations').orderBy('timestamp', 'desc').get()
+                .then(snapshot => {
+                    const inspirationGrid = document.getElementById('adminInspirationGrid');
+                    
+                    if (snapshot.empty) {
+                        inspirationGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Aucune inspiration enregistrée.</p>';
+                        return;
+                    }
+                    
+                    inspirationGrid.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const inspiration = doc.data();
+                        const inspirationItem = document.createElement('div');
+                        inspirationItem.className = 'gallery-item';
+                        inspirationItem.innerHTML = `
+                            <img src="${inspiration.image}" alt="${inspiration.subject}">
+                            <div class="gallery-item-caption">
+                                <h3>${inspiration.subject}</h3>
+                                <p>Police: ${inspiration.font}</p>
+                                <div class="admin-actions" style="margin-top: 10px;">
+                                    <button class="admin-btn delete" data-id="${doc.id}">Supprimer</button>
+                                </div>
+                            </div>
+                        `;
+                        inspirationGrid.appendChild(inspirationItem);
+                    });
+                    
+                    // Utilisation de délégation d'événements pour les boutons dynamiques
+                    document.getElementById('adminInspirationGrid').addEventListener('click', function(e) {
+                        const target = e.target;
+                        if (target.classList.contains('delete')) {
+                            deleteInspiration(target.dataset.id);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des inspirations:', error);
+                    const adminContent = document.getElementById('adminContent');
+                    adminContent.innerHTML += '<p style="color: #e74c3c; margin-top: 20px;">Erreur lors du chargement des inspirations.</p>';
+                });
+        }
+
+        function showInspirationForm(inspiration = null) {
+            document.getElementById('inspirationModal').style.display = 'block';
+            document.getElementById('inspirationForm').reset();
+            document.getElementById('inspirationImagePreview').innerHTML = '';
+        }
+
+        function handleInspirationFormSubmit(e) {
+            e.preventDefault();
+            
+            const subject = document.getElementById('inspirationSubject').value;
+            const font = document.getElementById('inspirationFont').value;
+            const imageFile = document.getElementById('inspirationImage').files[0];
+            
+            if (!imageFile) {
+                showToast('Veuillez sélectionner une image pour l\'inspiration.', 'error');
+                return;
+            }
+            
+            uploadImageToCloudinary(imageFile)
+                .then(imageUrl => {
+                    saveInspiration({ subject, font, image: imageUrl });
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'upload de l\'image:', error);
+                    showToast('Erreur lors de l\'upload de l\'image. Veuillez réessayer.', 'error');
+                });
+        }
+
+        function saveInspiration(inspirationData) {
+            const inspirationWithTimestamp = {
+                ...inspirationData,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            db.collection('inspirations').add(inspirationWithTimestamp)
+                .then(() => {
+                    showToast('Inspiration ajoutée avec succès!');
+                    closeAllModals();
+                    loadInspirationsForAdmin();
+                    loadInspirations();
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'ajout de l\'inspiration:', error);
+                    showToast('Erreur lors de l\'ajout de l\'inspiration.', 'error');
+                });
+        }
+
+        function deleteInspiration(inspirationId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette inspiration ?')) {
+                db.collection('inspirations').doc(inspirationId).delete()
+                    .then(() => {
+                        showToast('Inspiration supprimée avec succès!');
+                        loadInspirationsForAdmin();
+                        loadInspirations();
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la suppression de l\'inspiration:', error);
+                        showToast('Erreur lors de la suppression de l\'inspiration.', 'error');
                     });
             }
         }
@@ -3923,7 +4167,7 @@
                     console.error('Erreur lors du chargement des paramètres:', error);
                 });
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('settingsForm').addEventListener('submit', e => {
                     e.preventDefault();
@@ -3931,15 +4175,100 @@
                     
                     db.collection('settings').doc('openingHours').set({ value: openingHours })
                         .then(() => {
-                            alert('Paramètres enregistrés avec succès!');
+                            showToast('Paramètres enregistrés avec succès!');
                             document.getElementById('openingHoursDisplay').textContent = openingHours;
                         })
                         .catch(error => {
                             console.error('Erreur lors de l\'enregistrement des paramètres:', error);
-                            alert('Erreur lors de l\'enregistrement des paramètres.');
+                            showToast('Erreur lors de l\'enregistrement des paramètres.', 'error');
                         });
                 });
             }, 100);
+        }
+
+        // ===== FONCTIONS CARROUSEL D'INSPIRATION =====
+        function loadInspirations() {
+            db.collection('inspirations').orderBy('timestamp', 'desc').get()
+                .then(snapshot => {
+                    inspirations = [];
+                    snapshot.forEach(doc => {
+                        inspirations.push({ id: doc.id, ...doc.data() });
+                    });
+                    
+                    renderCarousel();
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des inspirations:', error);
+                });
+        }
+
+        function renderCarousel() {
+            const carousel = document.getElementById('inspirationCarousel');
+            const indicators = document.getElementById('carouselIndicators');
+            
+            carousel.innerHTML = '';
+            indicators.innerHTML = '';
+            
+            if (inspirations.length === 0) {
+                // Afficher un message par défaut si aucune inspiration
+                carousel.innerHTML = `
+                    <div class="carousel-item">
+                        <div class="carousel-item-content">
+                            <div class="carousel-item-text" style="font-family: 'Great Vibes', cursive;">
+                                Bienvenue chez Wendy Beauty Store
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            inspirations.forEach((inspiration, index) => {
+                const carouselItem = document.createElement('div');
+                carouselItem.className = 'carousel-item';
+                carouselItem.style.backgroundImage = `url('${inspiration.image}')`;
+                carouselItem.innerHTML = `
+                    <div class="carousel-item-content">
+                        <div class="carousel-item-text" style="font-family: '${inspiration.font}', cursive;">
+                            ${inspiration.subject}
+                        </div>
+                    </div>
+                `;
+                carousel.appendChild(carouselItem);
+                
+                const indicator = document.createElement('div');
+                indicator.className = `carousel-indicator ${index === 0 ? 'active' : ''}`;
+                indicator.addEventListener('click', () => {
+                    currentCarouselIndex = index;
+                    updateCarousel();
+                });
+                indicators.appendChild(indicator);
+            });
+            
+            updateCarousel();
+        }
+
+        function navigateCarousel(direction) {
+            currentCarouselIndex += direction;
+            
+            if (currentCarouselIndex < 0) {
+                currentCarouselIndex = inspirations.length - 1;
+            } else if (currentCarouselIndex >= inspirations.length) {
+                currentCarouselIndex = 0;
+            }
+            
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const carousel = document.getElementById('inspirationCarousel');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            carousel.style.transform = `translateX(-${currentCarouselIndex * 100}%)`;
+            
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentCarouselIndex);
+            });
         }
 
         // ===== FONCTIONS UTILITAIRES =====
@@ -3952,6 +4281,28 @@
         function formatPrice(price) {
             return new Intl.NumberFormat('fr-FR').format(price);
         }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast show';
+            
+            if (type === 'error') {
+                toast.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+            } else {
+                toast.style.background = 'var(--brand-gradient)';
+            }
+            
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        }
+
+        // Ajout des événements pour le formulaire d'inspiration
+        document.getElementById('inspirationForm').addEventListener('submit', handleInspirationFormSubmit);
+        document.getElementById('cancelInspirationForm').addEventListener('click', () => {
+            closeAllModals();
+        });
     </script>
 </body>
 </html>
