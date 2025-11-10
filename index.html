@@ -81,8 +81,19 @@
             overflow-x: hidden;
         }
 
+        /* ===== HIÉRARCHIE TYPOGRAPHIQUE STRICTE ===== */
+        /* Police Principale (Script/Calligraphique) pour le nom de marque */
+        .logo-text {
+            font-family: var(--font-script) !important;
+        }
+
+        .footer-logo-text {
+            font-family: var(--font-script) !important;
+        }
+
+        /* Police Secondaire (Sans-Serif) pour tous les titres et sous-titres */
         h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-script);
+            font-family: var(--font-sans) !important;
             font-weight: 600;
             line-height: 1.2;
             margin-bottom: 1rem;
@@ -91,6 +102,11 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-shadow: 0 2px 4px rgba(255, 182, 193, 0.1);
+        }
+
+        /* Exception pour les titres du carrousel d'inspiration qui doivent utiliser la police dynamique */
+        .carousel-content h2 {
+            font-family: inherit !important; /* Hérite de la police définie dynamiquement */
         }
 
         p {
@@ -384,7 +400,7 @@
             to { opacity: 1; }
         }
 
-        /* ===== CARROUSEL D'INSPIRATION COMPACT ===== */
+        /* ===== CARROUSEL D'INSPIRATION COMPACT AVEC TRANSITION AMÉLIORÉE ===== */
         .inspiration-carousel {
             position: relative;
             height: 60vh; /* Hauteur réduite pour le format compact */
@@ -402,7 +418,6 @@
             display: flex;
             width: 100%;
             height: 100%;
-            transition: transform 0.8s ease-in-out;
         }
 
         .carousel-slide {
@@ -412,6 +427,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            z-index: 1;
         }
 
         .carousel-slide img {
@@ -437,6 +462,7 @@
             margin-bottom: 20px;
             text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.7);
             color: var(--primary-black); /* Texte en noir */
+            /* Les styles de police seront appliqués dynamiquement via JavaScript */
         }
 
         .carousel-content p {
@@ -611,7 +637,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-family: var(--font-script);
+            font-family: var(--font-sans);
         }
 
         /* ===== TESTIMONIALS SECTION ===== */
@@ -956,7 +982,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-family: var(--font-script);
+            font-family: var(--font-sans);
         }
 
         .footer-links h3::after,
@@ -1104,7 +1130,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-family: var(--font-script);
+            font-family: var(--font-sans);
             font-size: 2.2rem;
         }
 
@@ -1551,6 +1577,12 @@
             object-fit: cover;
             object-position: center;
             display: none;
+        }
+
+        /* ===== EFFET PARALLAXE ===== */
+        .parallax-section {
+            transform: translateZ(0);
+            will-change: transform;
         }
 
         /* ===== RESPONSIVE STYLES ===== */
@@ -2483,6 +2515,7 @@
             initTiltEffect();
             initScrollAnimations();
             loadInspirations();
+            setupParallaxEffect();
         });
 
         // ===== FONCTIONS D'INITIALISATION =====
@@ -2621,6 +2654,33 @@
             // Observer tous les éléments avec la classe scroll-animate
             document.querySelectorAll('.scroll-animate').forEach(el => {
                 observer.observe(el);
+            });
+        }
+
+        function setupParallaxEffect() {
+            // Effet de parallaxe léger au défilement
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallaxElements = document.querySelectorAll('.parallax-section');
+                
+                parallaxElements.forEach(element => {
+                    const speed = 0.5;
+                    const yPos = -(scrolled * speed);
+                    element.style.transform = `translateY(${yPos}px)`;
+                });
+                
+                // Effet de zoom subtil sur les sections
+                const sections = document.querySelectorAll('.page > .container');
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    const isInViewport = rect.top < window.innerHeight && rect.bottom >= 0;
+                    
+                    if (isInViewport) {
+                        const scrollPercent = (rect.top / window.innerHeight) * 100;
+                        const scale = 1 + (scrollPercent * 0.0005);
+                        section.style.transform = `scale(${Math.min(scale, 1.005)})`;
+                    }
+                });
             });
         }
 
@@ -3574,13 +3634,15 @@
             inspirations.forEach((inspiration, index) => {
                 // Créer la slide
                 const slide = document.createElement('div');
-                slide.className = 'carousel-slide';
-                slide.style.fontFamily = inspiration.font;
-                slide.style.color = inspiration.color;
-                slide.style.fontSize = `${inspiration.size}px`;
+                slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
                 
-                // Appliquer le style gras si nécessaire
-                const subjectStyle = inspiration.bold ? 'font-weight: bold;' : '';
+                // Appliquer les styles dynamiques au sujet d'inspiration
+                const subjectStyle = `
+                    font-family: ${inspiration.font || 'inherit'} !important;
+                    color: ${inspiration.color || 'var(--primary-black)'} !important;
+                    font-size: ${inspiration.size || '36'}px !important;
+                    font-weight: ${inspiration.bold ? 'bold' : 'normal'} !important;
+                `;
                 
                 slide.innerHTML = `
                     <img src="${inspiration.image}" alt="${inspiration.subject}" class="banner-desktop">
@@ -3635,7 +3697,7 @@
             defaultSlides.forEach((slide, index) => {
                 // Créer la slide
                 const slideElement = document.createElement('div');
-                slideElement.className = 'carousel-slide';
+                slideElement.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
                 
                 slideElement.innerHTML = `
                     <img src="${slide.image}" alt="${slide.title}" class="banner-desktop">
@@ -3672,14 +3734,23 @@
         }
 
         function goToSlide(index) {
-            const carouselSlides = document.getElementById('carouselSlides');
+            const slides = document.querySelectorAll('.carousel-slide');
             const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            // Transition avec effet de fondu
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
             
             // Mettre à jour l'index actuel
             currentCarouselIndex = index;
             
-            // Déplacer le carrousel
-            carouselSlides.style.transform = `translateX(-${index * 100}%)`;
+            // Activer la nouvelle slide avec un léger délai pour l'effet de transition
+            setTimeout(() => {
+                if (slides[index]) {
+                    slides[index].classList.add('active');
+                }
+            }, 50);
             
             // Mettre à jour les indicateurs
             indicators.forEach((indicator, i) => {
