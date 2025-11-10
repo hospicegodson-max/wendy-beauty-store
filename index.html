@@ -37,13 +37,14 @@
             --shadow-heavy: rgba(0, 0, 0, 0.3);
             
             /* Nouvelle palette de couleurs basée sur la demande */
-            --brand-pink: #FF007F; /* Rose Pur pour l'en-tête */
-            --brand-pink-light: #ffb6c1;
-            --brand-pink-dark: #db7093;
+            --brand-pink: #FFB6C1; /* Rose Clair pour l'en-tête */
+            --brand-pink-light: #FFE4E9;
+            --brand-pink-dark: #FF91A4;
+            --brand-beige: #F5E6D3; /* Beige Rosé pour le dégradé */
             --brand-blue: #4169e1;
             --brand-blue-light: #6495ed;
             --brand-blue-dark: #191970;
-            --brand-gradient: linear-gradient(135deg, var(--brand-blue), var(--brand-pink));
+            --brand-gradient: linear-gradient(135deg, var(--brand-pink), var(--brand-beige));
             --brand-gold: #F9F5E4; /* Or Pur pour le fond général */
             
             /* Nouvelles polices basées sur l'identité typographique */
@@ -89,7 +90,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 2px 4px rgba(65, 105, 225, 0.1);
+            text-shadow: 0 2px 4px rgba(255, 182, 193, 0.1);
         }
 
         p {
@@ -131,7 +132,7 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
-            box-shadow: 0 4px 15px rgba(65, 105, 225, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
         }
 
         button::before, .btn::before {
@@ -152,13 +153,13 @@
 
         button:hover, .btn:hover {
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(65, 105, 225, 0.4);
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
         }
 
         .btn-secondary {
             background: transparent;
-            border: 2px solid var(--brand-blue);
-            color: var(--brand-blue);
+            border: 2px solid var(--brand-pink);
+            color: var(--brand-pink);
             box-shadow: none;
         }
 
@@ -248,7 +249,7 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: var(--brand-pink); /* Rose Pur pour l'en-tête */
+            background: var(--brand-gradient); /* Dégradé Rose Poudré vers Beige */
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             box-shadow: 0 2px 20px var(--shadow-light);
@@ -256,7 +257,7 @@
         }
 
         header.scrolled {
-            background: var(--brand-pink);
+            background: var(--brand-gradient);
             box-shadow: 0 5px 25px var(--shadow-medium);
         }
 
@@ -270,12 +271,6 @@
         .logo {
             display: flex;
             align-items: center;
-        }
-
-        .logo img {
-            height: 50px;
-            margin-right: 12px;
-            filter: drop-shadow(0 2px 4px var(--shadow-light));
         }
 
         .logo-text {
@@ -335,6 +330,26 @@
             color: var(--primary-black);
         }
 
+        /* Icône Panier */
+        .cart-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            color: var(--primary-black);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .cart-icon:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -349,7 +364,7 @@
 
         .mobile-menu-btn:hover {
             background: rgba(0, 0, 0, 0.05);
-            color: var(--brand-blue);
+            color: var(--brand-pink);
         }
 
         /* ===== PAGES STYLES ===== */
@@ -369,11 +384,12 @@
             to { opacity: 1; }
         }
 
-        /* ===== CARROUSEL D'INSPIRATION ===== */
+        /* ===== CARROUSEL D'INSPIRATION COMPACT ===== */
         .inspiration-carousel {
             position: relative;
-            height: 100vh;
+            height: 60vh; /* Hauteur réduite pour le format compact */
             overflow: hidden;
+            margin-top: 20px;
         }
 
         .carousel-container {
@@ -417,14 +433,14 @@
         }
 
         .carousel-content h2 {
-            font-size: 4rem;
+            font-size: 2.5rem;
             margin-bottom: 20px;
             text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.7);
             color: var(--primary-black); /* Texte en noir */
         }
 
         .carousel-content p {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin-bottom: 30px;
             text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.7);
             color: var(--primary-black); /* Texte en noir */
@@ -463,7 +479,7 @@
 
         .carousel-indicators {
             position: absolute;
-            bottom: 30px;
+            bottom: 20px;
             left: 0;
             width: 100%;
             display: flex;
@@ -574,18 +590,18 @@
 
         .service-icon {
             font-size: 3.5rem;
-            color: var(--brand-blue);
+            color: var(--brand-pink);
             margin-bottom: 25px;
             display: inline-block;
             padding: 15px;
             border-radius: 50%;
-            background: rgba(65, 105, 225, 0.1);
+            background: rgba(255, 182, 193, 0.1);
             transition: var(--transition-medium);
         }
 
         .service-card:hover .service-icon {
             transform: scale(1.1);
-            background: rgba(65, 105, 225, 0.2);
+            background: rgba(255, 182, 193, 0.2);
         }
 
         .service-card h3 {
@@ -643,7 +659,7 @@
             top: 20px;
             left: 30px;
             font-size: 5rem;
-            color: var(--brand-blue);
+            color: var(--brand-pink);
             opacity: 0.2;
             font-family: serif;
             line-height: 1;
@@ -660,7 +676,7 @@
 
         .testimonial-author {
             font-weight: 600;
-            color: var(--brand-blue);
+            color: var(--brand-pink);
             font-size: 1.1rem;
             font-family: var(--font-sans);
         }
@@ -709,7 +725,7 @@
 
         .product-price {
             font-weight: 600;
-            color: var(--brand-blue);
+            color: var(--brand-pink);
             font-size: 1.3rem;
             margin: 12px 0;
             font-family: var(--font-sans);
@@ -836,7 +852,7 @@
 
         .contact-icon {
             font-size: 1.6rem;
-            color: var(--brand-blue);
+            color: var(--brand-pink);
             margin-top: 5px;
             min-width: 30px;
         }
@@ -878,8 +894,8 @@
 
         .form-control:focus {
             outline: none;
-            border-color: var(--brand-blue);
-            box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.2);
+            border-color: var(--brand-pink);
+            box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.2);
             background: white;
         }
 
@@ -890,8 +906,8 @@
 
         /* ===== FOOTER ===== */
         footer {
-            background: var(--footer-light);
-            color: var(--primary-black);
+            background: #1a1a1a; /* Noir mat pour le pied de page */
+            color: white;
             padding: 80px 0 25px;
         }
 
@@ -903,9 +919,20 @@
         }
 
         .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            margin-right: 12px;
+            filter: drop-shadow(0 2px 4px var(--shadow-light));
+        }
+
+        .footer-logo-text {
             font-family: var(--font-script);
             font-size: 2.5rem;
-            margin-bottom: 18px;
             background: var(--brand-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -913,7 +940,7 @@
         }
 
         .footer-subtitle {
-            color: var(--brand-blue);
+            color: var(--brand-pink);
             font-size: 0.95rem;
             margin-bottom: 25px;
             line-height: 1.5;
@@ -950,10 +977,11 @@
         .footer-links ul li a {
             transition: all 0.3s ease-in-out;
             font-family: var(--font-sans);
+            color: #ccc;
         }
 
         .footer-links ul li a:hover {
-            color: var(--brand-blue);
+            color: white;
             padding-left: 8px;
         }
 
@@ -963,10 +991,11 @@
             align-items: center;
             gap: 12px;
             font-family: var(--font-sans);
+            color: #ccc;
         }
 
         .footer-contact i {
-            color: var(--brand-blue);
+            color: var(--brand-pink);
             width: 20px;
         }
 
@@ -982,10 +1011,10 @@
             justify-content: center;
             width: 42px;
             height: 42px;
-            background: rgba(65, 105, 225, 0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             transition: all 0.3s ease-in-out;
-            color: var(--brand-blue);
+            color: white;
         }
 
         .social-link:hover {
@@ -997,26 +1026,26 @@
         .footer-bottom {
             text-align: center;
             padding-top: 25px;
-            border-top: 1px solid rgba(65, 105, 225, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.95rem;
-            color: var(--brand-blue);
+            color: #aaa;
             font-family: var(--font-sans);
         }
 
         .footer-bottom a {
-            color: var(--brand-blue);
+            color: #aaa;
             transition: all 0.3s ease-in-out;
             font-family: var(--font-sans);
         }
 
         .footer-bottom a:hover {
-            color: var(--primary-black);
+            color: white;
         }
 
         .admin-link {
             margin-top: 15px;
             font-size: 0.85rem;
-            color: var(--brand-blue);
+            color: var(--brand-pink);
             text-decoration: underline;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
@@ -1024,7 +1053,7 @@
         }
 
         .admin-link:hover {
-            color: var(--primary-black);
+            color: white;
         }
 
         /* ===== MODALS ===== */
@@ -1095,7 +1124,7 @@
         }
 
         .close-modal:hover {
-            color: var(--brand-blue);
+            color: var(--brand-pink);
             background: rgba(0, 0, 0, 0.05);
             transform: rotate(90deg);
         }
@@ -1146,7 +1175,7 @@
         }
 
         .cart-item-price {
-            color: var(--brand-blue);
+            color: var(--brand-pink);
             font-weight: 600;
             font-family: var(--font-sans);
         }
@@ -1167,7 +1196,7 @@
         }
 
         .cart-item-remove:hover {
-            color: var(--brand-blue);
+            color: var(--brand-pink);
             background: rgba(0, 0, 0, 0.05);
         }
 
@@ -1294,8 +1323,8 @@
 
         .form-actions .btn-secondary {
             background: transparent;
-            color: var(--brand-blue);
-            border: 2px solid var(--brand-blue);
+            color: var(--brand-pink);
+            border: 2px solid var(--brand-pink);
         }
 
         .form-actions .btn-secondary:hover {
@@ -1500,12 +1529,28 @@
             align-items: center;
             font-size: 15vw;
             font-family: var(--font-script);
-            color: rgba(65, 105, 225, 0.05);
+            color: rgba(255, 182, 193, 0.05);
             pointer-events: none;
         }
 
         .background-brand.active {
             opacity: 1;
+        }
+
+        /* ===== BANNIERES RESPONSIVES ===== */
+        .banner-desktop {
+            width: 100%;
+            max-height: 600px;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .banner-mobile {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            object-position: center;
+            display: none;
         }
 
         /* ===== RESPONSIVE STYLES ===== */
@@ -1643,6 +1688,15 @@
                 height: 150px;
                 margin: 50px 0;
             }
+            
+            /* Bannières responsives */
+            .banner-desktop {
+                display: none;
+            }
+            
+            .banner-mobile {
+                display: block;
+            }
         }
 
         @media (max-width: 576px) {
@@ -1712,29 +1766,33 @@
     <header id="header">
         <div class="container header-container">
             <div class="logo">
-                <!-- Remplacez "logo.png" par le chemin de votre logo -->
-                <img src="images/logo.png" alt="Wendy Beauty Store Logo">
                 <div class="logo-text">
                     Wendy Beauty Store
                     <span class="logo-subtitle">La beauté qui unit tradition et modernité</span>
                 </div>
             </div>
             
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <nav id="mainNav">
-                <ul>
-                    <li><a href="#home" class="nav-link active" data-page="home">Accueil</a></li>
-                    <li><a href="#services" class="nav-link" data-page="services">Services</a></li>
-                    <li><a href="#shop" class="nav-link" data-page="shop">Boutique</a></li>
-                    <li><a href="#gallery" class="nav-link" data-page="gallery">Galerie</a></li>
-                    <li><a href="#blog" class="nav-link" data-page="blog">Blog</a></li>
-                    <li><a href="#reservation" class="nav-link" data-page="reservation">Réservation</a></li>
-                    <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
-                </ul>
-            </nav>
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <nav id="mainNav">
+                    <ul>
+                        <li><a href="#home" class="nav-link active" data-page="home">Accueil</a></li>
+                        <li><a href="#services" class="nav-link" data-page="services">Services</a></li>
+                        <li><a href="#shop" class="nav-link" data-page="shop">Boutique</a></li>
+                        <li><a href="#gallery" class="nav-link" data-page="gallery">Galerie</a></li>
+                        <li><a href="#blog" class="nav-link" data-page="blog">Blog</a></li>
+                        <li><a href="#reservation" class="nav-link" data-page="reservation">Réservation</a></li>
+                        <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="cart-icon" id="cartIconHeader">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -1742,7 +1800,7 @@
     <main id="main-content">
         <!-- Page Accueil -->
         <section id="home" class="page active">
-            <!-- Carrousel d'Inspiration -->
+            <!-- Carrousel d'Inspiration Compact -->
             <div class="inspiration-carousel">
                 <div class="carousel-container">
                     <div class="carousel-slides" id="carouselSlides">
@@ -2135,7 +2193,11 @@
         <div class="container">
             <div class="footer-container">
                 <div class="footer-about">
-                    <div class="footer-logo">Wendy Beauty Store</div>
+                    <div class="footer-logo">
+                        <!-- Logo déplacé dans le footer -->
+                        <img src="images/logo.png" alt="Wendy Beauty Store Logo">
+                        <div class="footer-logo-text">Wendy Beauty Store</div>
+                    </div>
                     <p class="footer-subtitle">La beauté qui unit tradition et modernité</p>
                     <p>Votre destination beauté à Cotonou, Bénin. Expertise, qualité et passion au service de votre beauté.</p>
                     
@@ -2283,6 +2345,11 @@
                         <label for="inspirationImage">Image d'Inspiration *</label>
                         <input type="file" id="inspirationImage" class="form-control" accept="image/*" required>
                         <div class="image-preview" id="inspirationImagePreview" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                        <label for="inspirationBold">Texte en gras</label>
+                        <input type="checkbox" id="inspirationBold" style="width: auto;">
                     </div>
                     
                     <div class="form-group">
@@ -2487,6 +2554,7 @@
             document.getElementById('contactForm').addEventListener('submit', handleContactSubmit);
             
             // Panier
+            document.getElementById('cartIconHeader').addEventListener('click', openCartModal);
             document.getElementById('viewCartBtn').addEventListener('click', openCartModal);
             document.getElementById('checkoutBtn').addEventListener('click', openOrderModal);
             document.getElementById('orderForm').addEventListener('submit', handleOrderSubmit);
@@ -2505,7 +2573,7 @@
             document.getElementById('inspirationForm').addEventListener('submit', handleInspirationSubmit);
             document.getElementById('cancelInspirationForm').addEventListener('click', closeInspirationModal);
             
-            // CORRECTION: Gestion des onglets admin avec délégation d'événements
+            // Gestion des onglets admin avec délégation d'événements
             document.querySelector('.admin-tabs').addEventListener('click', function(e) {
                 const tab = e.target.closest('.admin-tab[data-tab]');
                 if (tab) {
@@ -2969,7 +3037,7 @@
             
             blogGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement des articles...</p>';
             
-            // CORRECTION: Charger tous les articles de blog sans filtre de statut
+            // Charger tous les articles de blog sans filtre de statut
             // pour éviter l'erreur "Erreur lors du chargement des articles"
             db.collection('blog').orderBy('timestamp', 'desc').get()
                 .then(snapshot => {
@@ -2981,7 +3049,7 @@
                     blogGrid.innerHTML = '';
                     snapshot.forEach(doc => {
                         const post = doc.data();
-                        // CORRECTION: Vérifier si le post a un statut "Publié" ou non
+                        // Vérifier si le post a un statut "Publié" ou non
                         // Si non, ne pas l'afficher aux utilisateurs normaux
                         if (post.status === "Publié" || currentUser) {
                             const blogCard = createBlogCard(post, doc.id);
@@ -3325,7 +3393,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('addInspirationBtn').addEventListener('click', function() {
                     openInspirationModal();
@@ -3367,7 +3435,7 @@
                         inspirationsGrid.appendChild(inspirationItem);
                     });
                     
-                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
+                    // Utilisation de délégation d'événements pour les boutons dynamiques
                     document.getElementById('adminInspirationsGrid').addEventListener('click', function(e) {
                         const target = e.target;
                         if (target.classList.contains('delete')) {
@@ -3417,6 +3485,7 @@
             const font = document.getElementById('inspirationFont').value;
             const color = document.getElementById('inspirationColor').value;
             const size = document.getElementById('inspirationSize').value;
+            const isBold = document.getElementById('inspirationBold').checked;
             const imageFile = document.getElementById('inspirationImage').files[0];
             
             if (!imageFile) {
@@ -3436,6 +3505,7 @@
                         font,
                         color,
                         size: parseInt(size),
+                        bold: isBold,
                         image: imageUrl,
                         timestamp: firebase.firestore.FieldValue.serverTimestamp()
                     };
@@ -3509,10 +3579,14 @@
                 slide.style.color = inspiration.color;
                 slide.style.fontSize = `${inspiration.size}px`;
                 
+                // Appliquer le style gras si nécessaire
+                const subjectStyle = inspiration.bold ? 'font-weight: bold;' : '';
+                
                 slide.innerHTML = `
-                    <img src="${inspiration.image}" alt="${inspiration.subject}">
+                    <img src="${inspiration.image}" alt="${inspiration.subject}" class="banner-desktop">
+                    <img src="${inspiration.image}" alt="${inspiration.subject}" class="banner-mobile">
                     <div class="carousel-content">
-                        <h2>${inspiration.subject}</h2>
+                        <h2 style="${subjectStyle}">${inspiration.subject}</h2>
                         ${inspiration.description ? `<p>${inspiration.description}</p>` : ''}
                     </div>
                 `;
@@ -3564,7 +3638,8 @@
                 slideElement.className = 'carousel-slide';
                 
                 slideElement.innerHTML = `
-                    <img src="${slide.image}" alt="${slide.title}">
+                    <img src="${slide.image}" alt="${slide.title}" class="banner-desktop">
+                    <img src="${slide.image}" alt="${slide.title}" class="banner-mobile">
                     <div class="carousel-content">
                         <h2>${slide.title}</h2>
                         <p>${slide.subtitle}</p>
@@ -3652,7 +3727,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('addProductBtn').addEventListener('click', function() {
                     showProductForm();
@@ -3686,7 +3761,7 @@
                         tableBody.appendChild(row);
                     });
                     
-                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
+                    // Utilisation de délégation d'événements pour les boutons dynamiques
                     document.getElementById('adminProductsTable').addEventListener('click', function(e) {
                         const target = e.target;
                         if (target.classList.contains('edit')) {
@@ -3763,7 +3838,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('productForm').addEventListener('submit', function(e) {
                     e.preventDefault();
@@ -3902,7 +3977,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('addGalleryItemBtn').addEventListener('click', function() {
                     showGalleryForm();
@@ -3936,7 +4011,7 @@
                         galleryGrid.appendChild(galleryItem);
                     });
                     
-                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
+                    // Utilisation de délégation d'événements pour les boutons dynamiques
                     document.getElementById('adminGalleryGrid').addEventListener('click', function(e) {
                         const target = e.target;
                         if (target.classList.contains('edit')) {
@@ -3996,7 +4071,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('galleryForm').addEventListener('submit', function(e) {
                     e.preventDefault();
@@ -4105,7 +4180,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('addBlogPostBtn').addEventListener('click', function() {
                     showBlogForm();
@@ -4141,7 +4216,7 @@
                         tableBody.appendChild(row);
                     });
                     
-                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
+                    // Utilisation de délégation d'événements pour les boutons dynamiques
                     document.getElementById('adminBlogTable').addEventListener('click', function(e) {
                         const target = e.target;
                         if (target.classList.contains('edit')) {
@@ -4218,7 +4293,7 @@
                 </div>
             `;
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('blogForm').addEventListener('submit', function(e) {
                     e.preventDefault();
@@ -4449,7 +4524,7 @@
                     console.error('Erreur lors du chargement des paramètres:', error);
                 });
             
-            // CORRECTION: Ajout des événements après le chargement du contenu
+            // Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('settingsForm').addEventListener('submit', e => {
                     e.preventDefault();
