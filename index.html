@@ -37,14 +37,14 @@
             --shadow-heavy: rgba(0, 0, 0, 0.3);
             
             /* Nouvelle palette de couleurs basée sur la demande */
-            --brand-pink: #ff69b4;
+            --brand-pink: #FF007F; /* Rose Pur pour l'en-tête */
             --brand-pink-light: #ffb6c1;
             --brand-pink-dark: #db7093;
             --brand-blue: #4169e1;
             --brand-blue-light: #6495ed;
             --brand-blue-dark: #191970;
             --brand-gradient: linear-gradient(135deg, var(--brand-blue), var(--brand-pink));
-            --brand-gold: #D4AF37;
+            --brand-gold: #F9F5E4; /* Or Pur pour le fond général */
             
             /* Nouvelles polices basées sur l'identité typographique */
             --font-script: 'Great Vibes', 'Dancing Script', cursive;
@@ -76,7 +76,7 @@
             font-weight: 400;
             line-height: 1.6;
             color: var(--primary-black);
-            background-color: var(--primary-white);
+            background-color: var(--brand-gold); /* Fond général en Or Pur */
             overflow-x: hidden;
         }
 
@@ -248,7 +248,7 @@
             left: 0;
             width: 100%;
             z-index: 1000;
-            background: var(--brand-pink); /* Changement en rose pur */
+            background: var(--brand-pink); /* Rose Pur pour l'en-tête */
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             box-shadow: 0 2px 20px var(--shadow-light);
@@ -256,7 +256,7 @@
         }
 
         header.scrolled {
-            background: var(--brand-pink); /* Reste en rose pur même après scroll */
+            background: var(--brand-pink);
             box-shadow: 0 5px 25px var(--shadow-medium);
         }
 
@@ -282,17 +282,14 @@
             font-family: var(--font-script);
             font-size: 2.2rem;
             font-weight: 700;
-            background: var(--brand-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--primary-black); /* Texte en noir pour le logo */
             letter-spacing: 1px;
-            text-shadow: 0 2px 4px rgba(65, 105, 225, 0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .logo-subtitle {
             font-size: 0.8rem;
-            color: var(--brand-blue);
+            color: var(--primary-black);
             display: block;
             margin-top: -2px;
             letter-spacing: 1.5px;
@@ -314,7 +311,7 @@
             padding: 8px 0;
             font-size: 1.05rem;
             transition: all 0.3s ease-in-out;
-            color: var(--primary-white); /* Changement de couleur pour contraster avec le fond rose */
+            color: var(--primary-black); /* Liens en noir */
             font-family: var(--font-sans);
         }
 
@@ -325,7 +322,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--brand-gradient);
+            background: var(--primary-black); /* Soulignement en noir */
             transition: var(--transition-fast);
         }
 
@@ -335,7 +332,7 @@
         }
 
         nav ul li a:hover {
-            color: var(--brand-blue-light);
+            color: var(--primary-black);
         }
 
         .mobile-menu-btn {
@@ -343,7 +340,7 @@
             background: none;
             border: none;
             font-size: 1.5rem;
-            color: var(--primary-white); /* Changement de couleur pour contraster avec le fond rose */
+            color: var(--primary-black);
             cursor: pointer;
             padding: 5px;
             border-radius: 4px;
@@ -352,7 +349,7 @@
 
         .mobile-menu-btn:hover {
             background: rgba(0, 0, 0, 0.05);
-            color: var(--brand-blue-light);
+            color: var(--brand-blue);
         }
 
         /* ===== PAGES STYLES ===== */
@@ -372,54 +369,65 @@
             to { opacity: 1; }
         }
 
-        /* ===== HERO SECTION ===== */
-        .hero {
+        /* ===== CARROUSEL D'INSPIRATION ===== */
+        .inspiration-carousel {
             position: relative;
             height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
             overflow: hidden;
         }
 
-        .inspiration-carousel {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .carousel-container {
+            position: relative;
             width: 100%;
             height: 100%;
-            display: flex;
-            transition: transform 0.5s ease;
         }
 
-        .carousel-item {
+        .carousel-slides {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .carousel-slide {
             min-width: 100%;
             height: 100%;
             position: relative;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .carousel-item-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0.3); /* Overlay pour améliorer la lisibilité */
         }
 
-        .carousel-item-text {
-            font-size: 4rem;
-            color: black; /* Texte en noir comme demandé */
-            text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.7); /* Ombre pour améliorer la lisibilité */
-            max-width: 80%;
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .carousel-content {
+            position: relative;
+            z-index: 2;
             text-align: center;
+            color: var(--primary-black); /* Texte en noir */
+            max-width: 80%;
+            padding: 20px;
+        }
+
+        .carousel-content h2 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.7);
+            color: var(--primary-black); /* Texte en noir */
+        }
+
+        .carousel-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.7);
+            color: var(--primary-black); /* Texte en noir */
         }
 
         .carousel-nav {
@@ -429,11 +437,11 @@
             display: flex;
             justify-content: space-between;
             transform: translateY(-50%);
+            z-index: 3;
             padding: 0 20px;
-            z-index: 10;
         }
 
-        .carousel-prev, .carousel-next {
+        .carousel-nav button {
             background: rgba(255, 255, 255, 0.7);
             border: none;
             width: 50px;
@@ -443,25 +451,25 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: var(--transition-fast);
+            transition: all 0.3s ease;
             font-size: 1.5rem;
             color: var(--primary-black);
         }
 
-        .carousel-prev:hover, .carousel-next:hover {
+        .carousel-nav button:hover {
             background: rgba(255, 255, 255, 0.9);
             transform: scale(1.1);
         }
 
         .carousel-indicators {
             position: absolute;
-            bottom: 20px;
+            bottom: 30px;
             left: 0;
             width: 100%;
             display: flex;
             justify-content: center;
             gap: 10px;
-            z-index: 10;
+            z-index: 3;
         }
 
         .carousel-indicator {
@@ -470,11 +478,11 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.5);
             cursor: pointer;
-            transition: var(--transition-fast);
+            transition: all 0.3s ease;
         }
 
         .carousel-indicator.active {
-            background: rgba(255, 255, 255, 1);
+            background: rgba(255, 255, 255, 0.9);
             transform: scale(1.2);
         }
 
@@ -797,17 +805,9 @@
             font-family: var(--font-sans);
         }
 
-        .blog-read-more {
+        .read-more-btn {
             margin-top: 15px;
-            display: inline-block;
-            color: var(--brand-blue);
-            cursor: pointer;
-            font-weight: 600;
-            font-family: var(--font-sans);
-        }
-
-        .blog-content-full {
-            display: none;
+            width: 100%;
         }
 
         /* ===== CONTACT SECTION ===== */
@@ -1320,6 +1320,72 @@
             height: auto;
         }
 
+        /* ===== NOTIFICATIONS ===== */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 15px 25px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px var(--shadow-medium);
+            z-index: 3000;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.4s ease-in-out;
+            max-width: 350px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification.success {
+            border-left: 4px solid #27ae60;
+        }
+
+        .notification.error {
+            border-left: 4px solid #e74c3c;
+        }
+
+        .notification.info {
+            border-left: 4px solid #3498db;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+        }
+
+        .notification.success .notification-icon {
+            color: #27ae60;
+        }
+
+        .notification.error .notification-icon {
+            color: #e74c3c;
+        }
+
+        .notification.info .notification-icon {
+            color: #3498db;
+        }
+
+        .notification-text h4 {
+            margin-bottom: 5px;
+            font-family: var(--font-sans);
+        }
+
+        .notification-text p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
         /* ===== ANIMATIONS ===== */
         @keyframes fadeInUp {
             from {
@@ -1442,33 +1508,10 @@
             opacity: 1;
         }
 
-        /* ===== TOAST NOTIFICATION ===== */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: var(--brand-gradient);
-            color: white;
-            padding: 15px 25px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-            z-index: 3000;
-            font-family: var(--font-sans);
-            font-weight: 500;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
         /* ===== RESPONSIVE STYLES ===== */
         @media (max-width: 1200px) {
-            .hero h1 {
-                font-size: 4.5rem;
+            .carousel-content h2 {
+                font-size: 3.5rem;
             }
             
             .container {
@@ -1477,12 +1520,12 @@
         }
 
         @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 4rem;
+            .carousel-content h2 {
+                font-size: 3rem;
             }
             
-            .hero p {
-                font-size: 1.5rem;
+            .carousel-content p {
+                font-size: 1.3rem;
             }
             
             .section-title h2 {
@@ -1532,22 +1575,18 @@
                 margin: 0 0 25px 0;
             }
             
-            .hero h1 {
-                font-size: 3.2rem;
+            .carousel-content h2 {
+                font-size: 2.5rem;
             }
             
-            .hero p {
-                font-size: 1.3rem;
+            .carousel-content p {
+                font-size: 1.1rem;
             }
             
-            .hero-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .hero-buttons .btn {
-                width: 100%;
-                max-width: 280px;
+            .carousel-nav button {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
             }
             
             .footer-container {
@@ -1604,29 +1643,15 @@
                 height: 150px;
                 margin: 50px 0;
             }
-
-            .carousel-item-text {
-                font-size: 2.5rem;
-            }
-
-            .carousel-nav {
-                padding: 0 10px;
-            }
-
-            .carousel-prev, .carousel-next {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
-            }
         }
 
         @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 2.8rem;
+            .carousel-content h2 {
+                font-size: 2.2rem;
             }
             
-            .hero p {
-                font-size: 1.1rem;
+            .carousel-content p {
+                font-size: 1rem;
             }
             
             .section-title h2 {
@@ -1656,7 +1681,7 @@
                 padding-top: 70px;
             }
             
-            .hero-content {
+            .carousel-content {
                 padding: 0 15px;
             }
             
@@ -1676,19 +1701,12 @@
                 height: 120px;
                 margin: 30px 0;
             }
-
-            .carousel-item-text {
-                font-size: 2rem;
-            }
         }
     </style>
 </head>
 <body>
     <!-- Background brand name -->
     <div class="background-brand" id="backgroundBrand">WENDY BEAUTY STORE</div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
 
     <!-- Header -->
     <header id="header">
@@ -1724,16 +1742,25 @@
     <main id="main-content">
         <!-- Page Accueil -->
         <section id="home" class="page active">
-            <div class="hero">
-                <div class="inspiration-carousel" id="inspirationCarousel">
-                    <!-- Les inspirations seront chargées dynamiquement -->
-                </div>
-                <div class="carousel-nav">
-                    <button class="carousel-prev">&lt;</button>
-                    <button class="carousel-next">&gt;</button>
-                </div>
-                <div class="carousel-indicators" id="carouselIndicators">
-                    <!-- Les indicateurs seront ajoutés dynamiquement -->
+            <!-- Carrousel d'Inspiration -->
+            <div class="inspiration-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-slides" id="carouselSlides">
+                        <!-- Les slides seront ajoutées dynamiquement -->
+                    </div>
+                    
+                    <div class="carousel-nav">
+                        <button id="carouselPrev">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button id="carouselNext">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="carousel-indicators" id="carouselIndicators">
+                        <!-- Les indicateurs seront ajoutés dynamiquement -->
+                    </div>
                 </div>
             </div>
 
@@ -2090,7 +2117,7 @@
                     <div class="admin-tab active" data-tab="products">Produits</div>
                     <div class="admin-tab" data-tab="gallery">Galerie</div>
                     <div class="admin-tab" data-tab="blog">Blog</div>
-                    <div class="admin-tab" data-tab="inspiration">Inspiration</div>
+                    <div class="admin-tab" data-tab="inspirations">Inspirations</div>
                     <div class="admin-tab" data-tab="orders">Commandes</div>
                     <div class="admin-tab" data-tab="reservations">Réservations</div>
                     <div class="admin-tab" data-tab="settings">Paramètres</div>
@@ -2248,33 +2275,90 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="inspirationFont">Choix d'Écriture *</label>
-                        <select id="inspirationFont" class="form-control" required>
-                            <option value="">Sélectionnez une police</option>
-                            <option value="Great Vibes">Great Vibes</option>
-                            <option value="Dancing Script">Dancing Script</option>
-                            <option value="Playfair Display">Playfair Display</option>
-                            <option value="Montserrat">Montserrat</option>
-                            <option value="Arial">Arial</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                            <option value="Courier New">Courier New</option>
-                            <option value="Verdana">Verdana</option>
-                            <option value="Trebuchet MS">Trebuchet MS</option>
+                        <label for="inspirationDescription">Description (optionnelle)</label>
+                        <textarea id="inspirationDescription" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inspirationImage">Image d'Inspiration *</label>
+                        <input type="file" id="inspirationImage" class="form-control" accept="image/*" required>
+                        <div class="image-preview" id="inspirationImagePreview" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inspirationFont">Police d'écriture</label>
+                        <select id="inspirationFont" class="form-control">
+                            <option value="Arial, sans-serif">Arial</option>
+                            <option value="'Great Vibes', cursive">Great Vibes</option>
+                            <option value="'Dancing Script', cursive">Dancing Script</option>
+                            <option value="'Playfair Display', serif">Playfair Display</option>
+                            <option value="'Montserrat', sans-serif">Montserrat</option>
+                            <option value="'Georgia', serif">Georgia</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                            <option value="'Helvetica', sans-serif">Helvetica</option>
+                            <option value="'Verdana', sans-serif">Verdana</option>
+                            <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                            <option value="'Garamond', serif">Garamond</option>
+                            <option value="'Courier New', monospace">Courier New</option>
+                            <option value="'Brush Script MT', cursive">Brush Script</option>
+                            <option value="'Palatino', serif">Palatino</option>
+                            <option value="'Comic Sans MS', cursive">Comic Sans</option>
+                            <option value="'Impact', sans-serif">Impact</option>
+                            <option value="'Lucida Console', monospace">Lucida Console</option>
+                            <option value="'Tahoma', sans-serif">Tahoma</option>
+                            <option value="'Geneva', sans-serif">Geneva</option>
+                            <option value="'Copperplate', serif">Copperplate</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="inspirationImage">Image *</label>
-                        <input type="file" id="inspirationImage" class="form-control" required accept="image/*">
-                        <div class="image-preview" id="inspirationImagePreview"></div>
+                        <label for="inspirationColor">Couleur de police</label>
+                        <input type="color" id="inspirationColor" class="form-control" value="#000000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="inspirationSize">Taille de police (px)</label>
+                        <input type="number" id="inspirationSize" class="form-control" min="16" max="72" value="36">
                     </div>
                     
                     <div class="form-actions">
-                        <button type="submit" class="btn">Ajouter l'inspiration</button>
+                        <button type="submit" class="btn">Publier l'Inspiration</button>
                         <button type="button" class="btn btn-secondary" id="cancelInspirationForm">Annuler</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Article Blog Complet -->
+    <div class="modal" id="blogArticleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="blogArticleTitle">Titre de l'article</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="blog-meta" id="blogArticleMeta">
+                    <span class="blog-category" id="blogArticleCategory">Catégorie</span>
+                    <span id="blogArticleDate">Date</span>
+                </div>
+                <div id="blogArticleImage" style="margin-bottom: 20px;"></div>
+                <div id="blogArticleContent">
+                    <!-- Le contenu complet de l'article sera inséré ici -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <div class="notification-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="notification-text">
+                <h4 id="notificationTitle">Succès</h4>
+                <p id="notificationMessage">Opération réussie</p>
             </div>
         </div>
     </div>
@@ -2313,8 +2397,9 @@
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let currentPage = 'home';
         let currentAdminTab = 'products';
-        let inspirations = [];
+        let carouselInterval;
         let currentCarouselIndex = 0;
+        let inspirations = [];
         
         // Styles de coiffure
         const maleHairstyles = ["Pompadour", "Quiff", "Slicked Back", "Undercut", "Faux Hawk", "Crew Cut", "Buzz Cut", "High and Tight", "Caesar Cut", "French Crop", "Taper Cut", "Low Fade", "Mid Fade", "High Fade", "Skin Fade", "Scissor Cut", "Coupé court", "Coupé long", "Coupe Classique", "Side Part", "Man Bun", "Top Knot", "Comb Over", "Textured Crop", "Fringe", "Spiky Hair", "Mohawk", "Burst Fade", "Drop Fade", "Temple Fade", "Afro", "Fade Afro", "Tapered Afro", "Dreadlocks", "Cornrows", "Twists", "Sponge Curls", "Box Braids", "Mullet", "Modern Mullet", "Skater Hair", "Grunge Hair", "Bowl Cut", "Shaggy Cut", "Layered Cut", "Straight Fringe", "Angular Fringe", "Swept Fringe", "Ivy League", "Brush Cut", "Butch Cut", "Flat Top", "Disconnected Undercut", "Business Cut", "Hard Part", "Razor Part", "Blowout", "Messy Quiff", "Clean Pompadour", "Loose Quiff", "Wet Look", "Side Swept", "Slicked Side Part", "Dégradé en V", "Dégradé en U", "Line Up", "Surgical Line", "Zero Cut", "#1 Cut", "#2 Cut", "#3 Cut", "#4 Cut", "Bald Fade", "Tapered Neckline", "V-Shape Neckline", "Square Neckline", "Mid-Length Flow", "Wavy Hair Style", "Curly Hair Style", "Permed Hair", "Tousled Hair", "Forward Push", "Back Brush", "High Volume", "Low Volume", "Undercut Déconnecté", "Undercut Plié", "Quiff Court", "Pompadour Long", "Pompadour Texturé", "Texture Piquante", "Coupe Tondeuse", "Coupe Ciseaux", "Choppy Cut", "Wispies", "Fringe Courte", "Fringe Longue", "Coupe Rétro", "Coupe Contemporaine", "Gentleman's Cut"];
@@ -2411,7 +2496,16 @@
             document.getElementById('adminLoginForm').addEventListener('submit', handleAdminLogin);
             document.getElementById('adminLogoutBtn').addEventListener('click', handleAdminLogout);
             
-            // Gestion des onglets admin avec délégation d'événements
+            // Carrousel
+            document.getElementById('carouselPrev').addEventListener('click', showPrevSlide);
+            document.getElementById('carouselNext').addEventListener('click', showNextSlide);
+            
+            // Inspiration
+            document.getElementById('inspirationImage').addEventListener('change', previewInspirationImage);
+            document.getElementById('inspirationForm').addEventListener('submit', handleInspirationSubmit);
+            document.getElementById('cancelInspirationForm').addEventListener('click', closeInspirationModal);
+            
+            // CORRECTION: Gestion des onglets admin avec délégation d'événements
             document.querySelector('.admin-tabs').addEventListener('click', function(e) {
                 const tab = e.target.closest('.admin-tab[data-tab]');
                 if (tab) {
@@ -2424,7 +2518,7 @@
                         // Charger le contenu
                         loadAdminContent(tab.dataset.tab);
                     } else {
-                        alert('Veuillez vous connecter en tant qu\'administrateur.');
+                        showNotification('info', 'Connexion requise', 'Veuillez vous connecter en tant qu\'administrateur.');
                     }
                 }
             });
@@ -2440,14 +2534,6 @@
                         closeAllModals();
                     }
                 });
-            });
-
-            // Carrousel
-            document.querySelector('.carousel-prev').addEventListener('click', () => {
-                navigateCarousel(-1);
-            });
-            document.querySelector('.carousel-next').addEventListener('click', () => {
-                navigateCarousel(1);
             });
         }
 
@@ -2733,12 +2819,12 @@
             
             db.collection('reservations').add(reservationData)
                 .then(() => {
-                    showToast('Votre réservation a été enregistrée avec succès! Nous vous contacterons pour confirmation.');
+                    showNotification('success', 'Réservation réussie', 'Votre réservation a été enregistrée avec succès! Nous vous contacterons pour confirmation.');
                     document.getElementById('reservationForm').reset();
                 })
                 .catch(error => {
                     console.error('Erreur lors de l\'enregistrement de la réservation:', error);
-                    showToast('Une erreur est survenue. Veuillez réessayer.', 'error');
+                    showNotification('error', 'Erreur', 'Une erreur est survenue. Veuillez réessayer.');
                 });
         }
 
@@ -2758,12 +2844,12 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             })
             .then(() => {
-                showToast('Votre message a été envoyé avec succès! Nous vous répondrons dans les plus brefs délais.');
+                showNotification('success', 'Message envoyé', 'Votre message a été envoyé avec succès! Nous vous répondrons dans les plus brefs délais.');
                 document.getElementById('contactForm').reset();
             })
             .catch(error => {
                 console.error('Erreur lors de l\'envoi du message:', error);
-                showToast('Une erreur est survenue. Veuillez réessayer.', 'error');
+                showNotification('error', 'Erreur', 'Une erreur est survenue. Veuillez réessayer.');
             });
         }
 
@@ -2883,7 +2969,7 @@
             
             blogGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement des articles...</p>';
             
-            // Charger tous les articles de blog sans filtre de statut
+            // CORRECTION: Charger tous les articles de blog sans filtre de statut
             // pour éviter l'erreur "Erreur lors du chargement des articles"
             db.collection('blog').orderBy('timestamp', 'desc').get()
                 .then(snapshot => {
@@ -2895,7 +2981,7 @@
                     blogGrid.innerHTML = '';
                     snapshot.forEach(doc => {
                         const post = doc.data();
-                        // Vérifier si le post a un statut "Publié" ou non
+                        // CORRECTION: Vérifier si le post a un statut "Publié" ou non
                         // Si non, ne pas l'afficher aux utilisateurs normaux
                         if (post.status === "Publié" || currentUser) {
                             const blogCard = createBlogCard(post, doc.id);
@@ -2918,9 +3004,8 @@
             const card = document.createElement('div');
             card.className = 'blog-card fade-in scroll-animate hover-3d';
             
-            // Tronquer le contenu à 150 caractères
-            const shortContent = post.content.substring(0, 150) + (post.content.length > 150 ? '...' : '');
-            const fullContent = post.content;
+            // Limiter le contenu à 150 caractères pour l'aperçu
+            const shortContent = post.content.length > 150 ? post.content.substring(0, 150) + '...' : post.content;
             
             card.innerHTML = `
                 <div class="blog-image">
@@ -2932,37 +3017,46 @@
                         <span>${post.timestamp ? post.timestamp.toDate().toLocaleDateString('fr-FR') : ''}</span>
                     </div>
                     <h3>${post.title}</h3>
-                    <div class="blog-content-short">
-                        <p>${shortContent}</p>
-                    </div>
-                    <div class="blog-content-full" style="display: none;">
-                        <p>${fullContent}</p>
-                    </div>
-                    ${post.content.length > 150 ? '<a href="#" class="blog-read-more">Voir plus</a>' : ''}
+                    <p>${shortContent}</p>
+                    <button class="btn btn-secondary read-more-btn" data-id="${id}">Lire la suite</button>
                 </div>
             `;
             
-            // Ajouter l'événement pour "Voir plus"
-            const readMoreLink = card.querySelector('.blog-read-more');
-            if (readMoreLink) {
-                readMoreLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const shortContent = card.querySelector('.blog-content-short');
-                    const fullContent = card.querySelector('.blog-content-full');
-                    
-                    if (fullContent.style.display === 'none') {
-                        shortContent.style.display = 'none';
-                        fullContent.style.display = 'block';
-                        this.textContent = 'Voir moins';
-                    } else {
-                        shortContent.style.display = 'block';
-                        fullContent.style.display = 'none';
-                        this.textContent = 'Voir plus';
-                    }
-                });
-            }
+            // Ajouter l'événement pour lire l'article complet
+            card.querySelector('.read-more-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                showFullBlogArticle(id);
+            });
             
             return card;
+        }
+
+        function showFullBlogArticle(articleId) {
+            db.collection('blog').doc(articleId).get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const post = doc.data();
+                        
+                        // Mettre à jour le modal avec le contenu complet
+                        document.getElementById('blogArticleTitle').textContent = post.title;
+                        document.getElementById('blogArticleCategory').textContent = post.category;
+                        document.getElementById('blogArticleDate').textContent = post.timestamp ? post.timestamp.toDate().toLocaleDateString('fr-FR') : '';
+                        
+                        const articleImage = document.getElementById('blogArticleImage');
+                        articleImage.innerHTML = `<img src="${post.image}" alt="${post.title}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px;">`;
+                        
+                        document.getElementById('blogArticleContent').innerHTML = `
+                            <p style="white-space: pre-line; line-height: 1.6;">${post.content}</p>
+                        `;
+                        
+                        // Afficher le modal
+                        document.getElementById('blogArticleModal').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement de l\'article complet:', error);
+                    showNotification('error', 'Erreur', 'Impossible de charger l\'article complet.');
+                });
         }
 
         function loadSettings() {
@@ -3068,7 +3162,7 @@
 
         function openOrderModal() {
             if (cart.length === 0) {
-                alert('Votre panier est vide.');
+                showNotification('info', 'Panier vide', 'Votre panier est vide.');
                 return;
             }
             
@@ -3093,7 +3187,7 @@
             
             db.collection('orders').add(orderData)
                 .then(() => {
-                    showToast('Merci pour votre commande ! L\'administration vous contactera au ' + phone + ' dans les plus brefs délais pour organiser la livraison (Paiement à la livraison uniquement).');
+                    showNotification('success', 'Commande réussie', 'Merci pour votre commande ! L\'administration vous contactera au ' + phone + ' dans les plus brefs délais pour organiser la livraison (Paiement à la livraison uniquement).');
                     
                     cart = [];
                     localStorage.setItem('cart', JSON.stringify(cart));
@@ -3104,7 +3198,7 @@
                 })
                 .catch(error => {
                     console.error('Erreur lors de l\'enregistrement de la commande:', error);
-                    showToast('Une erreur est survenue. Veuillez réessayer.', 'error');
+                    showNotification('error', 'Erreur', 'Une erreur est survenue. Veuillez réessayer.');
                 });
         }
 
@@ -3136,7 +3230,7 @@
                         closeAllModals();
                         navigateToPage('admin');
                         loadAdminContent(currentAdminTab);
-                        showToast('Connexion réussie! Bienvenue dans l\'espace administrateur.');
+                        showNotification('success', 'Connexion réussie', 'Bienvenue dans l\'espace administrateur!');
                     } else {
                         auth.signOut();
                         errorDiv.textContent = 'Accès refusé. Vous n\'êtes pas autorisé à accéder à l\'espace administrateur.';
@@ -3177,11 +3271,11 @@
                 .then(() => {
                     currentUser = null;
                     navigateToPage('home');
-                    showToast('Déconnexion réussie.');
+                    showNotification('success', 'Déconnexion', 'Déconnexion réussie.');
                 })
                 .catch(error => {
                     console.error('Erreur de déconnexion:', error);
-                    showToast('Erreur lors de la déconnexion.', 'error');
+                    showNotification('error', 'Erreur', 'Erreur lors de la déconnexion.');
                 });
         }
 
@@ -3203,8 +3297,8 @@
                 case 'blog':
                     loadAdminBlog();
                     break;
-                case 'inspiration':
-                    loadAdminInspiration();
+                case 'inspirations':
+                    loadAdminInspirations();
                     break;
                 case 'orders':
                     loadAdminOrders();
@@ -3216,6 +3310,322 @@
                     loadAdminSettings();
                     break;
             }
+        }
+
+        // ===== FONCTIONS ADMIN INSPIRATIONS =====
+        function loadAdminInspirations() {
+            const adminContent = document.getElementById('adminContent');
+            adminContent.innerHTML = `
+                <div class="admin-content">
+                    <h3>Gestion des Inspirations</h3>
+                    <button class="btn" id="addInspirationBtn" style="margin-bottom: 20px;">Ajouter une Inspiration</button>
+                    <div class="gallery-grid" id="adminInspirationsGrid">
+                        <!-- Les inspirations seront chargées ici -->
+                    </div>
+                </div>
+            `;
+            
+            // CORRECTION: Ajout des événements après le chargement du contenu
+            setTimeout(() => {
+                document.getElementById('addInspirationBtn').addEventListener('click', function() {
+                    openInspirationModal();
+                });
+            }, 100);
+            
+            // Charger les inspirations
+            loadInspirationsForAdmin();
+        }
+
+        function loadInspirationsForAdmin() {
+            const inspirationsGrid = document.getElementById('adminInspirationsGrid');
+            
+            if (!inspirationsGrid) return;
+            
+            inspirationsGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement des inspirations...</p>';
+            
+            db.collection('inspirations').orderBy('timestamp', 'desc').get()
+                .then(snapshot => {
+                    if (snapshot.empty) {
+                        inspirationsGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Aucune inspiration enregistrée.</p>';
+                        return;
+                    }
+                    
+                    inspirationsGrid.innerHTML = '';
+                    snapshot.forEach(doc => {
+                        const inspiration = doc.data();
+                        const inspirationItem = document.createElement('div');
+                        inspirationItem.className = 'gallery-item';
+                        inspirationItem.innerHTML = `
+                            <img src="${inspiration.image}" alt="${inspiration.subject}">
+                            <div class="gallery-item-caption">
+                                <h3>${inspiration.subject}</h3>
+                                <div class="admin-actions" style="margin-top: 10px;">
+                                    <button class="admin-btn delete" data-id="${doc.id}">Supprimer</button>
+                                </div>
+                            </div>
+                        `;
+                        inspirationsGrid.appendChild(inspirationItem);
+                    });
+                    
+                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
+                    document.getElementById('adminInspirationsGrid').addEventListener('click', function(e) {
+                        const target = e.target;
+                        if (target.classList.contains('delete')) {
+                            deleteInspiration(target.dataset.id);
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des inspirations:', error);
+                    inspirationsGrid.innerHTML = '<p style="color: #e74c3c; margin-top: 20px;">Erreur lors du chargement des inspirations.</p>';
+                });
+        }
+
+        function openInspirationModal() {
+            document.getElementById('inspirationModal').style.display = 'block';
+            document.getElementById('inspirationForm').reset();
+            document.getElementById('inspirationImagePreview').style.display = 'none';
+        }
+
+        function closeInspirationModal() {
+            document.getElementById('inspirationModal').style.display = 'none';
+        }
+
+        function previewInspirationImage() {
+            const file = this.files[0];
+            const preview = document.getElementById('inspirationImagePreview');
+            
+            if (file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Aperçu de l'image">`;
+                    preview.style.display = 'block';
+                }
+                
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        function handleInspirationSubmit(e) {
+            e.preventDefault();
+            
+            const subject = document.getElementById('inspirationSubject').value;
+            const description = document.getElementById('inspirationDescription').value;
+            const font = document.getElementById('inspirationFont').value;
+            const color = document.getElementById('inspirationColor').value;
+            const size = document.getElementById('inspirationSize').value;
+            const imageFile = document.getElementById('inspirationImage').files[0];
+            
+            if (!imageFile) {
+                showNotification('error', 'Erreur', 'Veuillez sélectionner une image.');
+                return;
+            }
+            
+            // Afficher un message de chargement
+            showNotification('info', 'Publication', 'Publication de l\'inspiration en cours...');
+            
+            // Upload de l'image vers Cloudinary
+            uploadImageToCloudinary(imageFile)
+                .then(imageUrl => {
+                    const inspirationData = {
+                        subject,
+                        description,
+                        font,
+                        color,
+                        size: parseInt(size),
+                        image: imageUrl,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+                    
+                    // Enregistrer dans Firestore
+                    return db.collection('inspirations').add(inspirationData);
+                })
+                .then(() => {
+                    showNotification('success', 'Succès', 'Inspiration publiée avec succès!');
+                    closeInspirationModal();
+                    loadInspirations();
+                    loadAdminInspirations();
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la publication de l\'inspiration:', error);
+                    showNotification('error', 'Erreur', 'Erreur lors de la publication de l\'inspiration.');
+                });
+        }
+
+        function deleteInspiration(inspirationId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette inspiration ?')) {
+                db.collection('inspirations').doc(inspirationId).delete()
+                    .then(() => {
+                        showNotification('success', 'Suppression', 'Inspiration supprimée avec succès!');
+                        loadInspirations();
+                        loadAdminInspirations();
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la suppression de l\'inspiration:', error);
+                        showNotification('error', 'Erreur', 'Erreur lors de la suppression de l\'inspiration.');
+                    });
+            }
+        }
+
+        // ===== FONCTIONS CARROUSEL D'INSPIRATION =====
+        function loadInspirations() {
+            db.collection('inspirations').orderBy('timestamp', 'desc').get()
+                .then(snapshot => {
+                    inspirations = [];
+                    snapshot.forEach(doc => {
+                        inspirations.push({ id: doc.id, ...doc.data() });
+                    });
+                    
+                    renderCarousel();
+                    startCarouselAutoPlay();
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des inspirations:', error);
+                    // Afficher un carrousel par défaut si aucune inspiration n'est disponible
+                    renderDefaultCarousel();
+                });
+        }
+
+        function renderCarousel() {
+            const carouselSlides = document.getElementById('carouselSlides');
+            const carouselIndicators = document.getElementById('carouselIndicators');
+            
+            carouselSlides.innerHTML = '';
+            carouselIndicators.innerHTML = '';
+            
+            if (inspirations.length === 0) {
+                renderDefaultCarousel();
+                return;
+            }
+            
+            inspirations.forEach((inspiration, index) => {
+                // Créer la slide
+                const slide = document.createElement('div');
+                slide.className = 'carousel-slide';
+                slide.style.fontFamily = inspiration.font;
+                slide.style.color = inspiration.color;
+                slide.style.fontSize = `${inspiration.size}px`;
+                
+                slide.innerHTML = `
+                    <img src="${inspiration.image}" alt="${inspiration.subject}">
+                    <div class="carousel-content">
+                        <h2>${inspiration.subject}</h2>
+                        ${inspiration.description ? `<p>${inspiration.description}</p>` : ''}
+                    </div>
+                `;
+                
+                carouselSlides.appendChild(slide);
+                
+                // Créer l'indicateur
+                const indicator = document.createElement('div');
+                indicator.className = `carousel-indicator ${index === 0 ? 'active' : ''}`;
+                indicator.dataset.index = index;
+                indicator.addEventListener('click', () => goToSlide(index));
+                
+                carouselIndicators.appendChild(indicator);
+            });
+            
+            // Mettre à jour l'index actuel
+            currentCarouselIndex = 0;
+        }
+
+        function renderDefaultCarousel() {
+            const carouselSlides = document.getElementById('carouselSlides');
+            const carouselIndicators = document.getElementById('carouselIndicators');
+            
+            // Slides par défaut
+            const defaultSlides = [
+                {
+                    image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                    title: 'Wendy Beauty Store',
+                    subtitle: 'La beauté qui unit tradition et modernité'
+                },
+                {
+                    image: 'https://images.unsplash.com/photo-1595476108010-b4d1f102b1e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                    title: 'Expertise Africaine',
+                    subtitle: 'L\'art de la tresse dans toute sa diversité'
+                },
+                {
+                    image: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+                    title: 'Soins Personnalisés',
+                    subtitle: 'Des prestations adaptées à vos besoins'
+                }
+            ];
+            
+            carouselSlides.innerHTML = '';
+            carouselIndicators.innerHTML = '';
+            
+            defaultSlides.forEach((slide, index) => {
+                // Créer la slide
+                const slideElement = document.createElement('div');
+                slideElement.className = 'carousel-slide';
+                
+                slideElement.innerHTML = `
+                    <img src="${slide.image}" alt="${slide.title}">
+                    <div class="carousel-content">
+                        <h2>${slide.title}</h2>
+                        <p>${slide.subtitle}</p>
+                    </div>
+                `;
+                
+                carouselSlides.appendChild(slideElement);
+                
+                // Créer l'indicateur
+                const indicator = document.createElement('div');
+                indicator.className = `carousel-indicator ${index === 0 ? 'active' : ''}`;
+                indicator.dataset.index = index;
+                indicator.addEventListener('click', () => goToSlide(index));
+                
+                carouselIndicators.appendChild(indicator);
+            });
+            
+            // Mettre à jour l'index actuel
+            currentCarouselIndex = 0;
+        }
+
+        function showNextSlide() {
+            const nextIndex = (currentCarouselIndex + 1) % (inspirations.length || 3);
+            goToSlide(nextIndex);
+        }
+
+        function showPrevSlide() {
+            const prevIndex = currentCarouselIndex === 0 ? (inspirations.length - 1 || 2) : currentCarouselIndex - 1;
+            goToSlide(prevIndex);
+        }
+
+        function goToSlide(index) {
+            const carouselSlides = document.getElementById('carouselSlides');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            // Mettre à jour l'index actuel
+            currentCarouselIndex = index;
+            
+            // Déplacer le carrousel
+            carouselSlides.style.transform = `translateX(-${index * 100}%)`;
+            
+            // Mettre à jour les indicateurs
+            indicators.forEach((indicator, i) => {
+                if (i === index) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+            
+            // Redémarrer l'autoplay
+            resetCarouselAutoPlay();
+        }
+
+        function startCarouselAutoPlay() {
+            carouselInterval = setInterval(showNextSlide, 5000); // Change de slide toutes les 5 secondes
+        }
+
+        function resetCarouselAutoPlay() {
+            clearInterval(carouselInterval);
+            startCarouselAutoPlay();
         }
 
         // ===== FONCTIONS ADMIN PRODUITS =====
@@ -3242,7 +3652,7 @@
                 </div>
             `;
             
-            // Ajout des événements après le chargement du contenu
+            // CORRECTION: Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('addProductBtn').addEventListener('click', function() {
                     showProductForm();
@@ -3276,7 +3686,7 @@
                         tableBody.appendChild(row);
                     });
                     
-                    // Utilisation de délégation d'événements pour les boutons dynamiques
+                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
                     document.getElementById('adminProductsTable').addEventListener('click', function(e) {
                         const target = e.target;
                         if (target.classList.contains('edit')) {
@@ -3353,7 +3763,7 @@
                 </div>
             `;
             
-            // Ajout des événements après le chargement du contenu
+            // CORRECTION: Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('productForm').addEventListener('submit', function(e) {
                     e.preventDefault();
@@ -3386,14 +3796,14 @@
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'upload de l\'image:', error);
-                        showToast('Erreur lors de l\'upload de l\'image. Veuillez réessayer.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
                     });
             } else if (productId) {
                 saveProduct({ 
                     name, description, category, price, stock, status
                 }, productId);
             } else {
-                showToast('Veuillez sélectionner une image pour le produit.', 'error');
+                showNotification('error', 'Erreur', 'Veuillez sélectionner une image pour le produit.');
             }
         }
 
@@ -3431,22 +3841,22 @@
             if (productId) {
                 db.collection('products').doc(productId).update(productWithTimestamp)
                     .then(() => {
-                        showToast('Produit modifié avec succès!');
+                        showNotification('success', 'Produit modifié', 'Produit modifié avec succès!');
                         loadAdminProducts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la modification du produit:', error);
-                        showToast('Erreur lors de la modification du produit.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de la modification du produit.');
                     });
             } else {
                 db.collection('products').add(productWithTimestamp)
                     .then(() => {
-                        showToast('Produit ajouté avec succès!');
+                        showNotification('success', 'Produit ajouté', 'Produit ajouté avec succès!');
                         loadAdminProducts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'ajout du produit:', error);
-                        showToast('Erreur lors de l\'ajout du produit.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de l\'ajout du produit.');
                     });
             }
         }
@@ -3460,7 +3870,7 @@
                 })
                 .catch(error => {
                     console.error('Erreur lors de la récupération du produit:', error);
-                    showToast('Erreur lors de la récupération du produit.', 'error');
+                    showNotification('error', 'Erreur', 'Erreur lors de la récupération du produit.');
                 });
         }
 
@@ -3468,13 +3878,13 @@
             if (confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
                 db.collection('products').doc(productId).delete()
                     .then(() => {
-                        showToast('Produit supprimé avec succès!');
+                        showNotification('success', 'Produit supprimé', 'Produit supprimé avec succès!');
                         loadAdminProducts();
                         loadProducts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la suppression du produit:', error);
-                        showToast('Erreur lors de la suppression du produit.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de la suppression du produit.');
                     });
             }
         }
@@ -3492,7 +3902,7 @@
                 </div>
             `;
             
-            // Ajout des événements après le chargement du contenu
+            // CORRECTION: Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('addGalleryItemBtn').addEventListener('click', function() {
                     showGalleryForm();
@@ -3526,7 +3936,7 @@
                         galleryGrid.appendChild(galleryItem);
                     });
                     
-                    // Utilisation de délégation d'événements pour les boutons dynamiques
+                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
                     document.getElementById('adminGalleryGrid').addEventListener('click', function(e) {
                         const target = e.target;
                         if (target.classList.contains('edit')) {
@@ -3586,7 +3996,7 @@
                 </div>
             `;
             
-            // Ajout des événements après le chargement du contenu
+            // CORRECTION: Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('galleryForm').addEventListener('submit', function(e) {
                     e.preventDefault();
@@ -3614,12 +4024,12 @@
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'upload de l\'image:', error);
-                        showToast('Erreur lors de l\'upload de l\'image. Veuillez réessayer.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
                     });
             } else if (itemId) {
                 saveGalleryItem({ title, description, service }, itemId);
             } else {
-                showToast('Veuillez sélectionner une image pour la réalisation.', 'error');
+                showNotification('error', 'Erreur', 'Veuillez sélectionner une image pour la réalisation.');
             }
         }
 
@@ -3632,24 +4042,24 @@
             if (itemId) {
                 db.collection('gallery').doc(itemId).update(itemWithTimestamp)
                     .then(() => {
-                        showToast('Réalisation modifiée avec succès!');
+                        showNotification('success', 'Réalisation modifiée', 'Réalisation modifiée avec succès!');
                         loadAdminGallery();
                         loadGallery();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la modification de la réalisation:', error);
-                        showToast('Erreur lors de la modification de la réalisation.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de la modification de la réalisation.');
                     });
             } else {
                 db.collection('gallery').add(itemWithTimestamp)
                     .then(() => {
-                        showToast('Réalisation ajoutée avec succès!');
+                        showNotification('success', 'Réalisation ajoutée', 'Réalisation ajoutée avec succès!');
                         loadAdminGallery();
                         loadGallery();
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'ajout de la réalisation:', error);
-                        showToast('Erreur lors de l\'ajout de la réalisation.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de l\'ajout de la réalisation.');
                     });
             }
         }
@@ -3663,7 +4073,7 @@
                 })
                 .catch(error => {
                     console.error('Erreur lors de la récupération de la réalisation:', error);
-                    showToast('Erreur lors de la récupération de la réalisation.', 'error');
+                    showNotification('error', 'Erreur', 'Erreur lors de la récupération de la réalisation.');
                 });
         }
 
@@ -3671,13 +4081,13 @@
             if (confirm('Êtes-vous sûr de vouloir supprimer cette réalisation ?')) {
                 db.collection('gallery').doc(itemId).delete()
                     .then(() => {
-                        showToast('Réalisation supprimée avec succès!');
+                        showNotification('success', 'Réalisation supprimée', 'Réalisation supprimée avec succès!');
                         loadAdminGallery();
                         loadGallery();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la suppression de la réalisation:', error);
-                        showToast('Erreur lors de la suppression de la réalisation.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de la suppression de la réalisation.');
                     });
             }
         }
@@ -3695,7 +4105,7 @@
                 </div>
             `;
             
-            // Ajout des événements après le chargement du contenu
+            // CORRECTION: Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('addBlogPostBtn').addEventListener('click', function() {
                     showBlogForm();
@@ -3731,7 +4141,7 @@
                         tableBody.appendChild(row);
                     });
                     
-                    // Utilisation de délégation d'événements pour les boutons dynamiques
+                    // CORRECTION: Utilisation de délégation d'événements pour les boutons dynamiques
                     document.getElementById('adminBlogTable').addEventListener('click', function(e) {
                         const target = e.target;
                         if (target.classList.contains('edit')) {
@@ -3808,7 +4218,7 @@
                 </div>
             `;
             
-            // Ajout des événements après le chargement du contenu
+            // CORRECTION: Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('blogForm').addEventListener('submit', function(e) {
                     e.preventDefault();
@@ -3839,12 +4249,12 @@
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'upload de l\'image:', error);
-                        showToast('Erreur lors de l\'upload de l\'image. Veuillez réessayer.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
                     });
             } else if (postId) {
                 saveBlogPost({ title, author, category, tags, content, status }, postId);
             } else {
-                showToast('Veuillez sélectionner une image pour l\'article.', 'error');
+                showNotification('error', 'Erreur', 'Veuillez sélectionner une image pour l\'article.');
             }
         }
 
@@ -3857,24 +4267,24 @@
             if (postId) {
                 db.collection('blog').doc(postId).update(postWithTimestamp)
                     .then(() => {
-                        showToast('Article modifié avec succès!');
+                        showNotification('success', 'Article modifié', 'Article modifié avec succès!');
                         loadAdminBlog();
                         loadBlogPosts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la modification de l\'article:', error);
-                        showToast('Erreur lors de la modification de l\'article.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de la modification de l\'article.');
                     });
             } else {
                 db.collection('blog').add(postWithTimestamp)
                     .then(() => {
-                        showToast('Article ajouté avec succès!');
+                        showNotification('success', 'Article ajouté', 'Article ajouté avec succès!');
                         loadAdminBlog();
                         loadBlogPosts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de l\'ajout de l\'article:', error);
-                        showToast('Erreur lors de l\'ajout de l\'article.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de l\'ajout de l\'article.');
                     });
             }
         }
@@ -3888,7 +4298,7 @@
                 })
                 .catch(error => {
                     console.error('Erreur lors de la récupération de l\'article:', error);
-                    showToast('Erreur lors de la récupération de l\'article.', 'error');
+                    showNotification('error', 'Erreur', 'Erreur lors de la récupération de l\'article.');
                 });
         }
 
@@ -3896,141 +4306,13 @@
             if (confirm('Êtes-vous sûr de vouloir supprimer cet article ?')) {
                 db.collection('blog').doc(postId).delete()
                     .then(() => {
-                        showToast('Article supprimé avec succès!');
+                        showNotification('success', 'Article supprimé', 'Article supprimé avec succès!');
                         loadAdminBlog();
                         loadBlogPosts();
                     })
                     .catch(error => {
                         console.error('Erreur lors de la suppression de l\'article:', error);
-                        showToast('Erreur lors de la suppression de l\'article.', 'error');
-                    });
-            }
-        }
-
-        // ===== FONCTIONS ADMIN INSPIRATION =====
-        function loadAdminInspiration() {
-            const adminContent = document.getElementById('adminContent');
-            adminContent.innerHTML = `
-                <div class="admin-content">
-                    <h3>Gestion des Inspirations</h3>
-                    <button class="btn" id="addInspirationBtn" style="margin-bottom: 20px;">Ajouter une inspiration</button>
-                    <div class="gallery-grid" id="adminInspirationGrid">
-                        <!-- Les inspirations seront chargées ici -->
-                    </div>
-                </div>
-            `;
-            
-            // Ajout des événements après le chargement du contenu
-            setTimeout(() => {
-                document.getElementById('addInspirationBtn').addEventListener('click', function() {
-                    showInspirationForm();
-                });
-            }, 100);
-            
-            loadInspirationsForAdmin();
-        }
-
-        function loadInspirationsForAdmin() {
-            db.collection('inspirations').orderBy('timestamp', 'desc').get()
-                .then(snapshot => {
-                    const inspirationGrid = document.getElementById('adminInspirationGrid');
-                    
-                    if (snapshot.empty) {
-                        inspirationGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Aucune inspiration enregistrée.</p>';
-                        return;
-                    }
-                    
-                    inspirationGrid.innerHTML = '';
-                    snapshot.forEach(doc => {
-                        const inspiration = doc.data();
-                        const inspirationItem = document.createElement('div');
-                        inspirationItem.className = 'gallery-item';
-                        inspirationItem.innerHTML = `
-                            <img src="${inspiration.image}" alt="${inspiration.subject}">
-                            <div class="gallery-item-caption">
-                                <h3>${inspiration.subject}</h3>
-                                <p>Police: ${inspiration.font}</p>
-                                <div class="admin-actions" style="margin-top: 10px;">
-                                    <button class="admin-btn delete" data-id="${doc.id}">Supprimer</button>
-                                </div>
-                            </div>
-                        `;
-                        inspirationGrid.appendChild(inspirationItem);
-                    });
-                    
-                    // Utilisation de délégation d'événements pour les boutons dynamiques
-                    document.getElementById('adminInspirationGrid').addEventListener('click', function(e) {
-                        const target = e.target;
-                        if (target.classList.contains('delete')) {
-                            deleteInspiration(target.dataset.id);
-                        }
-                    });
-                })
-                .catch(error => {
-                    console.error('Erreur lors du chargement des inspirations:', error);
-                    const adminContent = document.getElementById('adminContent');
-                    adminContent.innerHTML += '<p style="color: #e74c3c; margin-top: 20px;">Erreur lors du chargement des inspirations.</p>';
-                });
-        }
-
-        function showInspirationForm(inspiration = null) {
-            document.getElementById('inspirationModal').style.display = 'block';
-            document.getElementById('inspirationForm').reset();
-            document.getElementById('inspirationImagePreview').innerHTML = '';
-        }
-
-        function handleInspirationFormSubmit(e) {
-            e.preventDefault();
-            
-            const subject = document.getElementById('inspirationSubject').value;
-            const font = document.getElementById('inspirationFont').value;
-            const imageFile = document.getElementById('inspirationImage').files[0];
-            
-            if (!imageFile) {
-                showToast('Veuillez sélectionner une image pour l\'inspiration.', 'error');
-                return;
-            }
-            
-            uploadImageToCloudinary(imageFile)
-                .then(imageUrl => {
-                    saveInspiration({ subject, font, image: imageUrl });
-                })
-                .catch(error => {
-                    console.error('Erreur lors de l\'upload de l\'image:', error);
-                    showToast('Erreur lors de l\'upload de l\'image. Veuillez réessayer.', 'error');
-                });
-        }
-
-        function saveInspiration(inspirationData) {
-            const inspirationWithTimestamp = {
-                ...inspirationData,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            };
-            
-            db.collection('inspirations').add(inspirationWithTimestamp)
-                .then(() => {
-                    showToast('Inspiration ajoutée avec succès!');
-                    closeAllModals();
-                    loadInspirationsForAdmin();
-                    loadInspirations();
-                })
-                .catch(error => {
-                    console.error('Erreur lors de l\'ajout de l\'inspiration:', error);
-                    showToast('Erreur lors de l\'ajout de l\'inspiration.', 'error');
-                });
-        }
-
-        function deleteInspiration(inspirationId) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer cette inspiration ?')) {
-                db.collection('inspirations').doc(inspirationId).delete()
-                    .then(() => {
-                        showToast('Inspiration supprimée avec succès!');
-                        loadInspirationsForAdmin();
-                        loadInspirations();
-                    })
-                    .catch(error => {
-                        console.error('Erreur lors de la suppression de l\'inspiration:', error);
-                        showToast('Erreur lors de la suppression de l\'inspiration.', 'error');
+                        showNotification('error', 'Erreur', 'Erreur lors de la suppression de l\'article.');
                     });
             }
         }
@@ -4167,7 +4449,7 @@
                     console.error('Erreur lors du chargement des paramètres:', error);
                 });
             
-            // Ajout des événements après le chargement du contenu
+            // CORRECTION: Ajout des événements après le chargement du contenu
             setTimeout(() => {
                 document.getElementById('settingsForm').addEventListener('submit', e => {
                     e.preventDefault();
@@ -4175,100 +4457,15 @@
                     
                     db.collection('settings').doc('openingHours').set({ value: openingHours })
                         .then(() => {
-                            showToast('Paramètres enregistrés avec succès!');
+                            showNotification('success', 'Paramètres enregistrés', 'Paramètres enregistrés avec succès!');
                             document.getElementById('openingHoursDisplay').textContent = openingHours;
                         })
                         .catch(error => {
                             console.error('Erreur lors de l\'enregistrement des paramètres:', error);
-                            showToast('Erreur lors de l\'enregistrement des paramètres.', 'error');
+                            showNotification('error', 'Erreur', 'Erreur lors de l\'enregistrement des paramètres.');
                         });
                 });
             }, 100);
-        }
-
-        // ===== FONCTIONS CARROUSEL D'INSPIRATION =====
-        function loadInspirations() {
-            db.collection('inspirations').orderBy('timestamp', 'desc').get()
-                .then(snapshot => {
-                    inspirations = [];
-                    snapshot.forEach(doc => {
-                        inspirations.push({ id: doc.id, ...doc.data() });
-                    });
-                    
-                    renderCarousel();
-                })
-                .catch(error => {
-                    console.error('Erreur lors du chargement des inspirations:', error);
-                });
-        }
-
-        function renderCarousel() {
-            const carousel = document.getElementById('inspirationCarousel');
-            const indicators = document.getElementById('carouselIndicators');
-            
-            carousel.innerHTML = '';
-            indicators.innerHTML = '';
-            
-            if (inspirations.length === 0) {
-                // Afficher un message par défaut si aucune inspiration
-                carousel.innerHTML = `
-                    <div class="carousel-item">
-                        <div class="carousel-item-content">
-                            <div class="carousel-item-text" style="font-family: 'Great Vibes', cursive;">
-                                Bienvenue chez Wendy Beauty Store
-                            </div>
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-            
-            inspirations.forEach((inspiration, index) => {
-                const carouselItem = document.createElement('div');
-                carouselItem.className = 'carousel-item';
-                carouselItem.style.backgroundImage = `url('${inspiration.image}')`;
-                carouselItem.innerHTML = `
-                    <div class="carousel-item-content">
-                        <div class="carousel-item-text" style="font-family: '${inspiration.font}', cursive;">
-                            ${inspiration.subject}
-                        </div>
-                    </div>
-                `;
-                carousel.appendChild(carouselItem);
-                
-                const indicator = document.createElement('div');
-                indicator.className = `carousel-indicator ${index === 0 ? 'active' : ''}`;
-                indicator.addEventListener('click', () => {
-                    currentCarouselIndex = index;
-                    updateCarousel();
-                });
-                indicators.appendChild(indicator);
-            });
-            
-            updateCarousel();
-        }
-
-        function navigateCarousel(direction) {
-            currentCarouselIndex += direction;
-            
-            if (currentCarouselIndex < 0) {
-                currentCarouselIndex = inspirations.length - 1;
-            } else if (currentCarouselIndex >= inspirations.length) {
-                currentCarouselIndex = 0;
-            }
-            
-            updateCarousel();
-        }
-
-        function updateCarousel() {
-            const carousel = document.getElementById('inspirationCarousel');
-            const indicators = document.querySelectorAll('.carousel-indicator');
-            
-            carousel.style.transform = `translateX(-${currentCarouselIndex * 100}%)`;
-            
-            indicators.forEach((indicator, index) => {
-                indicator.classList.toggle('active', index === currentCarouselIndex);
-            });
         }
 
         // ===== FONCTIONS UTILITAIRES =====
@@ -4282,27 +4479,38 @@
             return new Intl.NumberFormat('fr-FR').format(price);
         }
 
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast show';
+        function showNotification(type, title, message) {
+            const notification = document.getElementById('notification');
+            const notificationTitle = document.getElementById('notificationTitle');
+            const notificationMessage = document.getElementById('notificationMessage');
+            const notificationIcon = notification.querySelector('.notification-icon i');
             
-            if (type === 'error') {
-                toast.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
-            } else {
-                toast.style.background = 'var(--brand-gradient)';
+            // Mettre à jour le contenu
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+            
+            // Mettre à jour le style selon le type
+            notification.className = 'notification';
+            notification.classList.add(type);
+            
+            // Mettre à jour l'icône
+            notificationIcon.className = '';
+            if (type === 'success') {
+                notificationIcon.classList.add('fas', 'fa-check-circle');
+            } else if (type === 'error') {
+                notificationIcon.classList.add('fas', 'fa-exclamation-circle');
+            } else if (type === 'info') {
+                notificationIcon.classList.add('fas', 'fa-info-circle');
             }
             
+            // Afficher la notification
+            notification.classList.add('show');
+            
+            // Masquer après 5 secondes
             setTimeout(() => {
-                toast.className = 'toast';
-            }, 3000);
+                notification.classList.remove('show');
+            }, 5000);
         }
-
-        // Ajout des événements pour le formulaire d'inspiration
-        document.getElementById('inspirationForm').addEventListener('submit', handleInspirationFormSubmit);
-        document.getElementById('cancelInspirationForm').addEventListener('click', () => {
-            closeAllModals();
-        });
     </script>
 </body>
 </html>
