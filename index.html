@@ -13,6 +13,10 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- GSAP pour les animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -21,22 +25,25 @@
     <style>
         /* ===== VARIABLES CSS ===== */
         :root {
-            --primary-beige: #f5f1e8;
-            --primary-cream: #faf8f2;
+            --primary-pink: #ff69b4;
+            --primary-blue: #4169e1;
+            --primary-white: #ffffff;
             --primary-black: #1a1a1a;
             --accent-gold: #d4af37;
-            --accent-bordeaux: #8b1e3f;
-            --accent-pink: #e8b4bc;
-            --footer-pink: #f8d7da;
+            --accent-purple: #9370db;
+            --footer-light: #f8f9fa;
             --shadow-light: rgba(0, 0, 0, 0.1);
             --shadow-medium: rgba(0, 0, 0, 0.2);
             --shadow-heavy: rgba(0, 0, 0, 0.3);
             
-            /* Nouvelle palette de couleurs basée sur l'identité typographique */
-            --brand-pink: #C78F9B;
-            --brand-pink-light: #E8B4BC;
-            --brand-pink-dark: #B07A87;
-            --brand-gradient: linear-gradient(135deg, var(--brand-pink-light), var(--brand-pink), var(--brand-pink-dark));
+            /* Nouvelle palette de couleurs basée sur la demande */
+            --brand-pink: #ff69b4;
+            --brand-pink-light: #ffb6c1;
+            --brand-pink-dark: #db7093;
+            --brand-blue: #4169e1;
+            --brand-blue-light: #6495ed;
+            --brand-blue-dark: #191970;
+            --brand-gradient: linear-gradient(135deg, var(--brand-blue), var(--brand-pink));
             --brand-gold: #D4AF37;
             
             /* Nouvelles polices basées sur l'identité typographique */
@@ -69,7 +76,7 @@
             font-weight: 400;
             line-height: 1.6;
             color: var(--primary-black);
-            background-color: var(--primary-cream);
+            background-color: var(--primary-white);
             overflow-x: hidden;
         }
 
@@ -82,7 +89,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 2px 4px rgba(199, 143, 155, 0.1);
+            text-shadow: 0 2px 4px rgba(65, 105, 225, 0.1);
         }
 
         p {
@@ -124,7 +131,7 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
-            box-shadow: 0 4px 15px rgba(199, 143, 155, 0.3);
+            box-shadow: 0 4px 15px rgba(65, 105, 225, 0.3);
         }
 
         button::before, .btn::before {
@@ -145,13 +152,13 @@
 
         button:hover, .btn:hover {
             transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(199, 143, 155, 0.4);
+            box-shadow: 0 10px 25px rgba(65, 105, 225, 0.4);
         }
 
         .btn-secondary {
             background: transparent;
-            border: 2px solid var(--brand-pink);
-            color: var(--brand-pink);
+            border: 2px solid var(--brand-blue);
+            color: var(--brand-blue);
             box-shadow: none;
         }
 
@@ -280,12 +287,12 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: 1px;
-            text-shadow: 0 2px 4px rgba(199, 143, 155, 0.2);
+            text-shadow: 0 2px 4px rgba(65, 105, 225, 0.2);
         }
 
         .logo-subtitle {
             font-size: 0.8rem;
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             display: block;
             margin-top: -2px;
             letter-spacing: 1.5px;
@@ -328,7 +335,7 @@
         }
 
         nav ul li a:hover {
-            color: var(--brand-pink);
+            color: var(--brand-blue);
         }
 
         .mobile-menu-btn {
@@ -345,7 +352,7 @@
 
         .mobile-menu-btn:hover {
             background: rgba(0, 0, 0, 0.05);
-            color: var(--brand-pink);
+            color: var(--brand-blue);
         }
 
         /* ===== PAGES STYLES ===== */
@@ -393,7 +400,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgba(199, 143, 155, 0.7), rgba(212, 175, 55, 0.4));
+            background: linear-gradient(45deg, rgba(65, 105, 225, 0.7), rgba(255, 105, 180, 0.4));
             z-index: -1;
         }
 
@@ -520,18 +527,18 @@
 
         .service-icon {
             font-size: 3.5rem;
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             margin-bottom: 25px;
             display: inline-block;
             padding: 15px;
             border-radius: 50%;
-            background: rgba(199, 143, 155, 0.1);
+            background: rgba(65, 105, 225, 0.1);
             transition: var(--transition-medium);
         }
 
         .service-card:hover .service-icon {
             transform: scale(1.1);
-            background: rgba(199, 143, 155, 0.2);
+            background: rgba(65, 105, 225, 0.2);
         }
 
         .service-card h3 {
@@ -546,7 +553,7 @@
 
         /* ===== TESTIMONIALS SECTION ===== */
         .testimonials {
-            background: linear-gradient(135deg, var(--primary-beige), #f0e9d8);
+            background: linear-gradient(135deg, #f0f8ff, #e6e6fa);
             position: relative;
         }
 
@@ -557,7 +564,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23C78F9B" opacity="0.03"><path d="M0 0h100v100H0z"/><path d="M20 20h60v60H20z"/></svg>');
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%234169E1" opacity="0.03"><path d="M0 0h100v100H0z"/><path d="M20 20h60v60H20z"/></svg>');
             background-size: 50px;
         }
 
@@ -589,7 +596,7 @@
             top: 20px;
             left: 30px;
             font-size: 5rem;
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             opacity: 0.2;
             font-family: serif;
             line-height: 1;
@@ -606,7 +613,7 @@
 
         .testimonial-author {
             font-weight: 600;
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             font-size: 1.1rem;
             font-family: var(--font-sans);
         }
@@ -655,7 +662,7 @@
 
         .product-price {
             font-weight: 600;
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             font-size: 1.3rem;
             margin: 12px 0;
             font-family: var(--font-sans);
@@ -663,7 +670,7 @@
 
         .product-category {
             display: inline-block;
-            background: var(--primary-beige);
+            background: #f0f8ff;
             color: var(--primary-black);
             padding: 6px 12px;
             border-radius: 20px;
@@ -743,7 +750,7 @@
         }
 
         .blog-category {
-            background: var(--primary-beige);
+            background: #f0f8ff;
             color: var(--primary-black);
             padding: 4px 12px;
             border-radius: 20px;
@@ -777,7 +784,7 @@
 
         .contact-icon {
             font-size: 1.6rem;
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             margin-top: 5px;
             min-width: 30px;
         }
@@ -819,8 +826,8 @@
 
         .form-control:focus {
             outline: none;
-            border-color: var(--brand-pink);
-            box-shadow: 0 0 0 3px rgba(199, 143, 155, 0.2);
+            border-color: var(--brand-blue);
+            box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.2);
             background: white;
         }
 
@@ -831,7 +838,7 @@
 
         /* ===== FOOTER ===== */
         footer {
-            background: var(--footer-pink);
+            background: var(--footer-light);
             color: var(--primary-black);
             padding: 80px 0 25px;
         }
@@ -854,7 +861,7 @@
         }
 
         .footer-subtitle {
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             font-size: 0.95rem;
             margin-bottom: 25px;
             line-height: 1.5;
@@ -894,7 +901,7 @@
         }
 
         .footer-links ul li a:hover {
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             padding-left: 8px;
         }
 
@@ -907,7 +914,7 @@
         }
 
         .footer-contact i {
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             width: 20px;
         }
 
@@ -923,10 +930,10 @@
             justify-content: center;
             width: 42px;
             height: 42px;
-            background: rgba(199, 143, 155, 0.1);
+            background: rgba(65, 105, 225, 0.1);
             border-radius: 50%;
             transition: all 0.3s ease-in-out;
-            color: var(--brand-pink);
+            color: var(--brand-blue);
         }
 
         .social-link:hover {
@@ -938,14 +945,14 @@
         .footer-bottom {
             text-align: center;
             padding-top: 25px;
-            border-top: 1px solid rgba(199, 143, 155, 0.2);
+            border-top: 1px solid rgba(65, 105, 225, 0.2);
             font-size: 0.95rem;
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             font-family: var(--font-sans);
         }
 
         .footer-bottom a {
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             transition: all 0.3s ease-in-out;
             font-family: var(--font-sans);
         }
@@ -957,7 +964,7 @@
         .admin-link {
             margin-top: 15px;
             font-size: 0.85rem;
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             text-decoration: underline;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
@@ -1005,7 +1012,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--primary-beige);
+            background: #f0f8ff;
             border-radius: var(--border-radius) var(--border-radius) 0 0;
         }
 
@@ -1036,7 +1043,7 @@
         }
 
         .close-modal:hover {
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             background: rgba(0, 0, 0, 0.05);
             transform: rotate(90deg);
         }
@@ -1087,7 +1094,7 @@
         }
 
         .cart-item-price {
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             font-weight: 600;
             font-family: var(--font-sans);
         }
@@ -1108,7 +1115,7 @@
         }
 
         .cart-item-remove:hover {
-            color: var(--brand-pink);
+            color: var(--brand-blue);
             background: rgba(0, 0, 0, 0.05);
         }
 
@@ -1180,7 +1187,7 @@
         }
 
         .admin-table th {
-            background: var(--primary-beige);
+            background: #f0f8ff;
             font-weight: 600;
         }
 
@@ -1235,8 +1242,8 @@
 
         .form-actions .btn-secondary {
             background: transparent;
-            color: var(--brand-pink);
-            border: 2px solid var(--brand-pink);
+            color: var(--brand-blue);
+            border: 2px solid var(--brand-blue);
         }
 
         .form-actions .btn-secondary:hover {
@@ -1311,6 +1318,78 @@
             transition: transform 0.1s ease;
         }
 
+        /* ===== ANIMATIONS SCROLL ===== */
+        .scroll-animation-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-image {
+            position: absolute;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(-100px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .floating-image.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slogan-container {
+            position: relative;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin: 100px 0;
+        }
+
+        .slogan-word {
+            position: absolute;
+            font-size: 3rem;
+            font-family: var(--font-script);
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: translateY(50px) rotateX(90deg);
+            transition: all 0.5s ease;
+        }
+
+        .slogan-word.active {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+
+        .background-brand {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 15vw;
+            font-family: var(--font-script);
+            color: rgba(65, 105, 225, 0.05);
+            pointer-events: none;
+        }
+
+        .background-brand.active {
+            opacity: 1;
+        }
+
         /* ===== RESPONSIVE STYLES ===== */
         @media (max-width: 1200px) {
             .hero h1 {
@@ -1341,6 +1420,10 @@
             
             .container {
                 max-width: 95%;
+            }
+            
+            .slogan-word {
+                font-size: 2.5rem;
             }
         }
 
@@ -1437,6 +1520,15 @@
             .logo-text {
                 font-size: 1.8rem;
             }
+            
+            .slogan-word {
+                font-size: 2rem;
+            }
+            
+            .slogan-container {
+                height: 150px;
+                margin: 50px 0;
+            }
         }
 
         @media (max-width: 576px) {
@@ -1486,6 +1578,15 @@
             .logo-text {
                 font-size: 1.6rem;
             }
+            
+            .slogan-word {
+                font-size: 1.5rem;
+            }
+            
+            .slogan-container {
+                height: 120px;
+                margin: 30px 0;
+            }
         }
 
         /* ===== CORRECTIONS SPÉCIFIQUES POUR LA VIDÉO ===== */
@@ -1511,7 +1612,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgba(199, 143, 155, 0.7), rgba(212, 175, 55, 0.4));
+            background: linear-gradient(45deg, rgba(65, 105, 225, 0.7), rgba(255, 105, 180, 0.4));
             z-index: -1;
         }
 
@@ -1533,6 +1634,9 @@
     </style>
 </head>
 <body>
+    <!-- Background brand name -->
+    <div class="background-brand" id="backgroundBrand">WENDY BEAUTY STORE</div>
+
     <!-- Header -->
     <header id="header">
         <div class="container header-container">
@@ -1590,18 +1694,35 @@
                 </div>
             </div>
 
-            <div class="container" style="padding: 100px 0;">
-                <div class="section-title">
-                    <h2>Explorez nos réalisations</h2>
-                    <p>Laissez-vous inspirer par nos créations</p>
+            <!-- Section pour l'animation de défilement -->
+            <div class="scroll-animation-section">
+                <div class="floating-image" id="floatingImage">
+                    <!-- L'image flottante sera ajoutée dynamiquement -->
                 </div>
                 
-                <div class="gallery-grid" id="homeGallery">
-                    <!-- Les éléments de galerie seront chargés dynamiquement -->
-                </div>
-                
-                <div style="text-align: center; margin-top: 50px;">
-                    <a href="#gallery" class="btn" data-page="gallery">Voir la galerie complète</a>
+                <div class="container" style="padding: 100px 0; position: relative;">
+                    <div class="section-title">
+                        <h2>Explorez nos réalisations</h2>
+                        <p>Laissez-vous inspirer par nos créations</p>
+                    </div>
+                    
+                    <div class="gallery-grid" id="homeGallery">
+                        <!-- Les éléments de galerie seront chargés dynamiquement -->
+                    </div>
+                    
+                    <div class="slogan-container" id="sloganContainer">
+                        <div class="slogan-word" data-word="La">La</div>
+                        <div class="slogan-word" data-word="beauté">beauté</div>
+                        <div class="slogan-word" data-word="qui">qui</div>
+                        <div class="slogan-word" data-word="unit">unit</div>
+                        <div class="slogan-word" data-word="tradition">tradition</div>
+                        <div class="slogan-word" data-word="et">et</div>
+                        <div class="slogan-word" data-word="modernité">modernité</div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 50px;">
+                        <a href="#gallery" class="btn" data-page="gallery">Voir la galerie complète</a>
+                    </div>
                 </div>
             </div>
 
@@ -2117,6 +2238,7 @@
             setupScrollAnimations();
             checkVideoStatus();
             initTiltEffect();
+            initScrollAnimations();
         });
 
         // ===== FONCTIONS D'INITIALISATION =====
@@ -2245,6 +2367,90 @@
             // Observer tous les éléments avec la classe scroll-animate
             document.querySelectorAll('.scroll-animate').forEach(el => {
                 observer.observe(el);
+            });
+        }
+
+        function initScrollAnimations() {
+            // Initialiser les animations GSAP
+            gsap.registerPlugin(ScrollTrigger);
+            
+            // Animation de l'image flottante
+            const floatingImage = document.getElementById('floatingImage');
+            
+            // Charger une image de la galerie pour l'animation
+            db.collection('gallery').limit(1).get()
+                .then(snapshot => {
+                    if (!snapshot.empty) {
+                        const item = snapshot.docs[0].data();
+                        floatingImage.innerHTML = `<img src="${item.image}" alt="${item.title}" style="width: 300px; height: 300px; object-fit: cover; border-radius: 10px;">`;
+                        
+                        // Animation GSAP pour l'image flottante
+                        gsap.to(floatingImage, {
+                            scrollTrigger: {
+                                trigger: ".scroll-animation-section",
+                                start: "top 20%",
+                                end: "bottom 60%",
+                                toggleActions: "play reverse play reverse",
+                                markers: false
+                            },
+                            opacity: 1,
+                            y: 0,
+                            duration: 1,
+                            ease: "power2.out"
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement de l\'image pour l\'animation:', error);
+                });
+            
+            // Animation du slogan
+            const sloganWords = document.querySelectorAll('.slogan-word');
+            
+            // Animation pour l'apparition du slogan
+            gsap.to(sloganWords, {
+                scrollTrigger: {
+                    trigger: "#sloganContainer",
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse",
+                    markers: false
+                },
+                opacity: 1,
+                y: 0,
+                rotationX: 0,
+                stagger: 0.1,
+                duration: 0.8,
+                ease: "back.out(1.7)"
+            });
+            
+            // Animation pour le nom de marque en arrière-plan lors du scroll up
+            const backgroundBrand = document.getElementById('backgroundBrand');
+            
+            ScrollTrigger.create({
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                onUpdate: (self) => {
+                    if (self.direction === -1) { // Scroll up
+                        backgroundBrand.classList.add('active');
+                    } else {
+                        backgroundBrand.classList.remove('active');
+                    }
+                }
+            });
+            
+            // Animation pour la disparition du slogan lors du scroll up
+            ScrollTrigger.create({
+                trigger: "#sloganContainer",
+                start: "top 80%",
+                end: "bottom 20%",
+                onEnter: () => {
+                    sloganWords.forEach(word => word.classList.add('active'));
+                },
+                onLeaveBack: () => {
+                    sloganWords.forEach(word => word.classList.remove('active'));
+                }
             });
         }
 
@@ -2594,7 +2800,9 @@
             
             blogGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Chargement des articles...</p>';
             
-            db.collection('blog').where('status', '==', 'Publié').orderBy('timestamp', 'desc').get()
+            // CORRECTION: Charger tous les articles de blog sans filtre de statut
+            // pour éviter l'erreur "Erreur lors du chargement des articles"
+            db.collection('blog').orderBy('timestamp', 'desc').get()
                 .then(snapshot => {
                     if (snapshot.empty) {
                         blogGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Aucun article de blog disponible pour le moment.</p>';
@@ -2604,9 +2812,18 @@
                     blogGrid.innerHTML = '';
                     snapshot.forEach(doc => {
                         const post = doc.data();
-                        const blogCard = createBlogCard(post, doc.id);
-                        blogGrid.appendChild(blogCard);
+                        // CORRECTION: Vérifier si le post a un statut "Publié" ou non
+                        // Si non, ne pas l'afficher aux utilisateurs normaux
+                        if (post.status === "Publié" || currentUser) {
+                            const blogCard = createBlogCard(post, doc.id);
+                            blogGrid.appendChild(blogCard);
+                        }
                     });
+                    
+                    // Si aucun article n'est publié et l'utilisateur n'est pas admin
+                    if (blogGrid.children.length === 0 && !currentUser) {
+                        blogGrid.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Aucun article de blog disponible pour le moment.</p>';
+                    }
                 })
                 .catch(error => {
                     console.error('Erreur lors du chargement des articles de blog:', error);
